@@ -1,8 +1,8 @@
 import { MessageSquare, Phone, Settings } from "lucide-react";
 import { BackgroundArc } from "./BackgroundArc";
-import imgFeature1 from "figma:asset/6605650beecbcb06a49e0483512ee238f4330ad4.png";
-import imgFeature2 from "figma:asset/17f03328df7f916813aab90bf55efd7861409097.png";
-import imgFeature3 from "figma:asset/a2380536e8241ac3cff86d5d4b00c532513a6787.png";
+import imgFeature1 from "figma:asset/feature-inquiry.png";
+import imgFeature2 from "figma:asset/feature-calling.png";
+import imgFeature3 from "figma:asset/feature-management.png";
 
 const features = [
   {

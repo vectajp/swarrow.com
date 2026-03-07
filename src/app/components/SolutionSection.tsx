@@ -1,5 +1,5 @@
 import { BackgroundArc } from "./BackgroundArc";
-import imgPhoneMockup from "figma:asset/c44bb62470c10f16c181ec2e020e17141df2b637.png";
+import imgPhoneMockup from "figma:asset/phone-mockup.png";
 
 export function SolutionSection() {
   return (
