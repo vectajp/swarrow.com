@@ -38,7 +38,7 @@ export function FeaturesSection() {
   return (
     <section id="features" className="relative bg-white py-24 lg:py-32 overflow-hidden">
       <BackgroundArc
-        color="#092045"
+        color="var(--sc-navy)"
         opacity={0.02}
         className="w-[600px] h-[600px] right-[-200px] top-[100px]"
         flip
@@ -48,18 +48,18 @@ export function FeaturesSection() {
         {/* Section heading */}
         <div className="mb-16 lg:mb-20">
           <p
-            className="text-[#E87B35] text-[14px] tracking-wider mb-4"
-            style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700 }}
-          >
+            className="text-sc-orange text-[14px] tracking-wider mb-4"
+            
+>
             FEATURES
           </p>
           <h2
-            className="text-[#1D1D1F] text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
-            style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 900 }}
-          >
+            className="text-sc-text-primary text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
+            
+>
             3つの機能で、
             <br />
-            対応業務を<span className="text-[#E87B35]">まるごと変える。</span>
+            対応業務を<span className="text-sc-orange">まるごと変える。</span>
           </h2>
         </div>
 
@@ -70,13 +70,13 @@ export function FeaturesSection() {
             return (
               <div
                 key={feature.number}
-                className="bg-white rounded-[24px] overflow-hidden border border-[#DEDEE9] shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)] group hover:shadow-[0_12px_40px_rgba(13,10,44,0.1)] transition-all duration-300"
-              >
+                className="bg-white rounded-[24px] overflow-hidden border border-sc-border shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)] group hover:shadow-[0_12px_40px_rgba(13,10,44,0.1)] transition-all duration-300"
+>
                 {/* Image */}
-                <div className="h-[200px] lg:h-[220px] bg-[#F0F0F7] overflow-hidden">
+                <div className="h-[200px] lg:h-[220px] bg-sc-bg-card overflow-hidden">
                   {feature.maskedImage ? (
                     <div className="w-full h-full flex justify-center px-5 pt-4">
-                      <div className="w-full h-full rounded-t-[12px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-b-0 border-[#E5E7EB]">
+                      <div className="w-full h-full rounded-t-[12px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-b-0 border-sc-border-light">
                         <img
                           src={feature.image}
                           alt={feature.title}
@@ -97,30 +97,30 @@ export function FeaturesSection() {
                 <div className="relative p-6 lg:p-8 overflow-hidden">
                   {/* Large decorative number */}
                   <span
-                    className="absolute top-3 right-5 text-[72px] lg:text-[80px] leading-none text-[#1D1D1F] opacity-[0.10] select-none pointer-events-none"
-                    style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700 }}
-                  >
+                    className="absolute top-3 right-5 text-[72px] lg:text-[80px] leading-none text-sc-text-primary opacity-[0.10] select-none pointer-events-none"
+                    
+>
                     {feature.number}
                   </span>
 
                   {/* Icon */}
-                  <div className="w-[40px] h-[40px] bg-[#092045] rounded-[12px] flex items-center justify-center mb-5">
+                  <div className="w-[40px] h-[40px] bg-sc-navy rounded-[12px] flex items-center justify-center mb-5">
                     <Icon size={18} className="text-white" strokeWidth={2} />
                   </div>
 
                   {/* Title */}
                   <h3
-                    className="text-[#1D1D1F] text-[20px] lg:text-[24px] mb-3"
-                    style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 700 }}
-                  >
+                    className="text-sc-text-primary text-[20px] lg:text-[24px] mb-3"
+                    
+>
                     {feature.title}
                   </h3>
 
                   {/* Description */}
                   <p
-                    className="text-[#52506B] text-[14px] lg:text-[15px] leading-[1.8]"
-                    style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 400 }}
-                  >
+                    className="text-sc-text-secondary text-[14px] lg:text-[15px] leading-[1.8]"
+                    
+>
                     {feature.description}
                   </p>
                 </div>

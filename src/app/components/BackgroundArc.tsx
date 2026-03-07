@@ -12,7 +12,7 @@ interface BackgroundArcProps {
   flip?: boolean;
 }
 
-export function BackgroundArc({ color = "#092045", opacity = 0.04, className = "", flip = false }: BackgroundArcProps) {
+export function BackgroundArc({ color = "var(--sc-navy)", opacity = 0.04, className = "", flip = false }: BackgroundArcProps) {
   return (
     <div
       className={`absolute pointer-events-none overflow-hidden ${className}`}

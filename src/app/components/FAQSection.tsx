@@ -33,20 +33,20 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-[#DEDEE9] last:border-b-0">
+    <div className="border-b border-sc-border last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-full py-6 lg:py-7 text-left cursor-pointer group"
-      >
+>
         <span
-          className="text-[#1D1D1F] text-[16px] lg:text-[18px] pr-8 group-hover:text-[#092045] transition-colors"
-          style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 700 }}
-        >
+          className="text-sc-text-primary text-[16px] lg:text-[18px] pr-8 group-hover:text-sc-navy transition-colors"
+          
+>
           {question}
         </span>
         <ChevronDown
           size={20}
-          className={`text-[#52506B] transition-transform duration-300 flex-shrink-0 ${
+          className={`text-sc-text-secondary transition-transform duration-300 flex-shrink-0 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -55,11 +55,11 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         className={`overflow-hidden transition-all duration-300 ${
           isOpen ? "max-h-[200px] pb-6" : "max-h-0"
         }`}
-      >
+>
         <p
-          className="text-[#52506B] text-[14px] lg:text-[16px] leading-[1.8]"
-          style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 400 }}
-        >
+          className="text-sc-text-secondary text-[14px] lg:text-[16px] leading-[1.8]"
+          
+>
           {answer}
         </p>
       </div>
@@ -74,21 +74,21 @@ export function FAQSection() {
         {/* Section heading */}
         <div className="text-center mb-16">
           <p
-            className="text-[#E87B35] text-[14px] tracking-wider mb-4"
-            style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700 }}
-          >
+            className="text-sc-orange text-[14px] tracking-wider mb-4"
+            
+>
             FAQ
           </p>
           <h2
-            className="text-[#1D1D1F] text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
-            style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 900 }}
-          >
+            className="text-sc-text-primary text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
+            
+>
             よくあるご質問
           </h2>
         </div>
 
         {/* FAQ items */}
-        <div className="bg-white rounded-[24px] px-6 lg:px-10 border border-[#DEDEE9] shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]">
+        <div className="bg-white rounded-[24px] px-6 lg:px-10 border border-sc-border shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]">
           {faqs.map((faq) => (
             <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
           ))}

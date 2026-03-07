@@ -23,20 +23,20 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="relative bg-[#F5F5F7] py-24 lg:py-32 overflow-hidden">
+    <section id="how-it-works" className="relative bg-sc-bg-light py-24 lg:py-32 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
         {/* Section heading */}
         <div className="text-center mb-16 lg:mb-20">
           <p
-            className="text-[#E87B35] text-[14px] tracking-wider mb-4"
-            style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700 }}
-          >
+            className="text-sc-orange text-[14px] tracking-wider mb-4"
+            
+>
             HOW IT WORKS
           </p>
           <h2
-            className="text-[#1D1D1F] text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
-            style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 900 }}
-          >
+            className="text-sc-text-primary text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2]"
+            
+>
             3ステップで、すぐに始められます。
           </h2>
         </div>
@@ -44,7 +44,7 @@ export function HowItWorksSection() {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line (desktop) */}
-          <div className="hidden md:block absolute top-[60px] left-[16.67%] right-[16.67%] h-[2px] bg-[#DEDEE9]" />
+          <div className="hidden md:block absolute top-[60px] left-[16.67%] right-[16.67%] h-[2px] bg-sc-border" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-8">
             {steps.map((step) => {
@@ -52,33 +52,33 @@ export function HowItWorksSection() {
               return (
                 <div key={step.number} className="flex flex-col items-center text-center relative">
                   {/* Number circle */}
-                  <div className="relative z-10 w-[120px] h-[120px] bg-white rounded-full flex items-center justify-center mb-8 shadow-[0_4px_16px_rgba(13,10,44,0.08)] border border-[#DEDEE9]">
+                  <div className="relative z-10 w-[120px] h-[120px] bg-white rounded-full flex items-center justify-center mb-8 shadow-[0_4px_16px_rgba(13,10,44,0.08)] border border-sc-border">
                     <span
-                      className="text-[#092045] text-[40px]"
-                      style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 700 }}
-                    >
+                      className="text-sc-navy text-[40px]"
+                      
+>
                       {step.number}
                     </span>
                   </div>
 
                   {/* Icon */}
-                  <div className="w-[48px] h-[48px] bg-[#092045] rounded-full flex items-center justify-center mb-5">
+                  <div className="w-[48px] h-[48px] bg-sc-navy rounded-full flex items-center justify-center mb-5">
                     <Icon size={22} className="text-white" strokeWidth={2} />
                   </div>
 
                   {/* Title */}
                   <h3
-                    className="text-[#1D1D1F] text-[20px] lg:text-[24px] mb-3"
-                    style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 700 }}
-                  >
+                    className="text-sc-text-primary text-[20px] lg:text-[24px] mb-3"
+                    
+>
                     {step.title}
                   </h3>
 
                   {/* Description */}
                   <p
-                    className="text-[#52506B] text-[14px] lg:text-[15px] leading-[1.8] max-w-[300px]"
-                    style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 400 }}
-                  >
+                    className="text-sc-text-secondary text-[14px] lg:text-[15px] leading-[1.8] max-w-[300px]"
+                    
+>
                     {step.description}
                   </p>
                 </div>

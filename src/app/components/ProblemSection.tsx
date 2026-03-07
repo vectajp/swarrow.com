@@ -26,7 +26,7 @@ export function ProblemSection() {
   return (
     <section id="problem" className="relative bg-white py-24 lg:py-32 overflow-hidden">
       <BackgroundArc
-        color="#092045"
+        color="var(--sc-navy)"
         opacity={0.03}
         className="w-[700px] h-[700px] -left-[300px] top-[-200px]"
       />
@@ -34,9 +34,9 @@ export function ProblemSection() {
       <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
         {/* Section heading */}
         <h2
-          className="text-[#1D1D1F] text-[32px] sm:text-[40px] lg:text-[52px] leading-[1.2] text-center mb-16 lg:mb-20"
-          style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 900 }}
-        >
+          className="text-sc-text-primary text-[32px] sm:text-[40px] lg:text-[52px] leading-[1.2] text-center mb-16 lg:mb-20"
+          
+>
           問い合わせ対応で
           <br className="sm:hidden" />
           疲弊していませんか？
@@ -49,10 +49,10 @@ export function ProblemSection() {
             return (
               <div
                 key={problem.title}
-                className="relative rounded-[32px] p-8 lg:p-10 transition-all duration-300 bg-[#F5F5F7] border border-[#DEDEE9] shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]"
-              >
+                className="relative rounded-[32px] p-8 lg:p-10 transition-all duration-300 bg-sc-bg-light border border-sc-border shadow-[0px_4px_12px_0px_rgba(13,10,44,0.06)]"
+>
                 {/* Icon */}
-                <div className="w-[64px] h-[64px] rounded-full flex items-center justify-center mb-6 bg-[#092045]">
+                <div className="w-[64px] h-[64px] rounded-full flex items-center justify-center mb-6 bg-sc-navy">
                   <Icon
                     size={28}
                     className="text-white"
@@ -62,17 +62,17 @@ export function ProblemSection() {
 
                 {/* Title */}
                 <h3
-                  className="text-[#1D1D1F] text-[22px] lg:text-[26px] mb-4"
-                  style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 700 }}
-                >
+                  className="text-sc-text-primary text-[22px] lg:text-[26px] mb-4"
+                  
+>
                   {problem.title}
                 </h3>
 
                 {/* Description */}
                 <p
-                  className="text-[#52506B] text-[15px] lg:text-[16px] leading-[1.8]"
-                  style={{ fontFamily: "'Noto Sans JP', sans-serif", fontWeight: 400 }}
-                >
+                  className="text-sc-text-secondary text-[15px] lg:text-[16px] leading-[1.8]"
+                  
+>
                   {problem.description}
                 </p>
               </div>
