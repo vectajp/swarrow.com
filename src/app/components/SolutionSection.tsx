@@ -38,7 +38,7 @@ export function SolutionSection() {
               className="text-sc-text-secondary text-[15px] lg:text-[17px] leading-[2]"
               
 >
-              チャットでの自動応答はもちろん、AIによる自動架電にも対応。問い合わせ対応を、インバウンドからアウトバウンドまで一括で変革します。
+              チャットでの自動応答はもちろん、AIによる自動架電にも対応。「受ける対応」も「かける対応」も、これひとつで完結します。
             </p>
 
             {/* Stats */}

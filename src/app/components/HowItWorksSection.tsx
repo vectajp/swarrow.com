@@ -1,21 +1,16 @@
-import { Headphones, Database, Rocket } from "lucide-react";
-
 const steps = [
   {
     number: "01",
-    icon: Headphones,
     title: "ヒアリング",
     description: "現在の課題・対応フロー・ご要望をお伺いします。",
   },
   {
     number: "02",
-    icon: Database,
-    title: "データ連携・セットアップ",
+    title: "セットアップ",
     description: "社内資料を取り込み、会話フローを構築。ノーコードで簡単に設定できます。",
   },
   {
     number: "03",
-    icon: Rocket,
     title: "運用開始",
     description: "WEBサイト・LINE・電話など、ご希望のチャネルで即日運用可能。",
   },
@@ -48,22 +43,13 @@ export function HowItWorksSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-8">
             {steps.map((step) => {
-              const Icon = step.icon;
               return (
                 <div key={step.number} className="flex flex-col items-center text-center relative">
                   {/* Number circle */}
                   <div className="relative z-10 w-[120px] h-[120px] bg-white rounded-full flex items-center justify-center mb-8 shadow-[0_4px_16px_rgba(13,10,44,0.08)] border border-sc-border">
-                    <span
-                      className="text-sc-navy text-[40px]"
-                      
->
+                    <span className="text-sc-navy text-[40px]">
                       {step.number}
                     </span>
-                  </div>
-
-                  {/* Icon */}
-                  <div className="w-[48px] h-[48px] bg-sc-navy rounded-full flex items-center justify-center mb-5">
-                    <Icon size={22} className="text-white" strokeWidth={2} />
                   </div>
 
                   {/* Title */}

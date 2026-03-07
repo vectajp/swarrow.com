@@ -1,11 +1,11 @@
 import { SwarrowLogo } from "./SwarrowLogo";
 import { BackgroundArc } from "./BackgroundArc";
 
-export function HeroSection() {
-  const scrollToCTA = () => {
-    document.getElementById("cta")?.scrollIntoView({ behavior: "smooth" });
-  };
+interface HeroSectionProps {
+  onDownloadClick: () => void;
+}
 
+export function HeroSection({ onDownloadClick }: HeroSectionProps) {
   return (
     <section id="hero" className="relative bg-sc-bg-light min-h-screen flex items-center overflow-hidden">
       {/* Background arcs */}
@@ -29,30 +29,23 @@ export function HeroSection() {
           </div>
 
           {/* Main heading */}
-          <h1
-            className="text-sc-navy text-[36px] sm:text-[48px] lg:text-[64px] leading-[1.2] mb-6"
-            
->
+          <h1 className="text-sc-navy text-[36px] sm:text-[48px] lg:text-[64px] leading-[1.2] mb-6 font-black">
             問い合わせ対応を、
             <br />
             <span className="text-sc-orange">AIが自動化</span>します。
           </h1>
 
           {/* Sub copy */}
-          <p
-            className="text-sc-navy/60 text-[16px] sm:text-[18px] lg:text-[20px] leading-[1.8] mb-12 max-w-[640px]"
-            
->
+          <p className="text-sc-navy/60 text-[16px] sm:text-[18px] lg:text-[20px] leading-[1.8] mb-12 max-w-[640px]">
             SwarrowCallは、WEBサイト・LINE・電話などあらゆる媒体で、まるで人間のように自然に会話するAIカスタマーサポートです。
           </p>
 
           {/* CTA */}
           <button
-            onClick={scrollToCTA}
-            className="bg-sc-orange hover:bg-sc-orange-hover text-white px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] cursor-pointer"
-            
->
-            まずは無料で相談する
+            onClick={onDownloadClick}
+            className="bg-sc-orange hover:bg-sc-orange-hover text-white px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] font-bold cursor-pointer"
+          >
+            資料をダウンロードする
           </button>
         </div>
       </div>

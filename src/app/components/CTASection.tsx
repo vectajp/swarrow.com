@@ -1,7 +1,11 @@
 import { BackgroundArc } from "./BackgroundArc";
 import { SwarrowLogoMark } from "./SwarrowLogo";
 
-export function CTASection() {
+interface CTASectionProps {
+  onDownloadClick: () => void;
+}
+
+export function CTASection({ onDownloadClick }: CTASectionProps) {
   return (
     <section id="cta" className="relative bg-sc-bg-light py-24 lg:py-32 overflow-hidden">
       <BackgroundArc
@@ -25,37 +29,28 @@ export function CTASection() {
         </div>
 
         {/* Heading */}
-        <h2
-          className="text-sc-navy text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2] mb-6"
-          
->
-          まずは、お気軽にご相談ください。
+        <h2 className="text-sc-navy text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.2] mb-6 font-black">
+          まずは、資料をご覧ください。
         </h2>
 
         {/* Sub copy */}
-        <p
-          className="text-sc-text-secondary text-[15px] lg:text-[17px] leading-[1.8] mb-12"
-          
->
-          システムデモやお見積りのご依頼など、
+        <p className="text-sc-text-secondary text-[15px] lg:text-[17px] leading-[1.8] mb-12">
+          サービスの詳細や導入事例をまとめた資料を
           <br />
-          どんなことでもお気軽にお問い合わせください。
+          無料でダウンロードいただけます。
         </p>
 
         {/* CTA Button */}
         <button
-          className="bg-sc-orange hover:bg-sc-orange-hover text-white px-12 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] cursor-pointer"
-          
->
-          無料相談を予約する
+          onClick={onDownloadClick}
+          className="bg-sc-orange hover:bg-sc-orange-hover text-white px-12 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] font-bold cursor-pointer"
+        >
+          資料をダウンロードする
         </button>
 
         {/* Trust note */}
-        <p
-          className="text-sc-text-muted text-[13px] mt-8"
-          
->
-          まずは無料相談から。契約の義務はありません。
+        <p className="text-sc-text-muted text-[13px] mt-8">
+          無料でダウンロードできます。営業電話はいたしません。
         </p>
       </div>
     </section>

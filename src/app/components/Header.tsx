@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { SwarrowLogo } from "./SwarrowLogo";
 
-export function Header() {
+interface HeaderProps {
+  onDownloadClick: () => void;
+}
+
+export function Header({ onDownloadClick }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY> 20);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -23,7 +27,7 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "bg-sc-navy/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
->
+    >
       <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
@@ -45,17 +49,15 @@ export function Header() {
                 className={`transition-colors text-[14px] cursor-pointer ${
                   scrolled ? "text-white/70 hover:text-white" : "text-sc-navy/60 hover:text-sc-navy"
                 }`}
-                
->
+              >
                 {item.label}
               </button>
             ))}
             <button
-              onClick={() => scrollToSection("cta")}
+              onClick={onDownloadClick}
               className="bg-sc-orange hover:bg-sc-orange-hover text-white px-5 py-2.5 rounded-full transition-colors text-[14px] cursor-pointer"
-              
->
-              無料相談
+            >
+              資料ダウンロード
             </button>
           </nav>
 
@@ -63,14 +65,12 @@ export function Header() {
           <button
             className={`md:hidden p-2 cursor-pointer transition-colors ${scrolled ? "text-white" : "text-sc-navy"}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
->
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               {mobileMenuOpen ? (
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
               ) : (
-                <>
-                  <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round" />
-                </>
+                <path d="M3 6h18M3 12h18M3 18h18" strokeLinecap="round" />
               )}
             </svg>
           </button>
@@ -91,17 +91,15 @@ export function Header() {
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
                 className="text-white/70 hover:text-white transition-colors text-[15px] py-2 text-left cursor-pointer"
-                
->
+              >
                 {item.label}
               </button>
             ))}
             <button
-              onClick={() => scrollToSection("cta")}
+              onClick={() => { setMobileMenuOpen(false); onDownloadClick(); }}
               className="bg-sc-orange hover:bg-sc-orange-hover text-white px-5 py-3 rounded-full transition-colors text-[15px] mt-2 cursor-pointer"
-              
->
-              無料相談
+            >
+              資料ダウンロード
             </button>
           </div>
         </div>
