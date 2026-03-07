@@ -19,7 +19,7 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Links */}
+          {/* Links - ページ準備ができたら復活させる
           <div className="flex gap-8">
             <div className="flex flex-col gap-3">
               {["プライバシーポリシー", "利用規約", "特定商取引法に基づく表記"].map(
@@ -28,14 +28,14 @@ export function Footer() {
                     key={link}
                     href="#"
                     className="text-sc-text-secondary hover:text-sc-navy text-[13px] transition-colors"
-                    
->
+                  >
                     {link}
                   </a>
                 )
               )}
             </div>
           </div>
+          */}
         </div>
 
         {/* Divider */}
