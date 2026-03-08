@@ -1,5 +1,5 @@
 interface Env {
-  RESEND_API_KEY: string
+  SENDGRID_API_KEY: string
   MAIL_TO: string
   MAIL_FROM: string
 }
@@ -161,25 +161,28 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const submittedAt = formatJST()
 
-  // Send email via Resend
-  const emailResponse = await fetch('https://api.resend.com/emails', {
+  // Send email via SendGrid
+  const subject = `【Swarrow Call】資料ダウンロード: ${result.data.companyName}`
+  const emailResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${context.env.RESEND_API_KEY}`,
+      Authorization: `Bearer ${context.env.SENDGRID_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: context.env.MAIL_FROM,
-      to: [context.env.MAIL_TO],
-      subject: `【Swarrow Call】資料ダウンロード: ${result.data.companyName}`,
-      text: buildEmailText(result.data, submittedAt),
-      html: buildEmailHtml(result.data, submittedAt),
+      personalizations: [{ to: [{ email: context.env.MAIL_TO }] }],
+      from: { email: context.env.MAIL_FROM, name: 'Swarrow Call' },
+      subject,
+      content: [
+        { type: 'text/plain', value: buildEmailText(result.data, submittedAt) },
+        { type: 'text/html', value: buildEmailHtml(result.data, submittedAt) },
+      ],
     }),
   })
 
-  if (!emailResponse.ok) {
+  if (!emailResponse.ok && emailResponse.status !== 202) {
     const errorText = await emailResponse.text()
-    console.error('Resend API error:', errorText)
+    console.error('SendGrid API error:', errorText)
     return jsonResponse({ success: false, error: 'メール送信に失敗しました' }, 500)
   }
 
