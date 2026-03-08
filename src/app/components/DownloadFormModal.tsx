@@ -14,6 +14,8 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
     inquiry: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   if (!isOpen) return null
 
@@ -21,14 +23,34 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: フォーム送信処理（API連携）
-    setSubmitted(true)
+    setIsSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null)
+        throw new Error(errorData?.error ?? '送信に失敗しました')
+      }
+
+      setSubmitted(true)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : '送信中にエラーが発生しました')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleClose = () => {
     setSubmitted(false)
+    setSubmitError(null)
     setFormData({ companyName: '', name: '', nameKana: '', inquiry: '' })
     onClose()
   }
@@ -54,6 +76,7 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
         <button
           type="button"
           onClick={handleClose}
+          aria-label="閉じる"
           className="absolute top-4 right-4 p-2 text-sc-text-secondary hover:text-sc-text-primary transition-colors cursor-pointer"
         >
           <X size={20} />
@@ -142,10 +165,17 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
 
                 <button
                   type="submit"
-                  className="bg-sc-orange hover:bg-sc-orange-hover text-white py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] font-bold cursor-pointer mt-2"
+                  disabled={isSubmitting}
+                  className="bg-sc-orange hover:bg-sc-orange-hover text-white py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] font-bold cursor-pointer mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  資料をダウンロードする
+                  {isSubmitting ? '送信中...' : '資料をダウンロードする'}
                 </button>
+
+                {submitError && (
+                  <p role="alert" className="text-red-500 text-[13px] text-center">
+                    {submitError}
+                  </p>
+                )}
 
                 <p className="text-sc-text-muted text-[12px] text-center">
                   入力いただいた情報はサービスご案内の目的でのみ使用します。
