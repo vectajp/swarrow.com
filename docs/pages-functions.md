@@ -14,8 +14,8 @@ SendGrid API を `fetch()` で直接呼び出し (SDK 不使用)。
 ## ローカル検証手順
 
 ```sh
-# 1. 環境変数ファイルを作成 (初回のみ)
-cp .dev.vars.example .dev.vars
+# 1. bootstrap を実行 (.dev.vars の作成を含む、初回のみ)
+./tools/bootstrap.sh
 # .dev.vars を編集して SENDGRID_API_KEY を設定
 
 # 2. ビルド + ローカルサーバー起動
