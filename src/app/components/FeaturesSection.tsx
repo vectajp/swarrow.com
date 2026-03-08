@@ -8,16 +8,16 @@ const features = [
   {
     icon: MessageSquare,
     number: '01',
-    title: '問合せ対応機能',
+    title: 'AI自動応答機能',
     description:
-      'AIがチャット・電話で24時間自動対応。資料をもとに適切な回答を案内し、会話データの収集、SMS送信や外部システム連携まで自動で実行します。',
+      'AIチャットボットと電話自動応答で24時間対応。資料をもとに適切な回答を案内し、会話データの収集、SMS送信や外部システム連携まで自動で実行します。',
     image: imgFeature1,
     maskedImage: true,
   },
   {
     icon: Phone,
     number: '02',
-    title: '架電機能',
+    title: 'AI自動架電機能',
     description:
       'スケジュール設定に基づきAIが自動架電。安否確認・督促・リマインド連絡を大量処理。数百〜数千件の一括発信も、用途別の会話フローで確実に対応します。',
     image: imgFeature2,

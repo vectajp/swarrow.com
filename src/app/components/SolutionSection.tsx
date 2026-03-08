@@ -25,7 +25,7 @@ export function SolutionSection() {
 
             <p className="text-sc-text-secondary text-[15px] lg:text-[17px] leading-[2] mb-10">
               PDF・画像・動画・データベース ―
-              社内眠るあらゆる形式の「知識」をAIが取り込み、WEBサイト・LINE・電話などあらゆる媒体で、まるで人間のように自然に回答します。
+              社内に眠るあらゆる形式の「知識」をRAG（検索拡張生成）技術でAIのナレッジベースに取り込み、WEBサイト・LINE・電話などあらゆる媒体で、まるで人間のように自然に回答します。
             </p>
 
             <p className="text-sc-text-secondary text-[15px] lg:text-[17px] leading-[2]">

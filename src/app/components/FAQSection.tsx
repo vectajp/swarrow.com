@@ -19,6 +19,16 @@ export const faqs = [
     question: '導入にどのくらい時間がかかりますか？',
     answer: '最短2週間で運用開始が可能です。データ量や連携先に応じてご案内します。',
   },
+  {
+    question: 'RAG（検索拡張生成）とは何ですか？',
+    answer:
+      'RAG（Retrieval-Augmented Generation）は、社内ドキュメントやデータベースから関連情報を検索し、AIの回答精度を高める技術です。SwarrowCallはRAGを活用し、御社固有のナレッジベースに基づいた正確な回答を自動生成します。',
+  },
+  {
+    question: 'AIチャットボットと電話対応の両方を利用できますか？',
+    answer:
+      'はい、SwarrowCallはAIチャットボットによるテキスト対応と、AI電話自動応答による音声対応の両方に対応しています。さらにAI自動架電機能も備えており、受信・発信の両方をカバーします。',
+  },
 ]
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {

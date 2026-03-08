@@ -33,7 +33,7 @@ export function HeroSection({ onDownloadClick }: HeroSectionProps) {
 
           {/* Sub copy */}
           <p className="text-sc-navy/60 text-[16px] sm:text-[18px] lg:text-[20px] leading-[1.8] mb-12 max-w-[640px]">
-            SwarrowCallは、WEBサイト・LINE・電話などあらゆる媒体で、まるで人間のように自然に会話するAIカスタマーサポートです。
+            SwarrowCallは、AIチャットボットと電話自動応答で、WEBサイト・LINE・電話などあらゆる媒体の問い合わせに、まるで人間のように自然に回答するAIカスタマーサポートサービスです。
           </p>
 
           {/* CTA */}
