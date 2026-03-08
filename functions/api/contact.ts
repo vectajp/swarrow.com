@@ -159,6 +159,18 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return jsonResponse({ success: false, error: result.error }, 400)
   }
 
+  // Validate environment variables
+  const { SENDGRID_API_KEY, MAIL_TO, MAIL_FROM } = context.env
+  if (!SENDGRID_API_KEY || !MAIL_TO || !MAIL_FROM) {
+    const missing = [
+      !SENDGRID_API_KEY && 'SENDGRID_API_KEY',
+      !MAIL_TO && 'MAIL_TO',
+      !MAIL_FROM && 'MAIL_FROM',
+    ].filter(Boolean)
+    console.error('Missing environment variables:', missing.join(', '))
+    return jsonResponse({ success: false, error: 'サーバー設定エラー' }, 500)
+  }
+
   const submittedAt = formatJST()
 
   // Send email via SendGrid
@@ -166,12 +178,12 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const emailResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${context.env.SENDGRID_API_KEY}`,
+      Authorization: `Bearer ${SENDGRID_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: context.env.MAIL_TO }] }],
-      from: { email: context.env.MAIL_FROM, name: 'Swarrow Call' },
+      personalizations: [{ to: [{ email: MAIL_TO }] }],
+      from: { email: MAIL_FROM, name: 'Swarrow Call' },
       subject,
       content: [
         { type: 'text/plain', value: buildEmailText(result.data, submittedAt) },
@@ -180,9 +192,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }),
   })
 
-  if (!emailResponse.ok && emailResponse.status !== 202) {
+  if (!emailResponse.ok) {
     const errorText = await emailResponse.text()
-    console.error('SendGrid API error:', errorText)
+    console.error(`SendGrid API error (${emailResponse.status}):`, errorText)
     return jsonResponse({ success: false, error: 'メール送信に失敗しました' }, 500)
   }
 
