@@ -2,6 +2,15 @@
 import '@fontsource-variable/noto-sans-jp'
 import '../styles/index.css'
 
+// Hero 領域で使用するフォントサブセットを preload するため、ビルド後のパスを取得
+// ?url サフィックスで Vite が処理済みの URL を返す
+import fontLatin from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-latin-wght-normal.woff2?url'
+import fontJp114 from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-114-wght-normal.woff2?url'
+import fontJp115 from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-115-wght-normal.woff2?url'
+import fontJp116 from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-116-wght-normal.woff2?url'
+import fontJp117 from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-117-wght-normal.woff2?url'
+import fontJp119 from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-119-wght-normal.woff2?url'
+
 interface Props {
   title: string
   description: string
@@ -15,6 +24,8 @@ const {
   canonicalUrl = 'https://swarrow.com/',
   ogImage = 'https://swarrow.com/og-image.png',
 } = Astro.props
+
+const preloadFonts = [fontLatin, fontJp114, fontJp115, fontJp116, fontJp117, fontJp119]
 ---
 
 <!doctype html>
@@ -22,6 +33,11 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Font preload: Hero 領域の描画に必要なサブセットを先読み -->
+    {preloadFonts.map((href) => (
+      <link rel="preload" as="font" type="font/woff2" crossorigin href={href} />
+    ))}
 
     <!-- SEO -->
     <title>{title}</title>
