@@ -1,11 +1,27 @@
 
-  # SwarrowCall
+# Swarrow　Call
 
-  This is a code bundle for SwarrowCall. The original project is available at https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall.
+AI カスタマーサポートサービス「Swarrow Call」のランディングページ。
 
-  ## Running the code
+元デザイン: https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall
 
-  Run `npm i` to install the dependencies.
+## セットアップ
 
-  Run `npm run dev` to start the development server.
-  
+[mise](https://mise.jdx.dev/) を使用する場合:
+
+```sh
+mise run bootstrap
+```
+
+手動の場合:
+
+```sh
+bun install
+```
+
+## 開発
+
+```sh
+bun run dev    # 開発サーバー起動
+bun run build  # ビルド
+```
