@@ -4,15 +4,16 @@ AI カスタマーサポートサービス「Swarrow Call」のランディン�
 
 ## 技術スタック
 
-- React 18 + Vite + Tailwind CSS 4
+- Astro 5 + React 19 + Tailwind CSS 4
 - lucide-react (アイコン), motion (アニメーション)
 - TypeScript
 
 ## コマンド
 
 ```sh
-bun run dev    # 開発サーバー起動
-bun run build  # ビルド
+bun run dev      # 開発サーバー起動
+bun run build    # ビルド
+bun run preview  # ビルド結果プレビュー
 ```
 
 ## デザイントークン
@@ -29,7 +30,7 @@ bun run build  # ビルド
 
 | Rule | Detail |
 |------|--------|
-| [MUST] | 画像は `figma:asset/ファイル名.png` でインポート (`vite.config.ts` でエイリアス設定済み) |
+| [MUST] | 画像は `figma:asset/ファイル名.png` でインポート (`astro.config.mjs` でエイリアス設定済み) |
 | [MUST] | 色は `sc-*` デザイントークンを使用。ハードコードしない |
 | [Forbidden] | フォントの個別指定 -- body に `Noto Sans JP` を一括設定済み |
 
