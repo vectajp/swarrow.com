@@ -58,7 +58,7 @@ export function SolutionSection() {
                 }}
               >
                 <img
-                  src={imgPhoneMockup}
+                  src={typeof imgPhoneMockup === 'string' ? imgPhoneMockup : imgPhoneMockup.src}
                   alt="Swarrow Call チャット画面"
                   className="w-full h-full object-cover object-top"
                 />

@@ -70,7 +70,7 @@ export function FeaturesSection() {
                     <div className="w-full h-full flex justify-center px-5 pt-4">
                       <div className="w-full h-full rounded-t-[12px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-b-0 border-sc-border-light">
                         <img
-                          src={feature.image}
+                          src={typeof feature.image === 'string' ? feature.image : feature.image.src}
                           alt={feature.title}
                           className="w-full h-full object-cover object-top"
                         />
@@ -78,7 +78,7 @@ export function FeaturesSection() {
                     </div>
                   ) : (
                     <img
-                      src={feature.image}
+                      src={typeof feature.image === 'string' ? feature.image : feature.image.src}
                       alt={feature.title}
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
