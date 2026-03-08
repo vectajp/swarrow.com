@@ -11,6 +11,7 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
     companyName: '',
     name: '',
     nameKana: '',
+    email: '',
     inquiry: '',
   })
   const [submitted, setSubmitted] = useState(false)
@@ -51,7 +52,7 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
   const handleClose = () => {
     setSubmitted(false)
     setSubmitError(null)
-    setFormData({ companyName: '', name: '', nameKana: '', inquiry: '' })
+    setFormData({ companyName: '', name: '', nameKana: '', email: '', inquiry: '' })
     onClose()
   }
 
@@ -148,6 +149,15 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
                   placeholder="やまだ たろう"
                   required
                 />
+                <FormField
+                  label="メールアドレス"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="example@company.co.jp"
+                  required
+                />
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="inquiry" className="text-sc-text-primary text-[14px] font-medium">
                     お問い合わせ内容
@@ -196,6 +206,7 @@ function FormField({
   onChange,
   placeholder,
   required,
+  type = 'text',
 }: {
   label: string
   name: string
@@ -203,6 +214,7 @@ function FormField({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   placeholder: string
   required?: boolean
+  type?: string
 }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -212,7 +224,7 @@ function FormField({
       </label>
       <input
         id={name}
-        type="text"
+        type={type}
         name={name}
         value={value}
         onChange={onChange}
