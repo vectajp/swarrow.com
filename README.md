@@ -25,3 +25,7 @@ bun install
 bun run dev    # 開発サーバー起動
 bun run build  # ビルド
 ```
+
+## ドキュメント
+
+- [Pages Functions (メール送信)](docs/pages-functions.md) -- 環境変数・ローカル検証手順・本番設定
