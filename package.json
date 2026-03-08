@@ -9,6 +9,7 @@
     "dev": "vite"
   },
   "dependencies": {
+    "@fontsource-variable/noto-sans-jp": "^5.2.10",
     "lucide-react": "^0.577.0",
     "motion": "^12.35.1",
     "react": "^19",
