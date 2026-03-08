@@ -1,0 +1,3 @@
+SENDGRID_API_KEY=
+MAIL_FROM=noreply@swarrow.com
+MAIL_TO=info@swarrow.com
