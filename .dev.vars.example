@@ -1,3 +1,4 @@
 SENDGRID_API_KEY=
 MAIL_FROM=noreply@vecta.co.jp
 MAIL_TO=contact@vecta.co.jp
+SITE_URL=http://localhost:4321

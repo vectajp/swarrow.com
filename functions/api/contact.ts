@@ -2,12 +2,14 @@ interface Env {
   SENDGRID_API_KEY: string
   MAIL_TO: string
   MAIL_FROM: string
+  SITE_URL: string
 }
 
 interface ContactBody {
   companyName: string
   name: string
   nameKana: string
+  email: string
   inquiry?: string
 }
 
@@ -51,6 +53,15 @@ function validateBody(body: unknown): { ok: true; data: ContactBody } | { ok: fa
   if (b.nameKana.trim().length > 100) {
     return { ok: false, error: 'ふりがなは100文字以内で入力してください' }
   }
+  if (typeof b.email !== 'string' || !b.email.trim()) {
+    return { ok: false, error: 'メールアドレスは必須です' }
+  }
+  if (b.email.trim().length > 254) {
+    return { ok: false, error: 'メールアドレスは254文字以内で入力してください' }
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email.trim())) {
+    return { ok: false, error: 'メールアドレスの形式が正しくありません' }
+  }
   if (typeof b.inquiry === 'string' && b.inquiry.trim().length > 5000) {
     return { ok: false, error: 'お問い合わせ内容は5000文字以内で入力してください' }
   }
@@ -61,6 +72,7 @@ function validateBody(body: unknown): { ok: true; data: ContactBody } | { ok: fa
       companyName: sanitize(b.companyName),
       name: sanitize(b.name),
       nameKana: sanitize(b.nameKana),
+      email: sanitize(b.email),
       inquiry: typeof b.inquiry === 'string' ? b.inquiry.trim() : undefined,
     },
   }
@@ -93,6 +105,10 @@ function buildEmailHtml(data: ContactBody, submittedAt: string): string {
         <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">ふりがな</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">${escapeHtml(data.nameKana)}</td>
       </tr>
+      <tr>
+        <td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">メールアドレス</td>
+        <td style="padding: 10px; border-bottom: 1px solid #ddd;">${escapeHtml(data.email)}</td>
+      </tr>
       ${inquiryRow}
       <tr>
         <td style="padding: 10px; font-weight: bold;">受信日時</td>
@@ -114,7 +130,10 @@ ${data.companyName}
 ${data.name}
 
 ■ふりがな
-${data.nameKana}`
+${data.nameKana}
+
+■メールアドレス
+${data.email}`
 
   if (data.inquiry) {
     text += `
@@ -129,6 +148,45 @@ ${data.inquiry}`
 ${submittedAt}`
 
   return text
+}
+
+function buildDownloadEmailText(data: ContactBody, downloadUrl: string): string {
+  return `${data.name} 様
+
+この度は Swarrow Call の資料をご請求いただき、誠にありがとうございます。
+
+以下のリンクよりサービス資料をダウンロードいただけます。
+
+▼ 資料ダウンロード
+${downloadUrl}
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+─────────────────
+Swarrow Call
+─────────────────`
+}
+
+function buildDownloadEmailHtml(data: ContactBody, downloadUrl: string): string {
+  return `<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>資料ダウンロードのご案内</title></head>
+<body style="font-family: 'Hiragino Sans', 'Meiryo', sans-serif; line-height: 1.8; color: #333; margin: 0; padding: 0;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <h2 style="color: #092045; margin-bottom: 24px;">資料ダウンロードのご案内</h2>
+    <p>${escapeHtml(data.name)} 様</p>
+    <p>この度は Swarrow Call の資料をご請求いただき、誠にありがとうございます。</p>
+    <p>以下のボタンよりサービス資料をダウンロードいただけます。</p>
+    <div style="text-align: center; margin: 32px 0;">
+      <a href="${escapeHtml(downloadUrl)}" style="display: inline-block; background-color: #E87B35; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 9999px; font-weight: bold; font-size: 16px;">資料をダウンロードする</a>
+    </div>
+    <p style="font-size: 13px; color: #636180;">ボタンが表示されない場合は、以下の URL をブラウザに貼り付けてください。<br><a href="${escapeHtml(downloadUrl)}" style="color: #E87B35;">${escapeHtml(downloadUrl)}</a></p>
+    <hr style="border: none; border-top: 1px solid #DEDEE9; margin: 32px 0;">
+    <p style="font-size: 13px; color: #636180;">ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+    <p style="font-size: 13px; color: #092045; font-weight: bold;">Swarrow Call</p>
+  </div>
+</body>
+</html>`
 }
 
 function escapeHtml(str: string): string {
@@ -160,12 +218,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   }
 
   // Validate environment variables
-  const { SENDGRID_API_KEY, MAIL_TO, MAIL_FROM } = context.env
-  if (!SENDGRID_API_KEY || !MAIL_TO || !MAIL_FROM) {
+  const { SENDGRID_API_KEY, MAIL_TO, MAIL_FROM, SITE_URL } = context.env
+  if (!SENDGRID_API_KEY || !MAIL_TO || !MAIL_FROM || !SITE_URL) {
     const missing = [
       !SENDGRID_API_KEY && 'SENDGRID_API_KEY',
       !MAIL_TO && 'MAIL_TO',
       !MAIL_FROM && 'MAIL_FROM',
+      !SITE_URL && 'SITE_URL',
     ].filter(Boolean)
     console.error('Missing environment variables:', missing.join(', '))
     return jsonResponse({ success: false, error: 'サーバー設定エラー' }, 500)
@@ -196,6 +255,31 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const errorText = await emailResponse.text()
     console.error(`SendGrid API error (${emailResponse.status}):`, errorText)
     return jsonResponse({ success: false, error: 'メール送信に失敗しました' }, 500)
+  }
+
+  // Send download link email to requester
+  const downloadUrl = `${SITE_URL}/downloads/swarrow_call.pdf`
+  const requesterSubject = '【Swarrow Call】資料ダウンロードのご案内'
+  const requesterResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${SENDGRID_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: result.data.email }] }],
+      from: { email: MAIL_FROM, name: 'Swarrow Call' },
+      subject: requesterSubject,
+      content: [
+        { type: 'text/plain', value: buildDownloadEmailText(result.data, downloadUrl) },
+        { type: 'text/html', value: buildDownloadEmailHtml(result.data, downloadUrl) },
+      ],
+    }),
+  })
+
+  if (!requesterResponse.ok) {
+    const errorText = await requesterResponse.text()
+    console.error(`SendGrid API error for requester (${requesterResponse.status}):`, errorText)
   }
 
   return jsonResponse({ success: true })
