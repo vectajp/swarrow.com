@@ -1,16 +1,16 @@
-import { type ReactNode, useRef } from "react";
-import { type UseInViewOptions, motion, useInView } from "motion/react";
+import { motion, type UseInViewOptions, useInView } from 'motion/react'
+import { type ReactNode, useRef } from 'react'
 
 interface ScrollFadeInProps {
-  children: ReactNode;
+  children: ReactNode
   /** Vertical offset in pixels (default: 24) */
-  offset?: number;
+  offset?: number
   /** Animation duration in seconds (default: 0.7) */
-  duration?: number;
+  duration?: number
   /** Delay before animation starts in seconds (default: 0) */
-  delay?: number;
+  delay?: number
   /** InView margin — triggers animation before element fully enters viewport */
-  margin?: UseInViewOptions["margin"];
+  margin?: UseInViewOptions['margin']
 }
 
 export function ScrollFadeIn({
@@ -18,10 +18,10 @@ export function ScrollFadeIn({
   offset = 24,
   duration = 0.7,
   delay = 0,
-  margin = "-80px 0px",
+  margin = '-80px 0px',
 }: ScrollFadeInProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin });
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin })
 
   return (
     <motion.div
@@ -36,5 +36,5 @@ export function ScrollFadeIn({
     >
       {children}
     </motion.div>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Header } from "./components/Header";
-import { HeroSection } from "./components/HeroSection";
-import { ProblemSection } from "./components/ProblemSection";
-import { SolutionSection } from "./components/SolutionSection";
-import { FeaturesSection } from "./components/FeaturesSection";
-import { HowItWorksSection } from "./components/HowItWorksSection";
-import { FAQSection } from "./components/FAQSection";
-import { CTASection } from "./components/CTASection";
-import { Footer } from "./components/Footer";
-import { ScrollFadeIn } from "./components/ScrollFadeIn";
-import { DownloadFormModal } from "./components/DownloadFormModal";
+import { useState } from 'react'
+import { CTASection } from './components/CTASection'
+import { DownloadFormModal } from './components/DownloadFormModal'
+import { FAQSection } from './components/FAQSection'
+import { FeaturesSection } from './components/FeaturesSection'
+import { Footer } from './components/Footer'
+import { Header } from './components/Header'
+import { HeroSection } from './components/HeroSection'
+import { HowItWorksSection } from './components/HowItWorksSection'
+import { ProblemSection } from './components/ProblemSection'
+import { ScrollFadeIn } from './components/ScrollFadeIn'
+import { SolutionSection } from './components/SolutionSection'
 
 export default function App() {
-  const [isDownloadFormOpen, setIsDownloadFormOpen] = useState(false);
-  const openDownloadForm = () => setIsDownloadFormOpen(true);
+  const [isDownloadFormOpen, setIsDownloadFormOpen] = useState(false)
+  const openDownloadForm = () => setIsDownloadFormOpen(true)
 
   return (
-    <div className="w-full min-h-screen" style={{ scrollBehavior: "smooth" }}>
+    <div className="w-full min-h-screen" style={{ scrollBehavior: 'smooth' }}>
       <Header onDownloadClick={openDownloadForm} />
       <main>
         <HeroSection onDownloadClick={openDownloadForm} />
@@ -40,10 +40,7 @@ export default function App() {
         </ScrollFadeIn>
       </main>
       <Footer />
-      <DownloadFormModal
-        isOpen={isDownloadFormOpen}
-        onClose={() => setIsDownloadFormOpen(false)}
-      />
+      <DownloadFormModal isOpen={isDownloadFormOpen} onClose={() => setIsDownloadFormOpen(false)} />
     </div>
-  );
+  )
 }

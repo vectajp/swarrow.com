@@ -1,4 +1,4 @@
-import { SwarrowLogo } from "./SwarrowLogo";
+import { SwarrowLogo } from './SwarrowLogo'
 
 export function Footer() {
   return (
@@ -13,8 +13,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="text-sc-text-secondary text-[14px] hover:text-sc-orange transition-colors duration-200"
-              
->
+            >
               株式会社Vecta
             </a>
           </div>
@@ -42,13 +41,8 @@ export function Footer() {
         <div className="h-[1px] bg-sc-navy/10 my-8" />
 
         {/* Copyright */}
-        <p
-          className="text-sc-text-muted text-[12px] text-center"
-          
->
-          &copy; 2026 Vecta Inc. All rights reserved.
-        </p>
+        <p className="text-sc-text-muted text-[12px] text-center">&copy; 2026 Vecta Inc. All rights reserved.</p>
       </div>
     </footer>
-  );
+  )
 }

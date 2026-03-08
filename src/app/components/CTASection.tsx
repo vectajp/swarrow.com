@@ -1,8 +1,8 @@
-import { BackgroundArc } from "./BackgroundArc";
-import { SwarrowLogoMark } from "./SwarrowLogo";
+import { BackgroundArc } from './BackgroundArc'
+import { SwarrowLogoMark } from './SwarrowLogo'
 
 interface CTASectionProps {
-  onDownloadClick: () => void;
+  onDownloadClick: () => void
 }
 
 export function CTASection({ onDownloadClick }: CTASectionProps) {
@@ -42,6 +42,7 @@ export function CTASection({ onDownloadClick }: CTASectionProps) {
 
         {/* CTA Button */}
         <button
+          type="button"
           onClick={onDownloadClick}
           className="bg-sc-orange hover:bg-sc-orange-hover text-white px-12 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] font-bold cursor-pointer"
         >
@@ -49,10 +50,8 @@ export function CTASection({ onDownloadClick }: CTASectionProps) {
         </button>
 
         {/* Trust note */}
-        <p className="text-sc-text-muted text-[13px] mt-8">
-          無料でダウンロードできます。営業電話はいたしません。
-        </p>
+        <p className="text-sc-text-muted text-[13px] mt-8">無料でダウンロードできます。営業電話はいたしません。</p>
       </div>
     </section>
-  );
+  )
 }

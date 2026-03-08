@@ -8,14 +8,8 @@
       "scope": "workspace"
     }
   },
-  "cSpell.ignorePaths": [
-    "node_modules",
-    "package.json",
-    "*.lock",
-    ".git",
-    "dist",
-    "build"
-  ],
+  "cSpell.ignorePaths": ["node_modules", "package.json", "*.lock", ".git", "dist", "build"],
+  "css.validate": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {

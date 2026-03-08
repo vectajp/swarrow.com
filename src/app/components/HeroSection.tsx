@@ -1,19 +1,15 @@
-import { SwarrowLogo } from "./SwarrowLogo";
-import { BackgroundArc } from "./BackgroundArc";
+import { BackgroundArc } from './BackgroundArc'
+import { SwarrowLogo } from './SwarrowLogo'
 
 interface HeroSectionProps {
-  onDownloadClick: () => void;
+  onDownloadClick: () => void
 }
 
 export function HeroSection({ onDownloadClick }: HeroSectionProps) {
   return (
     <section id="hero" className="relative bg-sc-bg-light min-h-screen flex items-center overflow-hidden">
       {/* Background arcs */}
-      <BackgroundArc
-        color="var(--sc-navy)"
-        opacity={0.03}
-        className="w-[800px] h-[800px] -left-[200px] -top-[100px]"
-      />
+      <BackgroundArc color="var(--sc-navy)" opacity={0.03} className="w-[800px] h-[800px] -left-[200px] -top-[100px]" />
       <BackgroundArc
         color="var(--sc-navy)"
         opacity={0.02}
@@ -42,6 +38,7 @@ export function HeroSection({ onDownloadClick }: HeroSectionProps) {
 
           {/* CTA */}
           <button
+            type="button"
             onClick={onDownloadClick}
             className="bg-sc-orange hover:bg-sc-orange-hover text-white px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] sm:text-[18px] font-bold cursor-pointer"
           >
@@ -50,5 +47,5 @@ export function HeroSection({ onDownloadClick }: HeroSectionProps) {
         </div>
       </div>
     </section>
-  );
+  )
 }
