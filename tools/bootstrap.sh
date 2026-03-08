@@ -60,6 +60,25 @@ fi
 
 ##############################################################################
 ##
+##  .dev.vars
+##
+##############################################################################
+echo ""
+echo "🚀 .dev.vars: Start"
+if [ -f .dev.vars ]; then
+  echo "⚠️ .dev.vars: Skip because .dev.vars already exists."
+else
+  if [ -f .dev.vars.example ]; then
+    cp .dev.vars.example .dev.vars
+    echo "✅ .dev.vars: Copied from .dev.vars.example"
+    echo "⚠️ .dev.vars: Edit .dev.vars to set SENDGRID_API_KEY"
+  else
+    echo "🚫 .dev.vars: .dev.vars.example not found"
+  fi
+fi
+
+##############################################################################
+##
 ##  Finish
 ##
 ##############################################################################
