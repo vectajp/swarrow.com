@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
-const faqs = [
+export const faqs = [
   {
     question: 'どのチャネルに対応していますか？',
     answer: 'WEBサイト、LINE、電話、アプリなど幅広いチャネルに対応しています。',
