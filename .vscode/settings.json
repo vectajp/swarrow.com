@@ -8,13 +8,21 @@
       "scope": "workspace"
     }
   },
-  "cSpell.ignorePaths": ["node_modules", "package.json", "*.lock", ".git", "dist", "build"],
+  "cSpell.ignorePaths": [
+    "node_modules",
+    "package.json",
+    "*.lock",
+    ".git",
+    "dist",
+    "build"
+  ],
   "css.validate": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*.ts": "$(capture).test.ts",
     "package.json": "bun.lock",
-    "CLAUDE.md": "AGENTS.md"
+    "CLAUDE.md": "AGENTS.md",
+    ".dev.vars.example": ".dev.vars"
   }
 }
