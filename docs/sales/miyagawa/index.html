@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SwarrowCall 営業資料</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./slides.js" defer></script>
+  </head>
+  <body>
+    <div class="deck-toolbar">
+      <button class="deck-toolbar__button" type="button" data-action="settings">表示設定</button>
+      <button class="deck-toolbar__button deck-toolbar__button--primary" type="button" data-action="slideshow">
+        スライドショー
+      </button>
+    </div>
+
+    <aside class="toc" aria-label="スライド目次">
+      <div class="toc__inner">
+        <div class="toc__logo">
+          <svg width="24" height="26" viewBox="0 0 41.1219 44" fill="none" aria-hidden="true">
+            <path
+              d="M21.9989 35.6129C14.2657 35.6129 8.03973 29.1654 8.40206 21.3535C8.72298 14.4091 14.3381 8.76496 21.2805 8.40884C26.6451 8.13346 31.3699 10.9659 33.8234 15.2642L41.1219 11.1046C37.4923 4.73373 30.7653 0.360874 22.9803 0.021315C8.72298 -0.597759 -2.70193 12.3593 0.561145 27.0432C1.21542 29.9895 2.47427 32.7059 4.19484 35.0642V43.9984L13.2925 42.2716C14.4644 42.7643 15.6902 43.1577 16.9552 43.4393C27.1793 45.7106 36.5668 40.8595 41.1157 32.8923L33.8234 28.7389C31.4796 32.8447 27.0633 35.6129 21.9989 35.6129Z"
+              fill="currentColor"
+            />
+            <path
+              d="M21.9992 30.391C26.6327 30.391 30.3888 26.6348 30.3888 22.0014C30.3888 17.368 26.6327 13.6118 21.9992 13.6118C17.3658 13.6118 13.6096 17.368 13.6096 22.0014C13.6096 26.6348 17.3658 30.391 21.9992 30.391Z"
+              fill="currentColor"
+            />
+          </svg>
+          <span>SwarrowCall</span>
+        </div>
+        <ul class="toc__list" data-toc-list></ul>
+      </div>
+    </aside>
+
+    <div class="settings-panel" data-settings-panel hidden>
+      <button class="settings-panel__backdrop" type="button" aria-label="閉じる" data-action="close-settings"></button>
+      <div class="settings-panel__dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <div class="settings-panel__header">
+          <h2 class="settings-panel__title" id="settings-title">表示設定</h2>
+          <button class="settings-panel__close" type="button" aria-label="閉じる" data-action="close-settings">×</button>
+        </div>
+        <p class="settings-panel__text">チェックを外したページは、目次・印刷・スライドショーから除外されます。</p>
+        <div class="settings-panel__list" data-settings-list></div>
+        <div class="settings-panel__footer">
+          <button class="settings-panel__reset" type="button" data-action="show-all">すべて表示</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="deck">
+      <section class="slide slide--cover" id="slide-01" data-nav-title="表紙">
+        <h1 class="slide__title" hidden>SwarrowCallのご紹介</h1>
+        <div class="cover-simple">
+          <div class="cover-simple__hero">
+            <div class="cover-simple__brand" aria-hidden="true">
+              <svg width="74" height="80" viewBox="0 0 41.1219 44" fill="none">
+                <path
+                  d="M21.9989 35.6129C14.2657 35.6129 8.03973 29.1654 8.40206 21.3535C8.72298 14.4091 14.3381 8.76496 21.2805 8.40884C26.6451 8.13346 31.3699 10.9659 33.8234 15.2642L41.1219 11.1046C37.4923 4.73373 30.7653 0.360874 22.9803 0.021315C8.72298 -0.597759 -2.70193 12.3593 0.561145 27.0432C1.21542 29.9895 2.47427 32.7059 4.19484 35.0642V43.9984L13.2925 42.2716C14.4644 42.7643 15.6902 43.1577 16.9552 43.4393C27.1793 45.7106 36.5668 40.8595 41.1157 32.8923L33.8234 28.7389C31.4796 32.8447 27.0633 35.6129 21.9989 35.6129Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M21.9992 30.391C26.6327 30.391 30.3888 26.6348 30.3888 22.0014C30.3888 17.368 26.6327 13.6118 21.9992 13.6118C17.3658 13.6118 13.6096 17.368 13.6096 22.0014C13.6096 26.6348 17.3658 30.391 21.9992 30.391Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <p class="cover-simple__title">SwarrowCallのご紹介</p>
+          </div>
+          <p class="cover-simple__company">株式会社Vecta</p>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-02">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">02</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">会社紹介</h2>
+            </div>
+          </div>
+        </header>
+        <div class="two-col two-col--company">
+          <div class="card company-logo-card">
+            <div class="company-logo-frame">
+              <img src="./vecta_logo_with_name.png" alt="株式会社Vecta ロゴ" />
+            </div>
+          </div>
+          <div class="content-stack company-overview">
+            <div class="info-panel">
+              <div class="info-label">会社名</div>
+              <div class="info-value info-value--strong">株式会社Vecta</div>
+            </div>
+            <div class="info-panel">
+              <div class="info-label">住所</div>
+              <div class="info-value info-value--stacked">
+                <span>〒150-0002</span>
+                <span>東京都渋谷区渋谷2-19-15 宮益坂ビルディング609</span>
+              </div>
+            </div>
+            <div class="info-panel">
+              <div class="info-label">事業内容</div>
+              <ul class="service-list">
+                <li>SwarrowCall事業（AIサポートセンターサービス）</li>
+                <li>
+                  開発受託事業
+                  <ul class="service-sublist">
+                    <li>Webシステム</li>
+                    <li>モバイルアプリ</li>
+                    <li>AI基盤</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-03">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">03</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">問い合わせ対応/連絡業務の課題</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">自治体の窓口業務では、定型問い合わせや連絡業務に多くの時間がかかりやすいと考えています。</p>
+          </div>
+        </header>
+        <div class="content-stack">
+          <div class="table-card">
+            <table class="matrix">
+              <tbody>
+                <tr>
+                  <td>入電の集中</td>
+                  <td>繁忙期には1日中電話が鳴り続け、代表電話や各課の窓口業務が止まりやすい</td>
+                </tr>
+                <tr>
+                  <td>取り次ぎ負荷</td>
+                  <td>用件の聞き直しや担当課への取り次ぎが多く、職員の業務が中断されやすい</td>
+                </tr>
+                <tr>
+                  <td>つながらない不満</td>
+                  <td>混雑時に電話がつながらず、クレームや予約なし来庁、書類不足での来庁が発生しやすい</td>
+                </tr>
+                <tr>
+                  <td>定型質問の反復</td>
+                  <td>マイナンバー、保険、子育てなど、回答パターンが近い質問が繰り返し寄せられる</td>
+                </tr>
+                <tr>
+                  <td>連絡業務の負荷</td>
+                  <td>リマインド、督促、見守りなどの電話連絡に時間がかかり、他業務を圧迫しやすい</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-04">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">04</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">Vectaの提案する課題解決</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">Vectaは、電話・チャット・架電を一つの仕組みでつなぎ、窓口業務をまとめて改善します。</p>
+          </div>
+        </header>
+        <div class="table-card">
+          <table class="matrix">
+            <tbody>
+              <tr>
+                <td>入電の集中</td>
+                <td>
+                  <div class="matrix-feature">
+                    <span class="matrix-feature__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                      </svg>
+                    </span>
+                    <div class="matrix-feature__body">
+                      <strong>AI受電</strong>
+                      <span>開庁時間案内、担当課案内、一次受付を自動化し、代表電話の負荷を下げる</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>取り次ぎ負荷</td>
+                <td>
+                  <div class="matrix-feature">
+                    <span class="matrix-feature__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                      </svg>
+                    </span>
+                    <div class="matrix-feature__body">
+                      <strong>AI受電 + 転送</strong>
+                      <span>用件に応じて担当部署へ振り分け、聞き直しやたらい回しを減らす</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>つながらない不満</td>
+                <td>
+                  <div class="matrix-feature">
+                    <span class="matrix-feature__icons" aria-hidden="true">
+                      <span class="matrix-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                        </svg>
+                      </span>
+                      <span class="matrix-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
+                        </svg>
+                      </span>
+                    </span>
+                    <div class="matrix-feature__body">
+                      <strong>AI受電 + AIチャット</strong>
+                      <span>混雑時でも音声案内とHP/公式LINEへの誘導を組み合わせ、自己解決につなげる</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>定型質問の反復</td>
+                <td>
+                  <div class="matrix-feature">
+                    <span class="matrix-feature__icons" aria-hidden="true">
+                      <span class="matrix-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                        </svg>
+                      </span>
+                      <span class="matrix-feature__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
+                        </svg>
+                      </span>
+                    </span>
+                    <div class="matrix-feature__body">
+                      <strong>AIチャット / 音声FAQ</strong>
+                      <span>よくある質問を自動で返し、職員が繰り返し説明する時間を減らす</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>連絡業務の負荷</td>
+                <td>
+                  <div class="matrix-feature">
+                    <span class="matrix-feature__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                      </svg>
+                    </span>
+                    <div class="matrix-feature__body">
+                      <strong>AI架電</strong>
+                      <span>リマインド、督促、見守りなどの電話発信をまとめて実行する</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-overview" data-slide-number="05">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">05</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">3つの機能</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">SwarrowCallは、受電・チャット・架電の3機能で問い合わせ対応と連絡業務をまとめて改善します。</p>
+          </div>
+        </header>
+        <div class="overview-grid">
+          <div class="mini-card overview-card">
+            <div class="overview-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+              </svg>
+            </div>
+            <h3>AI受電</h3>
+            <ul class="overview-card__list">
+              <li>電話の一次受付</li>
+              <li>担当課案内と転送</li>
+              <li>時間外対応</li>
+            </ul>
+          </div>
+          <div class="mini-card overview-card">
+            <div class="overview-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
+              </svg>
+            </div>
+            <h3>AIチャット</h3>
+            <ul class="overview-card__list">
+              <li>HPや公式LINEに設置</li>
+              <li>FAQの自己解決導線</li>
+              <li>混雑時の案内</li>
+            </ul>
+          </div>
+          <div class="mini-card overview-card">
+            <div class="overview-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 8a6 6 0 0 1-6 6h-1l-4 4v-4H8a6 6 0 0 1 0-12h8a6 6 0 0 1 6 6Z" />
+              </svg>
+            </div>
+            <h3>AI架電</h3>
+            <ul class="overview-card__list">
+              <li>リマインド</li>
+              <li>督促や確認連絡</li>
+              <li>見守り対応</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-05">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">06</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">電話問い合わせ対応・受付</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">電話の一次受付は、AIで24時間自動化できます。</p>
+          </div>
+        </header>
+        <div class="feature-layout feature-layout--story">
+          <div class="story-panel">
+            <div class="story-list">
+              <div class="story-item">
+                <strong>24時間365日で一次受付</strong>
+                <span>閉庁後や繁忙時でも、AIが電話の入口を止めません。</span>
+              </div>
+              <div class="story-item">
+                <strong>FAQ回答と担当課案内</strong>
+                <span>よくある質問への回答、窓口案内、適切な部署への転送に対応します。</span>
+              </div>
+              <div class="story-item">
+                <strong>ノーコードで会話フロー作成</strong>
+                <span>対象業務に合わせた受け答えや分岐を、管理画面から柔軟に調整できます。</span>
+              </div>
+              <div class="story-item">
+                <strong>人への引き継ぎ</strong>
+                <span>AIで完結しない問い合わせは担当者へ戻す前提で設計できます。</span>
+              </div>
+              <div class="story-item">
+                <strong>後続連携</strong>
+                <span>会話内容をもとにSMS送信や外部連携へつなげられます。</span>
+              </div>
+            </div>
+          </div>
+          <div class="image-card story-visual">
+            <div class="visual-frame">
+              <img src="../../../src/assets/feature-management.png" alt="SwarrowCall 会話フロー管理画面" />
+            </div>
+            <div class="pill-row">
+              <div class="pill">ノーコード</div>
+              <div class="pill">会話フロー</div>
+              <div class="pill">一次受付</div>
+              <div class="pill">SMS連携</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-06">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">6-1</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">電話機能の自治体活用例</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">電話機能は、総合窓口や複数の課の業務でお使いいただけます。</p>
+          </div>
+        </header>
+        <div class="card usecase-card">
+          <div class="usecase-grid usecase-grid--three">
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                  </svg>
+                </span>
+                <span>総合窓口・代表電話</span>
+              </h3>
+              <ul>
+                <li>開庁時間の案内</li>
+                <li>担当課の案内</li>
+                <li>適切な部署への転送</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="18" height="14" rx="3" />
+                    <path d="M7 9h6" />
+                    <path d="M7 13h4" />
+                    <circle cx="17" cy="12" r="2.2" />
+                  </svg>
+                </span>
+                <span>住民課</span>
+              </h3>
+              <ul>
+                <li>マイナンバーカードの受け取り、暗証番号、電子証明書、有効期限、持ち物案内</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21s-6.5-4.35-9-8.28C1.22 9.92 2.45 6.5 5.9 5.77c2.06-.44 3.53.46 4.45 1.56.92-1.1 2.39-2 4.45-1.56 3.45.73 4.68 4.15 2.9 6.95C18.5 16.65 12 21 12 21Z" />
+                  </svg>
+                </span>
+                <span>子育て・福祉</span>
+              </h3>
+              <ul>
+                <li>制度や手続きに関する質問対応</li>
+                <li>電話による見守りや状況確認</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" />
+                    <path d="M14 3v5h5" />
+                    <path d="M9 12h6" />
+                    <path d="M9 16h4" />
+                  </svg>
+                </span>
+                <span>税務</span>
+              </h3>
+              <ul>
+                <li>納期限、納付方法の案内</li>
+                <li>督促や提出促進の電話連絡</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14" />
+                    <path d="M5 12h14" />
+                    <rect x="4" y="4" width="16" height="16" rx="4" />
+                  </svg>
+                </span>
+                <span>健康・健診</span>
+              </h3>
+              <ul>
+                <li>健診案内、持ち物、予約変更の一次受付</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M3 12h18" />
+                    <path d="M12 3a15.3 15.3 0 0 1 0 18" />
+                    <path d="M12 3a15.3 15.3 0 0 0 0 18" />
+                  </svg>
+                </span>
+                <span>多言語化</span>
+              </h3>
+              <ul>
+                <li>英語など多言語の一次案内は、要件確認のうえで追加訴求候補</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-07">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">07</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">問い合わせ対応チャット機能</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">HPや公式LINEにAI窓口を置くことで、自己解決を増やせます。</p>
+          </div>
+        </header>
+        <div class="feature-layout feature-layout--story">
+          <div class="story-panel">
+            <div class="story-list">
+              <div class="story-item">
+                <strong>設置先を選べる</strong>
+                <span>ホームページや公式LINEに設置し、住民が使いやすい導線を作れます。</span>
+              </div>
+              <div class="story-item">
+                <strong>既存資料を参照して回答</strong>
+                <span>FAQや業務資料をもとに、組織ごとの案内に寄せて返答できます。</span>
+              </div>
+              <div class="story-item">
+                <strong>24時間365日で対応</strong>
+                <span>時間外でも自己解決できる窓口を残せます。</span>
+              </div>
+              <div class="story-item">
+                <strong>人への引き継ぎ</strong>
+                <span>AIで答え切れない場合は担当者対応へつなげる設計にできます。</span>
+              </div>
+              <div class="story-item">
+                <strong>継続改善</strong>
+                <span>会話ログを見ながらFAQや回答ルールを調整しやすい構成です。</span>
+              </div>
+            </div>
+          </div>
+          <div class="image-card story-visual">
+            <div class="visual-frame">
+              <img src="../../../src/assets/feature-inquiry.png" alt="SwarrowCall チャット機能イメージ" />
+            </div>
+            <div class="pill-row">
+              <div class="pill">ホームページ</div>
+              <div class="pill">公式LINE</div>
+              <div class="pill">24時間365日</div>
+              <div class="pill">自己解決</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-08">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">7-1</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">チャット機能の自治体活用例</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">チャット機能は、FAQが多い部署ほど効果を出しやすいです。</p>
+          </div>
+        </header>
+        <div class="card usecase-card">
+          <div class="two-col">
+            <div class="usecase-section">
+              <h3 class="usecase-section__title">定型FAQが多い窓口</h3>
+              <div class="usecase-groups">
+                <div class="usecase-group">
+                  <h3>住民課</h3>
+                  <ul>
+                    <li>住民票、戸籍、転入転出の手続き案内</li>
+                    <li>マイナンバーカードの申請、受取予約、暗証番号、電子証明書に関するFAQ</li>
+                  </ul>
+                </div>
+                <div class="usecase-group">
+                  <h3>ごみ・環境</h3>
+                  <ul>
+                    <li>分別ルール、収集日、粗大ごみ受付案内</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="usecase-section">
+              <h3 class="usecase-section__title">情報案内型の窓口</h3>
+              <div class="usecase-groups">
+                <div class="usecase-group">
+                  <h3>子育て支援</h3>
+                  <ul>
+                    <li>手当、保育園、健診、予防接種のFAQ対応</li>
+                  </ul>
+                </div>
+                <div class="usecase-group">
+                  <h3>観光・イベント</h3>
+                  <ul>
+                    <li>施設情報、イベント案内</li>
+                    <li>多言語一次対応</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-09">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">08</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">架電機能</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">SwarrowCallは、受ける対応だけでなく、必要な連絡も自動化できます。</p>
+          </div>
+        </header>
+        <div class="feature-layout feature-layout--story">
+          <div class="story-panel">
+            <div class="story-list">
+              <div class="story-item">
+                <strong>自動架電</strong>
+                <span>スケジュールや対象者一覧に基づいて、AIが必要な連絡をまとめて実行します。</span>
+              </div>
+              <div class="story-item">
+                <strong>大量件数に対応しやすい</strong>
+                <span>数百件から数千件のリマインドや確認連絡を回しやすい構成です。</span>
+              </div>
+              <div class="story-item">
+                <strong>用途別の会話設計</strong>
+                <span>安否確認、督促、予約確認など、業務ごとに会話フローを分けて運用できます。</span>
+              </div>
+              <div class="story-item">
+                <strong>回答回収</strong>
+                <span>相手の反応を受けて、次の対応につなげることができます。</span>
+              </div>
+              <div class="story-item">
+                <strong>SMSや後続フロー連携</strong>
+                <span>架電後の案内送付や別システムへの連携にも展開できます。</span>
+              </div>
+            </div>
+          </div>
+          <div class="image-card story-visual">
+            <div class="visual-frame">
+              <img src="../../../src/assets/feature-calling.png" alt="SwarrowCall 架電機能イメージ" />
+            </div>
+            <div class="pill-row">
+              <div class="pill">リマインド</div>
+              <div class="pill">督促</div>
+              <div class="pill">安否確認</div>
+              <div class="pill">SMS連携</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-10">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">8-1</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">架電機能の自治体活用例</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">架電機能は、大量の連絡業務を無理なく回すのに向いています。</p>
+          </div>
+        </header>
+        <div class="card usecase-card">
+          <div class="usecase-grid usecase-grid--two">
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14" />
+                    <path d="M5 12h14" />
+                    <rect x="4" y="4" width="16" height="16" rx="4" />
+                  </svg>
+                </span>
+                <span>健康増進</span>
+              </h3>
+              <ul>
+                <li>健診、面談、予防接種のリマインド連絡</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" />
+                    <path d="M14 3v5h5" />
+                    <path d="M9 12h6" />
+                    <path d="M9 16h4" />
+                  </svg>
+                </span>
+                <span>税務・保険</span>
+              </h3>
+              <ul>
+                <li>納期限前のお知らせ</li>
+                <li>書類提出の促進</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21s-6.5-4.35-9-8.28C1.22 9.92 2.45 6.5 5.9 5.77c2.06-.44 3.53.46 4.45 1.56.92-1.1 2.39-2 4.45-1.56 3.45.73 4.68 4.15 2.9 6.95C18.5 16.65 12 21 12 21Z" />
+                  </svg>
+                </span>
+                <span>介護・福祉</span>
+              </h3>
+              <ul>
+                <li>高齢者の安否確認</li>
+                <li>訪問前確認</li>
+              </ul>
+            </div>
+            <div class="usecase-group">
+              <h3 class="usecase-group__title">
+                <span class="usecase-group__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3 4.5 6v5.6c0 4.8 3.2 9.1 7.5 10.4 4.3-1.3 7.5-5.6 7.5-10.4V6L12 3Z" />
+                    <path d="M12 9v4" />
+                    <path d="M12 16h.01" />
+                  </svg>
+                </span>
+                <span>防災・危機管理</span>
+              </h3>
+              <ul>
+                <li>緊急時や訓練時の一斉確認連絡</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-11">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">09</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">精度と安全性</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">精度は、Document Intelligence と運用チューニングの組み合わせで高める設計です。</p>
+          </div>
+        </header>
+        <div class="feature-layout feature-layout--story feature-layout--precision">
+          <div class="diagram-card story-visual">
+            <h3 class="card__title">高精度回答のための設計</h3>
+            <div class="layer-stack">
+              <div class="layer-card">
+                <div class="layer-card__brandline">
+                  <span class="layer-card__brandicons">
+                    <img class="brand-icon-image" src="./assets/azure-document-intelligence.svg" alt="" />
+                  </span>
+                  <strong>Document Intelligence</strong>
+                </div>
+                <span>文書構造をもとに、見出し・段落・表のまとまりを読み取りやすい形へ整えます。</span>
+              </div>
+              <div class="layer-card layer-card--accent">
+                <strong>弊社のプログラム上でのチューニング</strong>
+                <span>文書の区切り方や参照しやすさを調整し、重要な注意事項が分断されにくいようにします。</span>
+              </div>
+              <div class="layer-card">
+                <strong>皆様の文書チューニング</strong>
+                <span>FAQや回答ルールを整理し、対象業務に合わせて精度を継続的に高められる運用にします。</span>
+              </div>
+            </div>
+          </div>
+          <div class="card safety-card">
+            <h3 class="card__title">安全性</h3>
+            <div class="safety-groups">
+              <div class="safety-group">
+                <strong>データの扱い</strong>
+                <ul>
+                  <li>やり取り内容や登録データは、外部AIプロバイダの学習に利用されません。</li>
+                </ul>
+              </div>
+              <div class="safety-group">
+                <strong>回答品質の担保</strong>
+                <ul>
+                  <li>既存のFAQや業務資料をもとに、組織ごとの情報に沿った回答を返します。</li>
+                  <li>答えにくい内容は無理に返さず、人に戻すことで実運用品質を担保します。</li>
+                </ul>
+              </div>
+              <div class="safety-group">
+                <strong>運用改善</strong>
+                <ul>
+                  <li>会話ログやFAQ更新を見ながら、回答ルールを継続的に調整できます。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-12">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">10</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">導入の流れ・実証実験</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">まずは1部署・1業務から実証をお勧めしております。</p>
+          </div>
+        </header>
+        <div class="content-stack">
+          <div class="steps">
+            <div class="step">
+              <div class="step__number">1</div>
+              <h3>ヒアリング</h3>
+              <p>対象部署、対象業務、対象チャネルを決め、現状のFAQや資料を確認します。</p>
+            </div>
+            <div class="step">
+              <div class="step__number">2</div>
+              <h3>セットアップ</h3>
+              <p>資料投入、導線設定、応答ルール調整を行い、実証実験の準備を進めます。</p>
+            </div>
+            <div class="step">
+              <div class="step__number">3</div>
+              <h3>運用開始</h3>
+              <p>応答率、引き継ぎ率、削減工数を見ながら、他部署への横展開を判断します。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-13">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">11</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">価格表</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">価格は、対象業務と利用チャネルに応じて設計します。</p>
+          </div>
+        </header>
+        <div class="pricing-grid">
+          <div class="card">
+            <h3 class="card__title">初期費用</h3>
+            <ul class="feature-list">
+              <li>要件整理</li>
+              <li>ナレッジ整備</li>
+              <li>初期設定</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="card__title">月額費用</h3>
+            <ul class="feature-list">
+              <li>基本利用料</li>
+              <li>チャネル利用料</li>
+              <li>運用支援費</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="card__title">従量/オプション</h3>
+            <ul class="feature-list">
+              <li>電話発着信</li>
+              <li>SMS送信</li>
+              <li>外部システム連携</li>
+              <li>追加アセット整備</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="card__title">実証実験プラン</h3>
+            <ul class="feature-list">
+              <li>対象部署限定</li>
+              <li>対象チャネル限定</li>
+              <li>評価指標付き</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">具体金額は未記載です。必要に応じて表示設定から非表示にできます。</p>
+      </section>
+
+      <section class="slide" id="slide-14">
+        <header class="slide__header">
+          <div class="slide__header-main">
+            <div class="slide__number">12</div>
+            <div class="slide__heading">
+              <h2 class="slide__title">機能展望</h2>
+            </div>
+          </div>
+          <div class="slide__message-box">
+            <p class="slide__message">SwarrowCallは、導入後も改善と横展開を続けやすい基盤です。</p>
+          </div>
+        </header>
+        <div class="feature-layout feature-layout--story">
+          <div class="story-panel">
+            <div class="story-list">
+              <div class="story-item">
+                <strong>AI管理</strong>
+                <span>ワークフロー作成、編集、実行までを運用しやすい形で拡張できます。</span>
+              </div>
+              <div class="story-item">
+                <strong>アセット管理</strong>
+                <span>ドキュメント、画像、動画、音声、Webページの取り込みを広げていけます。</span>
+              </div>
+              <div class="story-item">
+                <strong>通話・予約管理</strong>
+                <span>電話番号、バッチスケジュール、予約管理を一体で扱える方向です。</span>
+              </div>
+              <div class="story-item">
+                <strong>運用支援</strong>
+                <span>辞書、サポートチケット、アナリティクス、設定の運用改善を進めます。</span>
+              </div>
+              <div class="story-item">
+                <strong>今後の拡張候補</strong>
+                <span>サイトクロール、API連携、メッセージチャネル拡張、ルーティング強化などを見据えます。</span>
+              </div>
+            </div>
+          </div>
+          <div class="image-card story-visual">
+            <div class="visual-frame">
+              <img src="../../../src/assets/feature-management.png" alt="SwarrowCall 管理画面イメージ" />
+            </div>
+            <div class="pill-row">
+              <div class="pill">ワークフロー</div>
+              <div class="pill">アセット管理</div>
+              <div class="pill">アナリティクス</div>
+              <div class="pill">API連携</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
