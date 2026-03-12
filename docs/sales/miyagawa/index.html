@@ -287,43 +287,33 @@
         </header>
         <div class="overview-grid">
           <div class="mini-card overview-card">
-            <div class="overview-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="overview-card__visual overview-card__visual--phone" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
               </svg>
             </div>
             <h3>AI受電</h3>
-            <ul class="overview-card__list">
-              <li>電話の一次受付</li>
-              <li>担当課案内と転送</li>
-              <li>時間外対応</li>
-            </ul>
+            <p class="overview-card__text">代表電話の一次受付、担当課案内、転送をまとめて自動化します。</p>
           </div>
           <div class="mini-card overview-card">
-            <div class="overview-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="overview-card__visual overview-card__visual--chat" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
               </svg>
             </div>
             <h3>AIチャット</h3>
-            <ul class="overview-card__list">
-              <li>HPや公式LINEに設置</li>
-              <li>FAQの自己解決導線</li>
-              <li>混雑時の案内</li>
-            </ul>
+            <p class="overview-card__text">ホームページや公式LINEに設置し、自己解決の導線を作ります。</p>
           </div>
           <div class="mini-card overview-card">
-            <div class="overview-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 8a6 6 0 0 1-6 6h-1l-4 4v-4H8a6 6 0 0 1 0-12h8a6 6 0 0 1 6 6Z" />
+            <div class="overview-card__visual overview-card__visual--outbound" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.61 2.65a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6.09 6.09l1.43-1.27a2 2 0 0 1 2.11-.45c.86.28 1.75.49 2.65.61A2 2 0 0 1 22 16.92Z" />
+                <path d="M16 5h5v5" />
+                <path d="M15 9l6-4" />
               </svg>
             </div>
             <h3>AI架電</h3>
-            <ul class="overview-card__list">
-              <li>リマインド</li>
-              <li>督促や確認連絡</li>
-              <li>見守り対応</li>
-            </ul>
+            <p class="overview-card__text">リマインドや督促、安否確認などの連絡業務をまとめて自動化します。</p>
           </div>
         </div>
       </section>
@@ -340,7 +330,7 @@
             <p class="slide__message">電話の一次受付は、AIで24時間自動化できます。</p>
           </div>
         </header>
-        <div class="feature-layout feature-layout--story">
+        <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="story-panel">
             <div class="story-list">
               <div class="story-item">
@@ -365,15 +355,22 @@
               </div>
             </div>
           </div>
-          <div class="image-card story-visual">
+          <div class="image-card story-visual feature-visual-card">
             <div class="visual-frame">
               <img src="../../../src/assets/feature-management.png" alt="SwarrowCall 会話フロー管理画面" />
             </div>
-            <div class="pill-row">
-              <div class="pill">ノーコード</div>
-              <div class="pill">会話フロー</div>
-              <div class="pill">一次受付</div>
-              <div class="pill">SMS連携</div>
+            <div class="feature-caption">
+              <div class="feature-caption__label">会話フロー管理画面</div>
+              <div class="feature-summary-grid">
+                <div class="feature-summary-item">
+                  <strong>ノーコード調整</strong>
+                  <span>会話フローや分岐条件を管理画面から更新できます。</span>
+                </div>
+                <div class="feature-summary-item">
+                  <strong>後続連携</strong>
+                  <span>SMS送信や外部連携にもつなげやすい構成です。</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -502,7 +499,7 @@
             <p class="slide__message">HPや公式LINEにAI窓口を置くことで、自己解決を増やせます。</p>
           </div>
         </header>
-        <div class="feature-layout feature-layout--story">
+        <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="story-panel">
             <div class="story-list">
               <div class="story-item">
@@ -527,15 +524,22 @@
               </div>
             </div>
           </div>
-          <div class="image-card story-visual">
+          <div class="image-card story-visual feature-visual-card">
             <div class="visual-frame">
               <img src="../../../src/assets/feature-inquiry.png" alt="SwarrowCall チャット機能イメージ" />
             </div>
-            <div class="pill-row">
-              <div class="pill">ホームページ</div>
-              <div class="pill">公式LINE</div>
-              <div class="pill">24時間365日</div>
-              <div class="pill">自己解決</div>
+            <div class="feature-caption">
+              <div class="feature-caption__label">設置イメージ</div>
+              <div class="feature-summary-grid">
+                <div class="feature-summary-item">
+                  <strong>設置先</strong>
+                  <span>ホームページや公式LINEに配置しやすい構成です。</span>
+                </div>
+                <div class="feature-summary-item">
+                  <strong>回答ソース</strong>
+                  <span>FAQや業務資料を参照しながら案内できます。</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -607,7 +611,7 @@
             <p class="slide__message">SwarrowCallは、受ける対応だけでなく、必要な連絡も自動化できます。</p>
           </div>
         </header>
-        <div class="feature-layout feature-layout--story">
+        <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="story-panel">
             <div class="story-list">
               <div class="story-item">
@@ -632,15 +636,22 @@
               </div>
             </div>
           </div>
-          <div class="image-card story-visual">
+          <div class="image-card story-visual feature-visual-card">
             <div class="visual-frame">
               <img src="../../../src/assets/feature-calling.png" alt="SwarrowCall 架電機能イメージ" />
             </div>
-            <div class="pill-row">
-              <div class="pill">リマインド</div>
-              <div class="pill">督促</div>
-              <div class="pill">安否確認</div>
-              <div class="pill">SMS連携</div>
+            <div class="feature-caption">
+              <div class="feature-caption__label">架電運用イメージ</div>
+              <div class="feature-summary-grid">
+                <div class="feature-summary-item">
+                  <strong>発信対象</strong>
+                  <span>対象者一覧に基づいて、必要な連絡をまとめて実行できます。</span>
+                </div>
+                <div class="feature-summary-item">
+                  <strong>後続対応</strong>
+                  <span>回答回収やSMS案内など、次の対応にもつなげられます。</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -655,7 +666,7 @@
             </div>
           </div>
           <div class="slide__message-box">
-            <p class="slide__message">架電機能は、大量の連絡業務を無理なく回すのに向いています。</p>
+            <p class="slide__message">架電機能は、リマインドや督促、安否確認などの連絡業務を自動化できます。</p>
           </div>
         </header>
         <div class="card usecase-card">
@@ -742,20 +753,24 @@
             <h3 class="card__title">高精度回答のための設計</h3>
             <div class="layer-stack">
               <div class="layer-card">
-                <div class="layer-card__brandline">
-                  <span class="layer-card__brandicons">
-                    <img class="brand-icon-image" src="./assets/azure-document-intelligence.svg" alt="" />
-                  </span>
-                  <strong>Document Intelligence</strong>
+                <div class="layer-card__heading">
+                  <span class="layer-card__index">1</span>
+                  <strong>Microsoft Document Intelligence</strong>
                 </div>
                 <span>文書構造をもとに、見出し・段落・表のまとまりを読み取りやすい形へ整えます。</span>
               </div>
-              <div class="layer-card layer-card--accent">
-                <strong>弊社のプログラム上でのチューニング</strong>
+              <div class="layer-card">
+                <div class="layer-card__heading">
+                  <span class="layer-card__index">2</span>
+                  <strong>弊社チューニング</strong>
+                </div>
                 <span>文書の区切り方や参照しやすさを調整し、重要な注意事項が分断されにくいようにします。</span>
               </div>
               <div class="layer-card">
-                <strong>皆様の文書チューニング</strong>
+                <div class="layer-card__heading">
+                  <span class="layer-card__index">3</span>
+                  <strong>皆様の文書チューニング</strong>
+                </div>
                 <span>FAQや回答ルールを整理し、対象業務に合わせて精度を継続的に高められる運用にします。</span>
               </div>
             </div>
@@ -815,107 +830,6 @@
               <div class="step__number">3</div>
               <h3>運用開始</h3>
               <p>応答率、引き継ぎ率、削減工数を見ながら、他部署への横展開を判断します。</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="slide-13">
-        <header class="slide__header">
-          <div class="slide__header-main">
-            <div class="slide__number">11</div>
-            <div class="slide__heading">
-              <h2 class="slide__title">価格表</h2>
-            </div>
-          </div>
-          <div class="slide__message-box">
-            <p class="slide__message">価格は、対象業務と利用チャネルに応じて設計します。</p>
-          </div>
-        </header>
-        <div class="pricing-grid">
-          <div class="card">
-            <h3 class="card__title">初期費用</h3>
-            <ul class="feature-list">
-              <li>要件整理</li>
-              <li>ナレッジ整備</li>
-              <li>初期設定</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 class="card__title">月額費用</h3>
-            <ul class="feature-list">
-              <li>基本利用料</li>
-              <li>チャネル利用料</li>
-              <li>運用支援費</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 class="card__title">従量/オプション</h3>
-            <ul class="feature-list">
-              <li>電話発着信</li>
-              <li>SMS送信</li>
-              <li>外部システム連携</li>
-              <li>追加アセット整備</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3 class="card__title">実証実験プラン</h3>
-            <ul class="feature-list">
-              <li>対象部署限定</li>
-              <li>対象チャネル限定</li>
-              <li>評価指標付き</li>
-            </ul>
-          </div>
-        </div>
-        <p class="note">具体金額は未記載です。必要に応じて表示設定から非表示にできます。</p>
-      </section>
-
-      <section class="slide" id="slide-14">
-        <header class="slide__header">
-          <div class="slide__header-main">
-            <div class="slide__number">12</div>
-            <div class="slide__heading">
-              <h2 class="slide__title">機能展望</h2>
-            </div>
-          </div>
-          <div class="slide__message-box">
-            <p class="slide__message">SwarrowCallは、導入後も改善と横展開を続けやすい基盤です。</p>
-          </div>
-        </header>
-        <div class="feature-layout feature-layout--story">
-          <div class="story-panel">
-            <div class="story-list">
-              <div class="story-item">
-                <strong>AI管理</strong>
-                <span>ワークフロー作成、編集、実行までを運用しやすい形で拡張できます。</span>
-              </div>
-              <div class="story-item">
-                <strong>アセット管理</strong>
-                <span>ドキュメント、画像、動画、音声、Webページの取り込みを広げていけます。</span>
-              </div>
-              <div class="story-item">
-                <strong>通話・予約管理</strong>
-                <span>電話番号、バッチスケジュール、予約管理を一体で扱える方向です。</span>
-              </div>
-              <div class="story-item">
-                <strong>運用支援</strong>
-                <span>辞書、サポートチケット、アナリティクス、設定の運用改善を進めます。</span>
-              </div>
-              <div class="story-item">
-                <strong>今後の拡張候補</strong>
-                <span>サイトクロール、API連携、メッセージチャネル拡張、ルーティング強化などを見据えます。</span>
-              </div>
-            </div>
-          </div>
-          <div class="image-card story-visual">
-            <div class="visual-frame">
-              <img src="../../../src/assets/feature-management.png" alt="SwarrowCall 管理画面イメージ" />
-            </div>
-            <div class="pill-row">
-              <div class="pill">ワークフロー</div>
-              <div class="pill">アセット管理</div>
-              <div class="pill">アナリティクス</div>
-              <div class="pill">API連携</div>
             </div>
           </div>
         </div>
