@@ -825,6 +825,63 @@ body.is-slideshow .slide.is-active {
   gap: 18px;
 }
 
+.feature-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.feature-point {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(9, 32, 69, 0.1);
+  box-shadow: 0 8px 20px rgba(13, 10, 44, 0.04);
+}
+
+.feature-point strong {
+  color: var(--sc-navy);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.feature-point p {
+  margin: 0;
+  color: var(--sc-text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.feature-note {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(180, 35, 24, 0.05);
+  border: 1px dashed rgba(180, 35, 24, 0.32);
+}
+
+.feature-note__title {
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.feature-note ul {
+  margin: 0;
+  padding-left: 1.2em;
+  color: #b42318;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.feature-note li + li {
+  margin-top: 4px;
+}
+
 .feature-caption {
   display: grid;
   gap: 12px;
@@ -867,6 +924,10 @@ body.is-slideshow .slide.is-active {
 .story-panel,
 .story-visual {
   height: 100%;
+}
+
+body.is-slideshow .feature-note {
+  display: none;
 }
 
 .story-panel {
@@ -931,6 +992,35 @@ body.is-slideshow .slide.is-active {
   max-height: 100%;
   display: block;
   object-fit: contain;
+}
+
+.visual-frame--placeholder {
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.placeholder-visual {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--sc-navy);
+}
+
+.placeholder-visual svg {
+  width: 64px;
+  height: 64px;
+}
+
+.placeholder-visual strong {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.placeholder-visual span {
+  max-width: 320px;
+  color: var(--sc-text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .visual-frame--device img {
@@ -1042,6 +1132,42 @@ body.is-slideshow .slide.is-active {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+#slide-06:not([hidden]),
+#slide-08:not([hidden]),
+#slide-10:not([hidden]) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 24px;
+}
+
+#slide-06 .slide__header,
+#slide-08 .slide__header,
+#slide-10 .slide__header {
+  margin-bottom: 0;
+}
+
+#slide-06 .usecase-card,
+#slide-08 .usecase-card,
+#slide-10 .usecase-card {
+  align-self: stretch;
+  min-height: 0;
+}
+
+#slide-06 .usecase-grid,
+#slide-08 .usecase-grid,
+#slide-10 .usecase-grid {
+  height: 100%;
+  grid-auto-rows: 1fr;
+}
+
+#slide-06 .usecase-group,
+#slide-08 .usecase-group,
+#slide-10 .usecase-group {
+  display: grid;
+  align-content: start;
+  height: 100%;
+}
+
 .usecase-section {
   display: grid;
   align-content: start;
@@ -1085,24 +1211,24 @@ body.is-slideshow .slide.is-active {
 }
 
 .usecase-group__icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  border-radius: 10px;
+  border-radius: 12px;
   background: rgba(9, 32, 69, 0.08);
   color: var(--sc-navy);
 }
 
 .usecase-group__icon svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 
 .usecase-group h3 {
   color: var(--sc-navy);
-  font-size: 19px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.4;
 }
@@ -1817,7 +1943,8 @@ body.is-slideshow .slide.is-active {
   .info-panel,
   .matrix-feature__icon,
   .pill,
-  .feature-summary-item {
+  .feature-summary-item,
+  .feature-point {
     box-shadow: none !important;
   }
 
@@ -1888,6 +2015,8 @@ body.is-slideshow .slide.is-active {
 
   .brand-description,
   .feature-list,
+  .feature-note ul,
+  .feature-point p,
   .story-item span,
   .mini-card p,
   .mini-card__list,
@@ -1906,6 +2035,20 @@ body.is-slideshow .slide.is-active {
 
   .company-overview {
     gap: 3mm;
+  }
+
+  .feature-panel {
+    gap: 2mm;
+  }
+
+  .feature-point {
+    gap: 1mm;
+    padding: 3mm 3.4mm;
+    border-radius: 4mm;
+  }
+
+  .feature-point strong {
+    font-size: 15px;
   }
 
   .story-panel {
@@ -1971,6 +2114,10 @@ body.is-slideshow .slide.is-active {
 
   .story-item strong {
     font-size: 13px;
+  }
+
+  .feature-note {
+    display: none !important;
   }
 
   .layer-card__brandline {
@@ -2107,6 +2254,13 @@ body.is-slideshow .slide.is-active {
     gap: 2mm;
   }
 
+  #slide-06 .usecase-grid,
+  #slide-08 .usecase-grid,
+  #slide-10 .usecase-grid {
+    height: auto;
+    grid-auto-rows: auto;
+  }
+
   .usecase-grid--three {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2132,6 +2286,7 @@ body.is-slideshow .slide.is-active {
   .usecase-group {
     padding: 2.2mm 2.4mm;
     border-radius: 4mm;
+    height: auto;
   }
 
   .usecase-group__title,
