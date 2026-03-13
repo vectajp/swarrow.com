@@ -1,4 +1,9 @@
 const STORAGE_KEY = "swarrow-miyagawa-hidden-slides";
+const SLIDE_BASE_WIDTH = 1280;
+const SLIDE_BASE_HEIGHT = 720;
+const PRINT_TARGET_WIDTH_PX = (289 / 25.4) * 96;
+const PRINT_TARGET_HEIGHT_PX = ((289 * 9) / 16 / 25.4) * 96;
+const PRESENTATION_VIEWPORT_GAP = 32;
 
 const body = document.body;
 const slides = Array.from(document.querySelectorAll(".slide"));
@@ -22,6 +27,7 @@ const slideMeta = slides.map((slide, index) => {
 buildTocList();
 buildSettingsList();
 applyVisibility();
+syncSlideMetrics();
 
 toolbar?.addEventListener("click", (event) => {
   const action = event.target.closest("[data-action]")?.dataset.action;
@@ -88,11 +94,16 @@ window.addEventListener("beforeprint", () => {
   if (slideshowActive) {
     exitSlideshow();
   }
+  syncSlideMetrics();
   body.classList.add("is-printing");
 });
 
 window.addEventListener("afterprint", () => {
   body.classList.remove("is-printing");
+});
+
+window.addEventListener("resize", () => {
+  syncSlideMetrics();
 });
 
 window.addEventListener("hashchange", () => {
@@ -168,6 +179,7 @@ function toggleSlide(id, checkbox) {
 
 function applyVisibility() {
   syncSlideVisibility();
+  syncSlideMetrics();
 
   tocList?.querySelectorAll("a").forEach((link) => {
     const id = link.getAttribute("href")?.replace("#", "");
@@ -216,6 +228,7 @@ function enterSlideshow() {
   const visibleSlides = getVisibleSlides();
   if (!visibleSlides.length) return;
 
+  syncSlideMetrics();
   slideshowActive = true;
   slideshowScrollY = window.scrollY;
   activeSlideId = getCurrentSlideId({ preferHash: false }) ?? visibleSlides[0].id;
@@ -330,4 +343,20 @@ function syncSlideVisibility() {
     const slideshowHidden = slideshowActive && slide.id !== activeSlideId;
     slide.hidden = userHidden || slideshowHidden;
   });
+}
+
+function syncSlideMetrics() {
+  const slideshowViewportWidth = Math.max(window.innerWidth - PRESENTATION_VIEWPORT_GAP, 320);
+  const slideshowViewportHeight = Math.max(window.innerHeight - PRESENTATION_VIEWPORT_GAP, 180);
+  const slideshowScale = Math.min(
+    slideshowViewportWidth / SLIDE_BASE_WIDTH,
+    slideshowViewportHeight / SLIDE_BASE_HEIGHT,
+  );
+  const printScale = Math.min(
+    PRINT_TARGET_WIDTH_PX / SLIDE_BASE_WIDTH,
+    PRINT_TARGET_HEIGHT_PX / SLIDE_BASE_HEIGHT,
+  );
+
+  body.style.setProperty("--slideshow-scale", `${slideshowScale}`);
+  body.style.setProperty("--print-scale", `${printScale}`);
 }
