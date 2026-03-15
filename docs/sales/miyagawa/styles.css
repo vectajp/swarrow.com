@@ -820,6 +820,14 @@ body.is-slideshow .slide.is-active {
   order: -1;
 }
 
+.feature-layout--text-wide {
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+}
+
+.feature-layout--text-wide .feature-visual-card {
+  align-content: center;
+}
+
 .image-card {
   display: grid;
   overflow: hidden;
