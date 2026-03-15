@@ -342,7 +342,8 @@ body.is-slideshow .slide.is-active {
 .slide__message-box {
   display: grid;
   gap: 6px;
-  max-width: 880px;
+  width: 100%;
+  max-width: none;
   padding: 15px 18px;
   border-radius: 20px;
   background: var(--sc-bg-light);
@@ -1098,11 +1099,30 @@ body.is-slideshow .feature-note {
   border-radius: 12px;
   background: rgba(9, 32, 69, 0.08);
   color: var(--sc-navy);
+  border: 1px solid transparent;
 }
 
 .matrix-feature__icon svg {
   width: 20px;
   height: 20px;
+}
+
+.matrix-feature__icon--inbound {
+  background: rgba(223, 233, 255, 0.9);
+  color: #315ea8;
+  border-color: rgba(120, 148, 214, 0.28);
+}
+
+.matrix-feature__icon--chat {
+  background: rgba(216, 239, 232, 0.92);
+  color: #2f7d67;
+  border-color: rgba(82, 156, 129, 0.26);
+}
+
+.matrix-feature__icon--outbound {
+  background: rgba(255, 226, 209, 0.92);
+  color: #c5652f;
+  border-color: rgba(213, 123, 71, 0.26);
 }
 
 .matrix-feature__body {
