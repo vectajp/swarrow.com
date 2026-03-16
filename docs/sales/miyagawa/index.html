@@ -369,23 +369,57 @@
         </header>
         <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="image-card story-visual feature-visual-card">
-            <div class="visual-frame visual-frame--placeholder" aria-label="AI受電の画面差し替え予定">
-              <div class="placeholder-visual">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M16 2v6h6" />
-                  <path d="m22 2-6 6" />
-                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+            <div class="visual-frame visual-frame--flow" aria-label="AI受電フロー図">
+              <div class="flow-diagram flow-diagram--inbound">
+                <div class="flow-col">
+                  <div class="flow-node flow-node--icon-only"><span class="flow-node__icon flow-node__icon--inbound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span></div>
+                  <div class="flow-node flow-node--icon-only"><span class="flow-node__icon flow-node__icon--inbound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span></div>
+                  <div class="flow-node flow-node--icon-only"><span class="flow-node__icon flow-node__icon--inbound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span></div>
+                  <div class="flow-node flow-node--icon-only"><span class="flow-node__icon flow-node__icon--inbound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span></div>
+                  <div class="flow-node flow-node--icon-only"><span class="flow-node__icon flow-node__icon--inbound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span></div>
+                </div>
+                <svg class="flow-lines" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                  <g stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+                    <path d="M0,10 C40,10 60,50 100,50"/>
+                    <path d="M0,30 C40,30 60,50 100,50"/>
+                    <path d="M0,50 C50,50 50,50 100,50"/>
+                    <path d="M0,70 C40,70 60,50 100,50"/>
+                    <path d="M0,90 C40,90 60,50 100,50"/>
+                  </g>
                 </svg>
-                <strong>画像差し替え予定</strong>
-                <span>一次受付フローや担当課振り分けが分かる画面を配置</span>
+                <div class="flow-hub">
+                  <svg viewBox="0 0 41.1219 44" fill="none" aria-hidden="true">
+                    <path d="M21.9989 35.6129C14.2657 35.6129 8.03973 29.1654 8.40206 21.3535C8.72298 14.4091 14.3381 8.76496 21.2805 8.40884C26.6451 8.13346 31.3699 10.9659 33.8234 15.2642L41.1219 11.1046C37.4923 4.73373 30.7653 0.360874 22.9803 0.021315C8.72298 -0.597759 -2.70193 12.3593 0.561145 27.0432C1.21542 29.9895 2.47427 32.7059 4.19484 35.0642V43.9984L13.2925 42.2716C14.4644 42.7643 15.6902 43.1577 16.9552 43.4393C27.1793 45.7106 36.5668 40.8595 41.1157 32.8923L33.8234 28.7389C31.4796 32.8447 27.0633 35.6129 21.9989 35.6129Z" fill="currentColor"/>
+                    <path d="M21.9992 30.391C26.6327 30.391 30.3888 26.6348 30.3888 22.0014C30.3888 17.368 26.6327 13.6118 21.9992 13.6118C17.3658 13.6118 13.6096 17.368 13.6096 22.0014C13.6096 26.6348 17.3658 30.391 21.9992 30.391Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <svg class="flow-lines" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                  <g stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+                    <path d="M0,50 C40,50 60,12 100,12"/>
+                    <path d="M0,50 C40,50 60,37 100,37"/>
+                    <path d="M0,50 C40,50 60,63 100,63"/>
+                    <path d="M0,50 C40,50 60,88 100,88"/>
+                  </g>
+                </svg>
+                <div class="flow-col">
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a1 1 0 0 0 1 1h3"/><path d="M10 13h4"/><path d="M10 17h4"/></svg></span>
+                    <span class="flow-card__label">ナレッジ回答</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+                    <span class="flow-card__label">予約受付</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                    <span class="flow-card__label">人間取次</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8"/><path d="M8 14h4"/></svg></span>
+                    <span class="flow-card__label">SMS送信</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="feature-note">
-              <strong class="feature-note__title">差し替え候補</strong>
-              <ul>
-                <li>代表電話の一次受付フローと担当課振り分けが見える管理画面</li>
-                <li>時間外案内や窓口予約の聞き取りノードが分かる会話フロー画面</li>
-              </ul>
             </div>
           </div>
           <div class="feature-panel">
@@ -543,21 +577,47 @@
         </header>
         <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="image-card story-visual feature-visual-card">
-            <div class="visual-frame visual-frame--placeholder" aria-label="AIチャットの画面差し替え予定">
-              <div class="placeholder-visual">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+            <div class="visual-frame visual-frame--flow" aria-label="AIチャットフロー図">
+              <div class="flow-diagram flow-diagram--chat">
+                <div class="flow-col">
+                  <div class="flow-card flow-card--lg">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+                    <span class="flow-card__label">HP</span>
+                  </div>
+                  <div class="flow-card flow-card--lg">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    <span class="flow-card__label">LINE</span>
+                  </div>
+                  <div class="flow-card flow-card--lg">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="3"/><path d="M5.5 7.5h5v5h-5z"/><path d="M13.5 7.5h5v3h-5z"/><path d="M5.5 15.5h5v1h-5z"/><path d="M13.5 13.5h5v3h-5z"/></svg></span>
+                    <span class="flow-card__label">Teams</span>
+                  </div>
+                </div>
+                <svg class="flow-lines" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                  <g stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+                    <path d="M0,17 C40,17 60,50 100,50"/>
+                    <path d="M0,50 C50,50 50,50 100,50"/>
+                    <path d="M0,83 C40,83 60,50 100,50"/>
+                  </g>
                 </svg>
-                <strong>画像差し替え予定</strong>
-                <span>自己解決導線やFAQ回答の画面を配置</span>
+                <div class="flow-hub">
+                  <svg viewBox="0 0 41.1219 44" fill="none" aria-hidden="true">
+                    <path d="M21.9989 35.6129C14.2657 35.6129 8.03973 29.1654 8.40206 21.3535C8.72298 14.4091 14.3381 8.76496 21.2805 8.40884C26.6451 8.13346 31.3699 10.9659 33.8234 15.2642L41.1219 11.1046C37.4923 4.73373 30.7653 0.360874 22.9803 0.021315C8.72298 -0.597759 -2.70193 12.3593 0.561145 27.0432C1.21542 29.9895 2.47427 32.7059 4.19484 35.0642V43.9984L13.2925 42.2716C14.4644 42.7643 15.6902 43.1577 16.9552 43.4393C27.1793 45.7106 36.5668 40.8595 41.1157 32.8923L33.8234 28.7389C31.4796 32.8447 27.0633 35.6129 21.9989 35.6129Z" fill="currentColor"/>
+                    <path d="M21.9992 30.391C26.6327 30.391 30.3888 26.6348 30.3888 22.0014C30.3888 17.368 26.6327 13.6118 21.9992 13.6118C17.3658 13.6118 13.6096 17.368 13.6096 22.0014C13.6096 26.6348 17.3658 30.391 21.9992 30.391Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <svg class="flow-lines" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                  <g stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+                    <path d="M0,50 C50,50 50,50 100,50"/>
+                  </g>
+                </svg>
+                <div class="flow-col">
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a1 1 0 0 0 1 1h3"/><path d="M10 13h4"/><path d="M10 17h4"/></svg></span>
+                    <span class="flow-card__label">ナレッジ回答</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="feature-note">
-              <strong class="feature-note__title">差し替え候補</strong>
-              <ul>
-                <li>HP埋め込みや公式LINEで自己解決につながる会話画面</li>
-                <li>FAQ回答や参照元、会話ログの改善が分かる管理画面</li>
-              </ul>
             </div>
           </div>
           <div class="feature-panel">
@@ -671,23 +731,41 @@
         </header>
         <div class="feature-layout feature-layout--story feature-layout--visual-left">
           <div class="image-card story-visual feature-visual-card">
-            <div class="visual-frame visual-frame--placeholder" aria-label="AI架電の画面差し替え予定">
-              <div class="placeholder-visual">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M14 6h8" />
-                  <path d="m18 2 4 4-4 4" />
-                  <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+            <div class="visual-frame visual-frame--flow" aria-label="AI架電フロー図">
+              <div class="flow-diagram flow-diagram--outbound">
+                <div class="flow-hub">
+                  <svg viewBox="0 0 41.1219 44" fill="none" aria-hidden="true">
+                    <path d="M21.9989 35.6129C14.2657 35.6129 8.03973 29.1654 8.40206 21.3535C8.72298 14.4091 14.3381 8.76496 21.2805 8.40884C26.6451 8.13346 31.3699 10.9659 33.8234 15.2642L41.1219 11.1046C37.4923 4.73373 30.7653 0.360874 22.9803 0.021315C8.72298 -0.597759 -2.70193 12.3593 0.561145 27.0432C1.21542 29.9895 2.47427 32.7059 4.19484 35.0642V43.9984L13.2925 42.2716C14.4644 42.7643 15.6902 43.1577 16.9552 43.4393C27.1793 45.7106 36.5668 40.8595 41.1157 32.8923L33.8234 28.7389C31.4796 32.8447 27.0633 35.6129 21.9989 35.6129Z" fill="currentColor"/>
+                    <path d="M21.9992 30.391C26.6327 30.391 30.3888 26.6348 30.3888 22.0014C30.3888 17.368 26.6327 13.6118 21.9992 13.6118C17.3658 13.6118 13.6096 17.368 13.6096 22.0014C13.6096 26.6348 17.3658 30.391 21.9992 30.391Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <svg class="flow-lines" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                  <g stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+                    <path d="M0,50 C40,50 60,12 100,12"/>
+                    <path d="M0,50 C40,50 60,37 100,37"/>
+                    <path d="M0,50 C40,50 60,63 100,63"/>
+                    <path d="M0,50 C40,50 60,88 100,88"/>
+                  </g>
                 </svg>
-                <strong>画像差し替え予定</strong>
-                <span>件数の多い連絡業務をまとめて実行できる画面を配置</span>
+                <div class="flow-col">
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a1 1 0 0 0 1 1h3"/></svg></span>
+                    <span class="flow-card__label">納付案内</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></span>
+                    <span class="flow-card__label">検診案内</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+                    <span class="flow-card__label">見守り連絡</span>
+                  </div>
+                  <div class="flow-card">
+                    <span class="flow-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
+                    <span class="flow-card__label">リマインド</span>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="feature-note">
-              <strong class="feature-note__title">差し替え候補</strong>
-              <ul>
-                <li>発信対象一覧と一括実行設定が分かる運用画面</li>
-                <li>発信結果一覧や回答回収、SMS連携が分かる運用画面</li>
-              </ul>
             </div>
           </div>
           <div class="feature-panel">

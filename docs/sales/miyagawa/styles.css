@@ -813,7 +813,7 @@ body.is-slideshow .slide.is-active {
 }
 
 .feature-layout--story {
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
 }
 
 .feature-layout--visual-left .story-visual {
@@ -835,7 +835,7 @@ body.is-slideshow .slide.is-active {
 }
 
 .feature-visual-card {
-  align-content: start;
+  align-content: center;
   gap: 18px;
 }
 
@@ -1676,6 +1676,185 @@ body.is-slideshow .feature-note {
   color: var(--sc-navy);
   font-size: 14px;
   font-weight: 700;
+}
+
+/* Flow diagrams */
+.visual-frame--flow {
+  background: #f5f7fa;
+  padding: 12px;
+  aspect-ratio: auto;
+}
+
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.flow-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.flow-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sc-navy);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(13, 10, 44, 0.06);
+}
+
+.flow-node__icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(9, 32, 69, 0.08);
+  color: var(--sc-navy);
+}
+
+.flow-node__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.flow-node__icon--inbound {
+  background: rgba(223, 233, 255, 0.9);
+  color: #2a5298;
+}
+
+.flow-node__icon--chat {
+  background: rgba(216, 239, 232, 0.92);
+  color: #267a62;
+}
+
+.flow-node__icon--outbound {
+  background: rgba(255, 226, 209, 0.92);
+  color: #b8572a;
+}
+
+.flow-node__icon--line {
+  background: #06c755;
+  color: #fff;
+}
+
+.flow-hub {
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--sc-navy);
+  color: #fff;
+  flex: 0 0 auto;
+  box-shadow: 0 4px 16px rgba(9, 32, 69, 0.25);
+}
+
+.flow-hub svg {
+  width: 48px;
+  height: 50px;
+}
+
+.flow-lines {
+  flex: 0 0 52px;
+  align-self: stretch;
+  color: rgba(9, 32, 69, 0.18);
+}
+
+.flow-lines path {
+  vector-effect: non-scaling-stroke;
+}
+
+.flow-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  box-shadow: 0 2px 8px rgba(13, 10, 44, 0.06);
+  text-align: center;
+}
+
+.flow-card__icon {
+  display: grid;
+  place-items: center;
+  color: var(--sc-navy);
+}
+
+.flow-card__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.flow-card__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sc-navy);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.flow-card--lg {
+  padding: 8px 10px;
+  gap: 5px;
+}
+
+.flow-card--lg .flow-card__icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.flow-card--lg .flow-card__label {
+  font-size: 13px;
+}
+
+/* Diagram theme colors */
+.flow-diagram--inbound .flow-lines { color: rgba(49, 94, 168, 0.4); }
+.flow-diagram--inbound .flow-card { border-color: rgba(49, 94, 168, 0.22); }
+.flow-diagram--inbound .flow-node--icon-only { border-color: rgba(49, 94, 168, 0.22) !important; }
+.flow-diagram--inbound .flow-card__icon { color: #2a5298; }
+
+.flow-diagram--chat .flow-lines { color: rgba(47, 125, 103, 0.4); }
+.flow-diagram--chat .flow-card { border-color: rgba(47, 125, 103, 0.22); }
+.flow-diagram--chat .flow-card__icon { color: #267a62; }
+
+.flow-diagram--outbound .flow-lines { color: rgba(197, 101, 47, 0.4); }
+.flow-diagram--outbound .flow-card { border-color: rgba(197, 101, 47, 0.22); }
+.flow-diagram--outbound .flow-card__icon { color: #b8572a; }
+
+.flow-node--icon-only {
+  padding: 0;
+  border: 1px solid var(--sc-border) !important;
+  border-radius: 50%;
+  background: #fff !important;
+  box-shadow: 0 2px 6px rgba(13, 10, 44, 0.06) !important;
+}
+
+.flow-node--icon-only .flow-node__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.flow-node--icon-only .flow-node__icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 @media (max-width: 1200px) {
