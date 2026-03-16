@@ -813,7 +813,7 @@ body.is-slideshow .slide.is-active {
 }
 
 .feature-layout--story {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
 }
 
 .feature-layout--visual-left .story-visual {
