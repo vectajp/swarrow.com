@@ -77,12 +77,12 @@ document.addEventListener("keydown", (event) => {
 
   if (!slideshowActive) return;
 
-  if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+  if (["ArrowDown", "PageDown", " "].includes(event.key)) {
     event.preventDefault();
     moveSlide(1);
   }
 
-  if (["ArrowLeft", "PageUp"].includes(event.key)) {
+  if (["ArrowUp", "PageUp"].includes(event.key)) {
     event.preventDefault();
     moveSlide(-1);
   }
