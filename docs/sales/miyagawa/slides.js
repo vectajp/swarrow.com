@@ -41,6 +41,11 @@ toolbar?.addEventListener("click", (event) => {
     closeSettings();
     enterSlideshow();
   }
+
+  if (action === "export-pdf") {
+    closeSettings();
+    exportPdf();
+  }
 });
 
 settingsPanel?.addEventListener("click", (event) => {
@@ -359,4 +364,216 @@ function syncSlideMetrics() {
 
   body.style.setProperty("--slideshow-scale", `${slideshowScale}`);
   body.style.setProperty("--print-scale", `${printScale}`);
+}
+
+function openPrintDialog() {
+  syncSlideMetrics();
+  window.print();
+}
+
+async function inlineAllImages(element) {
+  const imgs = element.querySelectorAll("img");
+  const backups = [];
+  for (const img of imgs) {
+    if (img.src.startsWith("data:")) continue;
+    const origSrc = img.src;
+    let dataUrl = null;
+
+    // Strategy 1: fetch + FileReader
+    try {
+      const resp = await fetch(origSrc);
+      const blob = await resp.blob();
+      dataUrl = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+    } catch { /* continue to fallback */ }
+
+    // Strategy 2: canvas drawImage (works if already loaded same-origin)
+    if (!dataUrl && img.complete && img.naturalWidth > 0) {
+      try {
+        const c = document.createElement("canvas");
+        c.width = img.naturalWidth;
+        c.height = img.naturalHeight;
+        c.getContext("2d").drawImage(img, 0, 0);
+        dataUrl = c.toDataURL();
+      } catch { /* continue to fallback */ }
+    }
+
+    // Strategy 3: reload with crossOrigin + cache buster
+    if (!dataUrl) {
+      try {
+        const tmp = new Image();
+        tmp.crossOrigin = "anonymous";
+        await new Promise((resolve, reject) => {
+          tmp.onload = resolve;
+          tmp.onerror = reject;
+          tmp.src = origSrc + (origSrc.includes("?") ? "&" : "?") + "_t=" + Date.now();
+        });
+        const c = document.createElement("canvas");
+        c.width = tmp.naturalWidth;
+        c.height = tmp.naturalHeight;
+        c.getContext("2d").drawImage(tmp, 0, 0);
+        dataUrl = c.toDataURL();
+      } catch { /* give up on this image */ }
+    }
+
+    if (dataUrl) {
+      backups.push({ img, origSrc });
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = dataUrl;
+      });
+    }
+  }
+  return backups;
+}
+
+function restoreImages(backups) {
+  for (const { img, origSrc } of backups) {
+    img.src = origSrc;
+  }
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("Failed to load: " + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function exportPdf() {
+  const btn = toolbar?.querySelector('[data-action="export-pdf"]');
+  if (btn) {
+    btn.textContent = "出力中…";
+    btn.disabled = true;
+  }
+
+  try {
+    if (window.location.protocol === "file:") {
+      window.alert(
+        "Finder から直接開いたページでは、ブラウザの制約でPDF画像化に失敗します。印刷ダイアログから PDF 保存を行ってください。",
+      );
+      openPrintDialog();
+      return;
+    }
+
+    // Load libraries on demand if not already loaded
+    // Use html2canvas-pro (fixes tainted-canvas bug in original html2canvas)
+    if (!window._html2canvasFn) {
+      if (typeof window.html2canvas === "undefined" || !window.html2canvas.default) {
+        await loadScript("https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.8/dist/html2canvas-pro.min.js");
+      }
+      window._html2canvasFn =
+        typeof window.html2canvas === "function"
+          ? window.html2canvas
+          : window.html2canvas?.default;
+    }
+    const renderToCanvas = window._html2canvasFn;
+
+    if (!window.jspdf) {
+      await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+    }
+    const { jsPDF } = window.jspdf;
+    const visibleSlides = getVisibleSlides();
+    if (!visibleSlides.length) return;
+
+    body.classList.add("is-exporting-pdf");
+
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "px",
+      format: [SLIDE_BASE_WIDTH, SLIDE_BASE_HEIGHT],
+      hotfixes: ["px_scaling"],
+    });
+
+    for (let i = 0; i < visibleSlides.length; i++) {
+      const slide = visibleSlides[i];
+
+      // Force slide to render at base dimensions without zoom
+      const origStyle = slide.getAttribute("style") || "";
+      const origHidden = slide.hidden;
+      const origDisplay = window.getComputedStyle(slide).display || "block";
+      let imgBackups = [];
+      slide.style.cssText = `
+        display: ${origDisplay} !important;
+        position: fixed !important;
+        top: 0; left: 0;
+        width: ${SLIDE_BASE_WIDTH}px !important;
+        min-height: ${SLIDE_BASE_HEIGHT}px !important;
+        height: ${SLIDE_BASE_HEIGHT}px !important;
+        zoom: 1 !important;
+        margin: 0 !important;
+        z-index: 99999;
+        overflow: hidden;
+      `;
+      slide.hidden = false;
+
+      let canvas;
+      try {
+        // Wait for layout
+        await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+        // Convert images to base64 to avoid tainted canvas
+        imgBackups = await inlineAllImages(slide);
+
+        canvas = await renderToCanvas(slide, {
+          width: SLIDE_BASE_WIDTH,
+          height: SLIDE_BASE_HEIGHT,
+          scale: 2,
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: slide.classList.contains("slide--cover") ? "#092045" : "#ffffff",
+          logging: false,
+        });
+      } finally {
+        restoreImages(imgBackups);
+        if (origStyle) {
+          slide.setAttribute("style", origStyle);
+        } else {
+          slide.removeAttribute("style");
+        }
+        slide.hidden = origHidden;
+      }
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.92);
+
+      if (i > 0) pdf.addPage();
+      pdf.addImage(imgData, "JPEG", 0, 0, SLIDE_BASE_WIDTH, SLIDE_BASE_HEIGHT);
+    }
+
+    // Restore visibility
+    syncSlideVisibility();
+
+    pdf.save("SwarrowCall営業資料.pdf");
+  } catch (err) {
+    console.error("PDF export failed:", err);
+    syncSlideVisibility();
+    const message = err instanceof Error ? err.message : String(err);
+
+    if (/tainted canvases may not be exported/i.test(message)) {
+      window.alert(
+        "PDF画像化に失敗しました。ローカル画像を含むため、ブラウザが canvas の書き出しを拒否しています。印刷ダイアログを開くので、「Save as PDF」で保存してください。",
+      );
+      openPrintDialog();
+      return;
+    }
+
+    window.alert(
+      "PDF出力に失敗しました。印刷ダイアログを開くので、「Save as PDF」で保存してください。\n\n詳細: "
+        + message,
+    );
+    openPrintDialog();
+  } finally {
+    body.classList.remove("is-exporting-pdf");
+    if (btn) {
+      btn.textContent = "PDF出力";
+      btn.disabled = false;
+    }
+  }
 }

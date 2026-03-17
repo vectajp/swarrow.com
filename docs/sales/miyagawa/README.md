@@ -14,8 +14,11 @@
 
 ## 開き方
 
-1. Finder から `index.html` をブラウザで開く
+1. VS Code / Cursor の Run and Debug から `Sales Deck: Serve and Open` を使う
 2. もしくは簡易サーバーを使う
+3. Finder から `index.html` をブラウザで開く
+
+`file://` で直接開く方法は簡単だが、`PDF出力` ボタンはブラウザ制約で印刷ダイアログにフォールバックする。
 
 例:
 
@@ -35,7 +38,13 @@ python3 -m http.server 8765
 
 ## PDF化
 
-ブラウザで `index.html` を開いて印刷する。
+`PDF出力` ボタン、またはブラウザの印刷機能を使う。
+
+- `http://localhost:8765` など HTTP 経由で開いている場合
+  - `PDF出力` ボタンで PDF を生成できる
+- Finder から `index.html` を直接開いている場合
+  - ブラウザの制約で canvas 経由の PDF 生成に失敗することがある
+  - その場合は `PDF出力` ボタンが印刷ダイアログにフォールバックする
 
 1. `Print` を開く
 2. 出力先を `Save as PDF` にする
