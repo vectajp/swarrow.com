@@ -1158,6 +1158,11 @@ body.is-exporting-pdf #slide-12 .content-stack {
   height: 100%;
 }
 
+.feature-layout--story .visual-frame--flow .flow-diagram {
+  width: 95%;
+  margin: 0 auto;
+}
+
 .flow-col {
   display: flex;
   flex-direction: column;
