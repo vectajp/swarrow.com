@@ -1,70 +1,45 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "style": {
-        "noNonNullAssertion": "off",
-        "useNodejsImportProtocol": "off"
-      },
-      "suspicious": {
-        "noExplicitAny": "off"
-      },
-      "complexity": {
-        "noForEach": "off",
-        "noStaticOnlyClass": "off"
-      },
-      "correctness": {
-        "noUnusedImports": "error"
-      },
-      "a11y": {
-        "useKeyWithClickEvents": "off"
-      }
-    },
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.json"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 120,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.json", "**/*.astro"]
-  },
+  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": true,
-    "includes": [
-      "**/*.ts",
-      "**/*.tsx",
-      "**/*.js",
-      "**/*.jsx",
-      "**/*.mjs",
-      "**/*.json",
-      "**/*.astro",
-      "!dist",
-      "!generated",
-      "!**/routeTree.gen.ts",
-      "!**/schema.graphql",
-      "!src/graphql",
-      "!.astro"
-    ]
+    "ignoreUnknown": false,
+    "includes": ["**", "!functions", "!docs/sales"]
   },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true,
+      "indentScriptAndStyle": true
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
     }
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
-      "semicolons": "asNeeded"
+      "quoteStyle": "double",
+      "semicolons": "always"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
     }
   }
 }
