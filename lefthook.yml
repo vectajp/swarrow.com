@@ -1,0 +1,25 @@
+# Git hooks (全ツール共通: Codex / Claude / 人間)。
+# ルールは tools/commit-rules.ts に集約。有効化: bunx lefthook install
+# (mise run bootstrap が自動実行)。--no-verify でバイパス可。
+
+commit-msg:
+  jobs:
+    - name: conventional
+      run: bun tools/check-commit-msg.ts {1}
+
+pre-commit:
+  jobs:
+    # 1) staged の Astro/React/TypeScript/JSON を整形・安全な lint 修正し、結果を自動 re-stage。
+    - name: biome
+      glob: "*.{astro,js,jsx,json,mjs,ts,tsx}"
+      run: bunx biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    # 2) スペルチェック (staged の .astro/.js/.md/.mjs/.ts/.tsx)。
+    - name: cspell
+      glob: "*.{astro,js,md,mjs,ts,tsx}"
+      run: bunx cspell --no-progress {staged_files}
+
+pre-push:
+  jobs:
+    - name: branch
+      run: bun tools/check-branch.ts

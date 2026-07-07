@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # Project root directory
 FILE_PATH=$(dirname "$0")
@@ -6,21 +7,6 @@ cd "$FILE_PATH/../" || exit
 
 echo "🚀 Bootstrap start"
 echo "🚀 Working directory: $(pwd)"
-
-##############################################################################
-##
-##  Git commit message
-##
-##############################################################################
-echo ""
-echo "🚀 Git commit message: Start"
-if type git >/dev/null 2>&1; then
-  git config commit.template commit-template
-  echo "🎉 Git commit message: git config commit.template is $(pwd)/$(git config commit.template)"
-  echo "✅ Git commit message: Success"
-else
-  echo "⚠️ Git commit message: Skip the git command as it could not be found."
-fi
 
 ##############################################################################
 ##
@@ -56,6 +42,27 @@ if type bun >/dev/null 2>&1; then
 else
   echo "⚠️ bun install: Skip bun because it could not be found."
   echo "⚠️ bun install: This may be due to the fact that the mise installation has not been completed."
+fi
+
+##############################################################################
+##
+##  git hooks (core.hooksPath -> .githooks)
+##
+##############################################################################
+echo ""
+echo "🚀 git hooks: Start"
+if type git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  if [ -f lefthook.yml ]; then
+    if bunx lefthook install; then
+      echo "✅ git hooks: lefthook installed"
+    else
+      echo "🚫 git hooks: lefthook install failed"
+    fi
+  else
+    echo "⚠️ git hooks: Skip because lefthook.yml was not found."
+  fi
+else
+  echo "⚠️ git hooks: Skip git hooks because this is not a git work tree or git is missing."
 fi
 
 ##############################################################################
