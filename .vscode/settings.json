@@ -1,21 +1,4 @@
 {
-  "cSpell.customDictionaries": {
-    "words": {
-      "name": "words",
-      "path": "${workspaceRoot}/.cspell/words.txt",
-      "description": "Words",
-      "addWords": true,
-      "scope": "workspace"
-    }
-  },
-  "cSpell.ignorePaths": [
-    "node_modules",
-    "package.json",
-    "*.lock",
-    ".git",
-    "dist",
-    "build"
-  ],
   "css.validate": false,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
@@ -23,6 +6,7 @@
     "*.ts": "$(capture).test.ts",
     "package.json": "bun.lock",
     "CLAUDE.md": "AGENTS.md",
+    "cspell.json": "app-words.txt",
     ".dev.vars.example": ".dev.vars"
   }
 }
