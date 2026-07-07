@@ -52,14 +52,10 @@ fi
 echo ""
 echo "🚀 git hooks: Start"
 if type git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  if [ -f lefthook.yml ]; then
-    if bunx lefthook install; then
-      echo "✅ git hooks: lefthook installed"
-    else
-      echo "🚫 git hooks: lefthook install failed"
-    fi
+  if bunx lefthook install; then
+    echo "✅ git hooks: lefthook installed"
   else
-    echo "⚠️ git hooks: Skip because lefthook.yml was not found."
+    echo "🚫 git hooks: lefthook install failed"
   fi
 else
   echo "⚠️ git hooks: Skip git hooks because this is not a git work tree or git is missing."
