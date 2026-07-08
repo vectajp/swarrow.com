@@ -11,7 +11,12 @@ https://api.swarrow.com/download-requests
 
 ## 公開環境変数
 
-Astro build 時に以下の公開環境変数を設定します。
+build 時に以下の公開環境変数を設定します(SvelteKit の `$env/dynamic/public`
+経由で `PUBLIC_` プレフィックスの変数を参照。未設定時は
+`PUBLIC_DOWNLOAD_REQUEST_API_URL` は本番相当のフォールバック値へ、
+`PUBLIC_TURNSTILE_SITE_KEY` は未設定時にエラーメッセージ表示へそれぞれ
+倒す設計 — `$env/static/public` は変数未定義時にビルド自体が失敗するため、
+このプロジェクトの他 LP と同様に採用していない)。
 
 | 変数名 | 説明 |
 | --- | --- |
@@ -31,7 +36,7 @@ PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA
 
 ```sh
 bun run build
-bunx wrangler pages dev dist
+bunx wrangler pages dev build
 ```
 
 旧 endpoint はメールを送らず `410` を返します。

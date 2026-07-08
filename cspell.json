@@ -12,6 +12,13 @@
     }
   ],
   "dictionaries": ["app-words"],
-  "files": ["**/*.{astro,md,ts,tsx}"],
-  "ignorePaths": ["node_modules", "dist", "build", ".astro", "tmp", ".claude", ".wrangler", ".venv-pptx", "src/imports"]
+  "files": ["**/*.{ts,md,svelte}"],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "build",
+    ".svelte-kit",
+    "tmp",
+    ".claude"
+  ]
 }

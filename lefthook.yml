@@ -9,15 +9,19 @@ commit-msg:
 
 pre-commit:
   jobs:
-    # 1) staged の Astro/React/TypeScript/JSON を整形・安全な lint 修正し、結果を自動 re-stage。
+    # 1) staged の .ts/.json/.svelte を整形・安全な lint 修正し、結果を自動 re-stage。
     - name: biome
-      glob: "*.{astro,js,jsx,json,mjs,ts,tsx}"
+      glob: "*.{ts,json,svelte}"
       run: bunx biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
-    # 2) スペルチェック (staged の .astro/.js/.md/.mjs/.ts/.tsx)。
+    # 2) 型チェック (プロジェクト全体、.svelte も含む)。tsc は .svelte を解釈できないため svelte-check を使う。
+    - name: typecheck
+      glob: "*.{ts,svelte}"
+      run: bunx svelte-kit sync && bunx svelte-check --tsconfig ./tsconfig.json
+    # 3) スペルチェック (staged の .ts/.md/.svelte)。
     - name: cspell
-      glob: "*.{astro,js,md,mjs,ts,tsx}"
-      run: bunx cspell --no-progress {staged_files}
+      glob: "*.{ts,md,svelte}"
+      run: bunx cspell --no-progress --no-must-find-files {staged_files}
 
 pre-push:
   jobs:

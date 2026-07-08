@@ -52,14 +52,10 @@ fi
 echo ""
 echo "🚀 git hooks: Start"
 if type git >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  if [ -f lefthook.yml ]; then
-    if bunx lefthook install; then
-      echo "✅ git hooks: lefthook installed"
-    else
-      echo "🚫 git hooks: lefthook install failed"
-    fi
+  if bunx lefthook install; then
+    echo "✅ git hooks: lefthook installed"
   else
-    echo "⚠️ git hooks: Skip because lefthook.yml was not found."
+    echo "🚫 git hooks: lefthook install failed"
   fi
 else
   echo "⚠️ git hooks: Skip git hooks because this is not a git work tree or git is missing."
@@ -67,7 +63,7 @@ fi
 
 ##############################################################################
 ##
-##  .dev.vars
+##  .env
 ##
 ##############################################################################
 echo ""
@@ -75,12 +71,12 @@ echo "🚀 .env: Start"
 if [ -f .env ]; then
   echo "⚠️ .env: Skip because .env already exists."
 else
-  if [ -f .env.example ]; then
-    cp .env.example .env
-    echo "✅ .env: Copied from .env.example"
+  if [ -f .env.template ]; then
+    cp .env.template .env
+    echo "✅ .env: Copied from .env.template"
     echo "⚠️ .env: Set PUBLIC_TURNSTILE_SITE_KEY for production-like checks."
   else
-    echo "🚫 .env: .env.example not found"
+    echo "🚫 .env: .env.template not found"
   fi
 fi
 
