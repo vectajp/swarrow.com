@@ -13,10 +13,11 @@ PDF は `static/downloads/` に配置し、Cloudflare Pages で静的配信す�
 |--------|------|------|
 | `SITE_URL` | サイトの URL | `https://swarrow.com` |
 
-ローカル開発時は `.dev.vars` に設定:
+ローカル開発時は `.dev.vars` に設定(`bunx wrangler pages dev build` のポート。
+`bun run dev` の Vite サーバーは Pages Functions を配信しないため使わない):
 
 ```sh
-SITE_URL=http://localhost:5179
+SITE_URL=http://localhost:8788
 ```
 
 本番環境は Cloudflare Pages ダッシュボードの Settings > Environment variables で設定。

@@ -23,12 +23,14 @@ Issue: https://github.com/vectajp/swarrow.com/issues/3
 
 ## Boundaries (Never / Always / Ask First)
 
-- **Always**: `functions/api/contact.ts`、`public/downloads/swarrow_call.pdf`、
-  `docs/download-link.md`、`.dev.vars.example` は変更しない(温存・再利用)。
-  `docs/pages-functions.md` は内容・構成を維持しつつ、adapter-static のデフォルト
-  出力先変更に伴い実態と食い違う `bunx wrangler pages dev dist` の 1 箇所のみ
-  `bunx wrangler pages dev build` に修正する(ドキュメントの正確性を保つための
-  最小限の訂正であり、温存方針への違反ではない)。
+- **Always**: `functions/api/contact.ts`、`public/downloads/swarrow_call.pdf`
+  は変更しない(温存・再利用)。`docs/pages-functions.md`・`docs/download-link.md`・
+  `.dev.vars.example` は内容・構成を維持しつつ、static/ 移行(Task 5)や
+  adapter-static のデフォルト出力先変更に伴い実態と食い違う経路情報
+  (`dist`→`build`、`public/downloads/`→`static/downloads/`、ローカル
+  `SITE_URL` のポート番号)のみ機械的に訂正する(ドキュメント/テンプレートの
+  正確性を保つための最小限の訂正であり、温存方針への違反ではない。実装内容
+  ・環境変数の説明文・手順そのものは変更しない)。
 - **Always**: 新規フォーム UI は既存の JSON フィールド契約
   (`companyName` / `name` / `nameKana` / `email` / `inquiry`、文字数制限・
   email 正規表現含む)を完全に維持する。
