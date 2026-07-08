@@ -17,9 +17,14 @@ AI カスタマーサポートサービス「Swarrow Call」のランディン�
   はこの前提を見直し、adapter を含め改めて設計する。
 - 完了を報告する前に `bun run check` と `bun run build` を実行する。
 
-## Cloudflare Pages Functions
+## 資料請求 API
 
-資料ダウンロードフォームのメール送信は Cloudflare Pages Function (`functions/api/contact.ts`) で処理する。環境変数・ローカル検証手順は [docs/pages-functions.md](docs/pages-functions.md) を、資料ダウンロードリンクの運用手順は [docs/download-link.md](docs/download-link.md) を参照。
+資料請求フォームの送信、D1 への保存、メール送信は `swarrow.com-backend`
+の `POST https://api.swarrow.com/download-requests` で処理する。frontend
+側は `PUBLIC_DOWNLOAD_REQUEST_API_URL` と Cloudflare Turnstile site key を
+公開環境変数として持つ。連携設定は
+[docs/download-request-api.md](docs/download-request-api.md) を、資料ダウンロードリンクの運用手順は
+[docs/download-link.md](docs/download-link.md) を参照。
 
 ## Figma
 

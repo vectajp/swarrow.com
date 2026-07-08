@@ -18,9 +18,6 @@ mise 管理ツールのインストール、`bun install`、git hooks のイン�
 - `src/lib/`: LP で使う共有コンポーネント・ユーティリティを置く
 - `static/`: そのまま配信する静的ファイル(画像、資料ダウンロード用 PDF、
   `robots.txt` など)
-- `functions/`: 旧資料ダウンロードフォーム向け Cloudflare Pages Function
-  (現在は `410 Gone` を返すのみ。資料請求フォームの送信先は外部 API
-  `PUBLIC_DOWNLOAD_REQUEST_API_URL` に移行済み)
 
 ## 実行方法
 
@@ -48,5 +45,5 @@ bun run clean      # node_modules / build / .svelte-kit を削除
 
 ## ドキュメント
 
-- [Pages Functions](docs/pages-functions.md) -- 旧 endpoint(410)と資料請求 API 連携設定
+- [資料請求 API 連携](docs/download-request-api.md) -- `swarrow.com-backend` への送信設定
 - [資料ダウンロードリンク](docs/download-link.md) -- PDF の差し替え手順・ファイル名変更時の対応

@@ -8,7 +8,8 @@
 PDF は `static/downloads/` に配置し、Cloudflare Pages で静的配信する。
 
 ダウンロードリンクの生成とメール送信は `swarrow.com-backend` が担当する。
-frontend 側は PDF ファイルを静的配信するだけにする。
+frontend 側は PDF ファイルを静的配信するだけにする。資料請求 API 連携の
+設定は [資料請求 API 連携](download-request-api.md) を参照する。
 
 ## PDF の差し替え手順
 

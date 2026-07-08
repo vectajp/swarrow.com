@@ -15,8 +15,7 @@
   const TURNSTILE_SCRIPT_URL =
     "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
-  // 外部バックエンドの送信先。未設定時は本番相当のフォールバックへ倒す
-  // (functions/api/contact.ts は廃止済みのため、この契約が唯一の送信経路)。
+  // swarrow.com-backend の送信先。未設定時は本番相当のフォールバックへ倒す。
   const DOWNLOAD_REQUEST_API_URL =
     env.PUBLIC_DOWNLOAD_REQUEST_API_URL || FALLBACK_DOWNLOAD_REQUEST_API_URL;
   // Turnstile はフォールバック不可(サイトキー無しでは認証自体が成立しない)。
