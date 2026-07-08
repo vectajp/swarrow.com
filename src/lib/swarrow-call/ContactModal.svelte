@@ -16,6 +16,8 @@
   let formState = $state<FormState>("idle");
   let errorMessage = $state("");
 
+  let abortController: AbortController | undefined;
+
   const resetForm = () => {
     companyName = "";
     name = "";
@@ -27,11 +29,15 @@
   };
 
   const handleClose = () => {
+    // 送信中にモーダルを閉じた場合、進行中のリクエストを中断してから状態をリセットする。
+    // こうしないと後から解決/拒否した fetch が閉じた後に formState を書き換えてしまう。
+    abortController?.abort();
+    abortController = undefined;
     resetForm();
     onClose();
   };
 
-  let closeButton: HTMLButtonElement | undefined;
+  let closeButton: HTMLButtonElement | undefined = $state();
 
   $effect(() => {
     if (open) {
@@ -44,11 +50,15 @@
     formState = "submitting";
     errorMessage = "";
 
+    const controller = new AbortController();
+    abortController = controller;
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ companyName, name, nameKana, email, inquiry }),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -58,9 +68,25 @@
 
       formState = "done";
     } catch (error) {
-      errorMessage =
-        error instanceof Error ? error.message : "送信中にエラーが発生しました";
+      // モーダルが閉じられて中断された送信は、既に resetForm 済みなので状態を触らない。
+      if (controller.signal.aborted) {
+        return;
+      }
+      if (error instanceof TypeError) {
+        // fetch 自体の失敗(オフライン等のネットワークエラー)。英語の生メッセージを出さない。
+        errorMessage =
+          "通信エラーが発生しました。しばらくしてから再度お試しください。";
+      } else {
+        errorMessage =
+          error instanceof Error
+            ? error.message
+            : "送信中にエラーが発生しました";
+      }
       formState = "error";
+    } finally {
+      if (abortController === controller) {
+        abortController = undefined;
+      }
     }
   };
 </script>
@@ -70,14 +96,18 @@
 />
 
 {#if open}
+  <!-- svelte-ignore a11y_click_events_have_key_events -- closing on backdrop click is a pointer-only convenience; keyboard users already have an equivalent via the global Escape handler above and the visible close button below -->
   <!-- biome-ignore lint/a11y/useKeyWithClickEvents: closing on backdrop click is a pointer-only convenience; keyboard users already have an equivalent via the global Escape handler above and the visible close button below -->
   <div
     class="modal-backdrop"
     role="dialog"
     aria-modal="true"
     aria-labelledby="contact-modal-title"
+    tabindex="-1"
     onclick={handleClose}
   >
+    <!-- svelte-ignore a11y_click_events_have_key_events -- this handler only stops click propagation to the backdrop and triggers no action a keyboard user would need -->
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -- same rationale: click only stops propagation, keyboard users already have an equivalent via Escape and the visible close button -->
     <!-- biome-ignore lint/a11y/useKeyWithClickEvents: this handler only stops click propagation to the backdrop and triggers no action a keyboard user would need -->
     <div
       class="modal"
@@ -149,6 +179,7 @@
                 type="email"
                 bind:value={email}
                 maxlength="254"
+                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
                 placeholder="example@company.co.jp"
                 required
               >
