@@ -10,7 +10,7 @@ AI カスタマーサポートサービス「Swarrow Call」のランディン�
 mise run bootstrap
 ```
 
-mise 管理ツールのインストール、`bun install`、git hooks のインストール、`.dev.vars`(Pages Functions 用環境変数)の初期作成を一括実行する。
+mise 管理ツールのインストール、`bun install`、git hooks のインストール、`.env`(資料請求 API/Turnstile 用環境変数)の初期作成を一括実行する。
 
 ## ディレクトリ
 
@@ -18,8 +18,9 @@ mise 管理ツールのインストール、`bun install`、git hooks のイン�
 - `src/lib/`: LP で使う共有コンポーネント・ユーティリティを置く
 - `static/`: そのまま配信する静的ファイル(画像、資料ダウンロード用 PDF、
   `robots.txt` など)
-- `functions/`: 資料ダウンロードフォームのメール送信を処理する Cloudflare
-  Pages Function
+- `functions/`: 旧資料ダウンロードフォーム向け Cloudflare Pages Function
+  (現在は `410 Gone` を返すのみ。資料請求フォームの送信先は外部 API
+  `PUBLIC_DOWNLOAD_REQUEST_API_URL` に移行済み)
 
 ## 実行方法
 
@@ -47,5 +48,5 @@ bun run clean      # node_modules / build / .svelte-kit を削除
 
 ## ドキュメント
 
-- [Pages Functions (メール送信)](docs/pages-functions.md) -- 環境変数・ローカル検証手順・本番設定
+- [Pages Functions](docs/pages-functions.md) -- 旧 endpoint(410)と資料請求 API 連携設定
 - [資料ダウンロードリンク](docs/download-link.md) -- PDF の差し替え手順・ファイル名変更時の対応

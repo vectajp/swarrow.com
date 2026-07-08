@@ -63,20 +63,20 @@ fi
 
 ##############################################################################
 ##
-##  .dev.vars
+##  .env
 ##
 ##############################################################################
 echo ""
-echo "🚀 .dev.vars: Start"
-if [ -f .dev.vars ]; then
-  echo "⚠️ .dev.vars: Skip because .dev.vars already exists."
+echo "🚀 .env: Start"
+if [ -f .env ]; then
+  echo "⚠️ .env: Skip because .env already exists."
 else
-  if [ -f .dev.vars.example ]; then
-    cp .dev.vars.example .dev.vars
-    echo "✅ .dev.vars: Copied from .dev.vars.example"
-    echo "⚠️ .dev.vars: Edit .dev.vars to set SENDGRID_API_KEY"
+  if [ -f .env.template ]; then
+    cp .env.template .env
+    echo "✅ .env: Copied from .env.template"
+    echo "⚠️ .env: Set PUBLIC_TURNSTILE_SITE_KEY for production-like checks."
   else
-    echo "🚫 .dev.vars: .dev.vars.example not found"
+    echo "🚫 .env: .env.template not found"
   fi
 fi
 
