@@ -2061,6 +2061,7 @@
     color: #fff;
   }
   .foot-link-btn {
+    padding: 0;
     border: none;
     background: none;
     font: inherit;
