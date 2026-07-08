@@ -20,7 +20,7 @@ SendGrid API を `fetch()` で直接呼び出し (SDK 不使用)。
 # .dev.vars を編集して SENDGRID_API_KEY を設定
 
 # 2. ビルド + ローカルサーバー起動
-bun run build && bunx wrangler pages dev dist
+bun run build && bunx wrangler pages dev build
 
 # 3. 別ターミナルから動作確認
 # バリデーションエラーのテスト (必須項目なし)
