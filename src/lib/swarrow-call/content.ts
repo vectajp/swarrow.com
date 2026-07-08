@@ -104,6 +104,9 @@ export const cases: CaseStudy[] = [
   },
 ];
 
+// 導入事例は公開準備中。実績追加時に true へ戻す。
+export const showCaseStudies = false;
+
 export type News = { date: string; text: string };
 
 // お知らせも差し替え用のサンプル。
@@ -129,7 +132,7 @@ export const companyOverviewLink: NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { label: "導入事例", href: "#case" },
+  ...(showCaseStudies ? [{ label: "導入事例", href: "#case" }] : []),
   companyOverviewLink,
   { label: "お知らせ", href: "#news" },
 ];

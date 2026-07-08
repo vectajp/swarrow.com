@@ -11,6 +11,7 @@
     news,
     pageDescription,
     pageTitle,
+    showCaseStudies,
     site,
   } from "$lib/swarrow-call/content";
 
@@ -714,48 +715,50 @@
       </ol>
     </section>
 
-    <!-- Case study: 白地。導入事例(差し替え用サンプル)。 -->
-    <section id="case" class="case">
-      <div
-        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
+    {#if showCaseStudies}
+      <!-- Case study: 白地。導入事例(差し替え用サンプル)。 -->
+      <section id="case" class="case">
+        <div
+          class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
           aria-hidden="true"
-          focusable="false"
         >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="case-head">
-        <p class="case-en">Case study</p>
-        <h2 class="case-title">導入事例と利用実績</h2>
-      </div>
+          <svg
+            viewBox="0 0 1440 1600"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+            ></path>
+          </svg>
+        </div>
+        <div class="case-head">
+          <p class="case-en">Case study</p>
+          <h2 class="case-title">導入事例と利用実績</h2>
+        </div>
 
-      <div class="case-grid">
-        {#each cases as c (c.town)}
-          <article class="case-card" data-reveal>
-            <img
-              class="case-card-photo"
-              src={c.img}
-              alt="{c.town}の取り組みイメージ(イメージイラスト)"
-              width="1200"
-              height="800"
-              loading="lazy"
-              decoding="async"
-            >
-            <div class="case-card-body">
-              <span class="case-card-town">{c.town}</span>
-              <h3 class="case-card-title">{c.title}</h3>
-            </div>
-          </article>
-        {/each}
-      </div>
-    </section>
+        <div class="case-grid">
+          {#each cases as c (c.town)}
+            <article class="case-card" data-reveal>
+              <img
+                class="case-card-photo"
+                src={c.img}
+                alt="{c.town}の取り組みイメージ(イメージイラスト)"
+                width="1200"
+                height="800"
+                loading="lazy"
+                decoding="async"
+              >
+              <div class="case-card-body">
+                <span class="case-card-town">{c.town}</span>
+                <h3 class="case-card-title">{c.title}</h3>
+              </div>
+            </article>
+          {/each}
+        </div>
+      </section>
+    {/if}
 
     <!-- News -->
     <section id="news" class="news">
