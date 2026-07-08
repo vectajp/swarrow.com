@@ -29,7 +29,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    ".env.example": ".env*",
+    ".env.template": ".env*",
     ".dev.vars.example": ".dev.vars",
     "*.ts": "$(capture).test.ts, $(capture).spec.ts",
     "package.json": "package-lock.json, bun.lockb, bun.lock, bun.lockb, .npmrc",

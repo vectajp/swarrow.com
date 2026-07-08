@@ -91,6 +91,12 @@ Issue: https://github.com/vectajp/swarrow.com/issues/3
   をベースにしつつ、移植先固有の「`.dev.vars.example` → `.dev.vars` の初回コピー」
   ステップ(`docs/pages-functions.md` が前提とする挙動)を必ず残す。単純な
   上書きではなくこのステップの移植を明示する。
+
+  **[2026-07-08 追記]** `main` の不正送信対策取り込みに伴い、この
+  `.dev.vars` 初回コピーステップは不要になった。`functions/api/contact.ts`
+  が `410 Gone` を返すだけのスタブになり環境変数を一切参照しなくなったため、
+  `main` の `tools/bootstrap.sh`(`.dev.vars` ステップを `.env.template` →
+  `.env` の初回コピーに置き換え済み)をそのまま採用する。
 - `.cspell/`(移植先の旧カスタム辞書ディレクトリ、`swarrow` の1語のみ)と
   `.vscode/settings.json` の `cSpell.customDictionaries` 参照は、`cspell.json` +
   `app-words.txt` 方式への一本化に伴い不要になるため削除する。
@@ -123,6 +129,17 @@ Issue: https://github.com/vectajp/swarrow.com/issues/3
 - 送信先は `POST /api/contact`(相対パス)。フィールド名・文字数制限・
   email 正規表現は `functions/api/contact.ts` の `validateBody` と完全一致させる。
 
+  **[2026-07-08 追記]** 実装途中で `main` に不正送信対策コミット
+  (`functions/api/contact.ts` を `410 Gone` へ無効化、資料請求フォームの
+  送信先を外部バックエンド `swarrow.com-backend`
+  (`PUBLIC_DOWNLOAD_REQUEST_API_URL`)+ Cloudflare Turnstile 認証へ移行)
+  が追加されていることが判明したため、`main` を取り込み、本コンポーネントを
+  この新方式(Turnstile ウィジェット + 外部 API 送信)に合わせて作り直した。
+  文言(「お問い合わせ」トーン)は変更していない。文字数制限・email 正規表現は
+  `functions/api/contact.ts` 由来の制約だったため撤回し、React 参照実装
+  (`main` の `DownloadFormModal.tsx`)と同じ制約(`type="email"`/`required`
+  のみ)に揃えた。詳細は Issue #3 のコメント参照。
+
 ### site / SEO 情報の更新
 
 - `src/lib/swarrow-call/content.ts` の `export const site` を
@@ -139,12 +156,17 @@ Issue: https://github.com/vectajp/swarrow.com/issues/3
    「導入相談・デモを依頼する」ボタンをクリックしたとき、When フォーム
    モーダルが開くと、Then 会社名・氏名・ふりがな・メールアドレス・お問い合わせ
    内容を入力して送信できる。
-3. Given フォームを正しく送信したとき、When `/api/contact` にリクエストが
-   送られると、Then 既存の `functions/api/contact.ts` がそのまま処理し、
-   社内通知メールと資料ダウンロードリンク付き自動返信メールが送信される。
-4. Given 必須項目未入力または不正なメールアドレスで送信したとき、Then
-   `functions/api/contact.ts` のバリデーションエラーメッセージがモーダル上に
-   表示される。
+3. **[2026-07-08 改訂]** Given フォームを正しく送信し Turnstile 認証を
+   完了したとき、When 外部バックエンド(`PUBLIC_DOWNLOAD_REQUEST_API_URL`、
+   既定値 `https://api.swarrow.com/download-requests`)へリクエストが
+   送られると、Then 送信が成功し完了画面が表示される。(旧: `/api/contact`
+   へ送信し `functions/api/contact.ts` が処理する、という記述は `main` の
+   不正送信対策により無効化されたため撤回)
+4. **[2026-07-08 改訂]** Given Turnstile 未認証のまま送信を試みたとき、
+   Then「認証確認が完了していません」がモーダル上に表示される。Given
+   外部バックエンドがエラーを返したとき、Then そのエラーメッセージが
+   モーダル上に表示される。(旧: `functions/api/contact.ts` のバリデーション
+   エラー表示、という記述は撤回)
 5. Given `bun run check` と `bun run build` を実行したとき、Then Biome/
    cspell/svelte-check がエラーなく通り、`build/` に静的サイトが生成される。
 6. Given `docs/sales/miyagawa` 等の無関係コンテンツを確認したとき、Then
