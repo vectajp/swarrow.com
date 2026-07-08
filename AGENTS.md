@@ -1,43 +1,30 @@
 # Swarrow Call
 
-AI カスタマーサポートサービス「Swarrow Call」のランディングページ。
+AI カスタマーサポートサービス「Swarrow Call」のランディングページ。SvelteKit + Bun で管理する。ランタイム、フォーマット、TypeScript、スペルチェック、git hooks の規約は `.claude/rules/` 配下に分割している。該当するファイルを編集する前に、対応するルールファイルを読むこと。
 
-## 技術スタック
+## プロジェクト規約
 
-- Astro 5 + React 19 + Tailwind CSS 4
-- lucide-react (アイコン), motion (アニメーション)
-- TypeScript
+- Swarrow Call の LP は root route の `src/routes/+page.svelte` に置く。
+- 共有するコンポーネントやユーティリティは `$lib` エイリアス経由で読めるよう
+  `src/lib/` 配下に置く。
+- credentials、tokens、private keys、本番相当の API endpoint、機微な sample
+  payload はコミットしない。環境ごとに変わる値は保存前に placeholder へ
+  置き換える。
+- パッケージマネージャーと script runner は Bun に統一する。npm、pnpm、
+  Yarn、ESLint、Prettier の設定を追加しない。
+- ビルド/デプロイ先は adapter-static による静的プリレンダリングを前提と
+  する(`vite.config.ts` 参照)。SSR やサーバー専用 API が必要になった場合
+  はこの前提を見直し、adapter を含め改めて設計する。
+- 完了を報告する前に `bun run check` と `bun run build` を実行する。
 
-## コマンド
+## Cloudflare Pages Functions
 
-```sh
-bun run dev      # 開発サーバー起動
-bun run build    # ビルド
-bun run preview  # ビルド結果プレビュー
-```
-
-## Pages Functions
-
-メール送信の環境変数・ローカル検証手順は [docs/pages-functions.md](docs/pages-functions.md) を参照。
-
-## デザイントークン
-
-色はすべて `src/styles/theme.css` の CSS 変数で管理。Tailwind クラスで使用可能:
-
-- `sc-navy` (#092045) -- ブランドカラー (濃紺)
-- `sc-orange` / `sc-orange-hover` -- アクセント/CTA カラー
-- `sc-text-primary` / `sc-text-secondary` / `sc-text-muted` -- テキスト色
-- `sc-bg-light` / `sc-bg-card` / `sc-bg-footer` -- 背景色
-- `sc-border` / `sc-border-light` -- ボーダー色
-
-## 注意事項
-
-| Rule | Detail |
-|------|--------|
-| [MUST] | 画像は `figma:asset/ファイル名.png` でインポート (`astro.config.mjs` でエイリアス設定済み) |
-| [MUST] | 色は `sc-*` デザイントークンを使用。ハードコードしない |
-| [Forbidden] | フォントの個別指定 -- body に `Noto Sans JP` を一括設定済み |
+資料ダウンロードフォームのメール送信は Cloudflare Pages Function (`functions/api/contact.ts`) で処理する。環境変数・ローカル検証手順は [docs/pages-functions.md](docs/pages-functions.md) を、資料ダウンロードリンクの運用手順は [docs/download-link.md](docs/download-link.md) を参照。
 
 ## Figma
 
 元デザイン: https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall
+
+## Codex 互換性
+
+`CLAUDE.md` はこのファイルへの symbolic link である。編集は `AGENTS.md` に対して行い、`CLAUDE.md` を通常ファイルに置き換えないこと。

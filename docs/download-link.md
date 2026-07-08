@@ -5,7 +5,7 @@
 資料ダウンロードフォーム送信時に、問い合わせ者のメールアドレス宛に
 ダウンロードリンク付きメールを自動送信する。
 
-PDF は `public/downloads/` に配置し、Cloudflare Pages で静的配信する。
+PDF は `static/downloads/` に配置し、Cloudflare Pages で静的配信する。
 
 ## 環境変数
 
@@ -16,7 +16,7 @@ PDF は `public/downloads/` に配置し、Cloudflare Pages で静的配信す�
 ローカル開発時は `.dev.vars` に設定:
 
 ```sh
-SITE_URL=http://localhost:4321
+SITE_URL=http://localhost:5179
 ```
 
 本番環境は Cloudflare Pages ダッシュボードの Settings > Environment variables で設定。
@@ -24,12 +24,12 @@ SITE_URL=http://localhost:4321
 ## PDF の差し替え手順
 
 1. 新しい PDF ファイルを用意する
-2. `public/downloads/swarrow_call.pdf` を新しいファイルで置き換える
+2. `static/downloads/swarrow_call.pdf` を新しいファイルで置き換える
 3. コミット & デプロイ
 
 ```sh
-cp /path/to/new-file.pdf public/downloads/swarrow_call.pdf
-git add public/downloads/swarrow_call.pdf
+cp /path/to/new-file.pdf static/downloads/swarrow_call.pdf
+git add static/downloads/swarrow_call.pdf
 git commit -m "chore: サービス資料を更新"
 git push
 ```
@@ -38,7 +38,7 @@ git push
 
 ## ファイル名を変更する場合
 
-1. `public/downloads/` 内のファイル名を変更
+1. `static/downloads/` 内のファイル名を変更
 2. `functions/api/contact.ts` の `downloadUrl` を更新
 
 ```typescript
