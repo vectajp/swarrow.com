@@ -21,7 +21,7 @@ pre-commit:
     # 3) スペルチェック (staged の .ts/.md/.svelte)。
     - name: cspell
       glob: "*.{ts,md,svelte}"
-      run: bunx cspell --no-progress {staged_files}
+      run: bunx cspell --no-progress --no-must-find-files {staged_files}
 
 pre-push:
   jobs:
