@@ -1,4 +1,4 @@
-export const site = "https://swarrow-call.example.com";
+export const site = "https://swarrow.com";
 export const pageTitle = "Swarrow Call｜スマホひとつで、まちの窓口へ";
 export const pageDescription =
   "役所・病院・学校。まちのあらゆる窓口をスマホの中へ。1問1答の対話型で、住民がいつでも手続きできる「スマホ市役所」を実現します。";
