@@ -123,9 +123,14 @@ export type NavItem = {
   href: string;
 };
 
+export const companyOverviewLink: NavItem = {
+  label: "会社概要",
+  href: "https://www.vecta.co.jp/#company",
+};
+
 export const navItems: NavItem[] = [
   { label: "導入事例", href: "#case" },
-  { label: "会社概要", href: "https://www.vecta.co.jp/#company" },
+  companyOverviewLink,
   { label: "お知らせ", href: "#news" },
 ];
 

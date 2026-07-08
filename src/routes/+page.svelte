@@ -4,6 +4,7 @@
   import {
     callCapabilities,
     cases,
+    companyOverviewLink,
     customerSuccessSteps,
     jsonLd,
     navItems,
@@ -189,7 +190,7 @@
           class="sc-nav-link"
           href={item.href}
           target={isExternalHref(item.href) ? "_blank" : undefined}
-          rel={isExternalHref(item.href) ? "noreferrer" : undefined}
+          rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
         >
           {item.label}
           {#if isExternalHref(item.href)}
@@ -242,6 +243,26 @@
             >
           </video>
         </div>
+
+        <nav class="hero-mobile-actions" aria-label="小画面用の重要な導線">
+          <button
+            type="button"
+            class="hero-mobile-contact"
+            onclick={openContactModal}
+          >
+            お問い合わせ
+          </button>
+          <a
+            class="hero-mobile-company"
+            href={companyOverviewLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="{companyOverviewLink.label}を別タブで開く"
+          >
+            {companyOverviewLink.label}
+            <span class="ext" aria-hidden="true">↗</span>
+          </a>
+        </nav>
 
         <a class="hero-news" href="#news">
           <span class="hero-news-head">
@@ -1100,6 +1121,9 @@
     border: 1px solid var(--ink);
     border-radius: 999px;
     font-size: 1.1rem;
+  }
+  .hero-mobile-actions {
+    display: none;
   }
 
   /* ===== Knowledge ===== */
@@ -2157,6 +2181,48 @@
       width: 100%;
       margin: 1.5rem auto 0;
       text-align: left;
+    }
+    .hero-mobile-actions {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      gap: 0.7rem;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 1.1rem auto 0;
+      padding: 0.8rem;
+      border: 1px solid rgba(9, 32, 69, 0.1);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 36px rgba(9, 32, 69, 0.12);
+      backdrop-filter: blur(8px);
+    }
+    .hero-mobile-contact {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      background: var(--navy);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.4;
+      padding: 0.95rem 1.2rem;
+      white-space: nowrap;
+      box-shadow: 0 10px 22px rgba(9, 32, 69, 0.18);
+    }
+    .hero-mobile-company {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 1.8rem;
+      color: var(--navy);
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.4;
+      white-space: nowrap;
     }
     .knowledge {
       margin-top: 0;
