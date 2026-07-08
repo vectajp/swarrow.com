@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import ContactModal from "$lib/swarrow-call/ContactModal.svelte";
   import {
     callCapabilities,
     cases,
@@ -41,6 +42,13 @@
   let scrolled = $state(false);
   let workflowVideo: HTMLVideoElement | undefined;
   let workflowVideoReady = $state(false);
+  let contactModalOpen = $state(false);
+  const openContactModal = () => {
+    contactModalOpen = true;
+  };
+  const closeContactModal = () => {
+    contactModalOpen = false;
+  };
 
   onMount(() => {
     const reduce = window.matchMedia(REDUCED_MOTION_QUERY).matches;
@@ -189,7 +197,9 @@
           {/if}
         </a>
       {/each}
-      <a class="sc-cta" href="#contact">お問い合わせ</a>
+      <button type="button" class="sc-cta" onclick={openContactModal}>
+        お問い合わせ
+      </button>
     </nav>
   </header>
 
@@ -765,9 +775,9 @@
         <p class="cta-sub">
           窓口対応の課題に合わせて、導入相談からデモまでスピーディーにご案内します。まずは気軽にご相談ください。
         </p>
-        <a class="cta-btn" href="#contact"
-          >導入相談・デモを依頼する<span class="ext">↗</span></a
-        >
+        <button type="button" class="cta-btn" onclick={openContactModal}>
+          導入相談・デモを依頼する<span class="ext">↗</span>
+        </button>
       </div>
     </section>
   </main>
@@ -791,13 +801,17 @@
       </p>
     </div>
     <nav class="foot-links" aria-label="フッターナビゲーション">
-      <a href="#contact">お問い合わせ</a>
+      <button type="button" class="foot-link-btn" onclick={openContactModal}>
+        お問い合わせ
+      </button>
       <a href="#footer">情報セキュリティ方針</a>
       <a href="#footer">個人情報保護方針</a>
       <a href="#footer">ウェブサイト利用規約</a>
     </nav>
     <p class="foot-copy">© Swarrow Call</p>
   </footer>
+
+  <ContactModal open={contactModalOpen} onClose={closeContactModal} />
 </div>
 
 <style>
@@ -834,7 +848,7 @@
     color: inherit;
     text-decoration: none;
   }
-  .lp :where(a):focus-visible {
+  .lp :where(a, button):focus-visible {
     outline: 3px solid color-mix(in srgb, var(--coral) 72%, white);
     outline-offset: 4px;
     border-radius: 6px;
@@ -897,6 +911,9 @@
     color: var(--sage-deep);
   }
   .sc-cta {
+    border: none;
+    font: inherit;
+    cursor: pointer;
     padding: 0.7rem 1.5rem;
     border-radius: 999px;
     background: var(--navy);
@@ -1980,6 +1997,9 @@
   }
   .cta-btn {
     display: inline-block;
+    border: none;
+    font: inherit;
+    cursor: pointer;
     padding: 0.9rem 2.4rem;
     border-radius: 999px;
     background: var(--navy);
@@ -2038,6 +2058,17 @@
     color: #d6deea;
   }
   .foot-links a:hover {
+    color: #fff;
+  }
+  .foot-link-btn {
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.88rem;
+    color: #d6deea;
+    cursor: pointer;
+  }
+  .foot-link-btn:hover {
     color: #fff;
   }
   .foot-copy {
