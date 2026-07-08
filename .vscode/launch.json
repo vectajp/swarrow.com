@@ -14,7 +14,7 @@
       }
     },
     {
-      "name": "Swarrow Site: Astro Dev",
+      "name": "Swarrow Site: Dev",
       "type": "node-terminal",
       "request": "launch",
       "command": "bun run dev",
