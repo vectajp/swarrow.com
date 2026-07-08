@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { env } from "$env/dynamic/public";
+
   interface Props {
     open: boolean;
     onClose: () => void;
@@ -8,6 +10,48 @@
 
   type FormState = "idle" | "submitting" | "done" | "error";
 
+  const FALLBACK_DOWNLOAD_REQUEST_API_URL =
+    "https://api.swarrow.com/download-requests";
+  const TURNSTILE_SCRIPT_URL =
+    "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+
+  // 外部バックエンドの送信先。未設定時は本番相当のフォールバックへ倒す
+  // (functions/api/contact.ts は廃止済みのため、この契約が唯一の送信経路)。
+  const DOWNLOAD_REQUEST_API_URL =
+    env.PUBLIC_DOWNLOAD_REQUEST_API_URL || FALLBACK_DOWNLOAD_REQUEST_API_URL;
+  // Turnstile はフォールバック不可(サイトキー無しでは認証自体が成立しない)。
+  // 未設定時はフォーム下部にエラーメッセージを表示するのみに留める。
+  const TURNSTILE_SITE_KEY = env.PUBLIC_TURNSTILE_SITE_KEY;
+
+  // 同一コンポーネントインスタンス内でスクリプトタグの二重挿入を防ぐキャッシュ。
+  // 読み込み失敗時は null に戻し、次回の効果発火で再試行できるようにする。
+  let turnstileScriptPromise: Promise<void> | null = null;
+
+  function loadTurnstileScript(): Promise<void> {
+    if (window.turnstile) {
+      return Promise.resolve();
+    }
+
+    if (turnstileScriptPromise) {
+      return turnstileScriptPromise;
+    }
+
+    turnstileScriptPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = TURNSTILE_SCRIPT_URL;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => resolve();
+      script.onerror = () => {
+        turnstileScriptPromise = null;
+        reject(new Error("Failed to load Turnstile"));
+      };
+      document.head.appendChild(script);
+    });
+
+    return turnstileScriptPromise;
+  }
+
   let companyName = $state("");
   let name = $state("");
   let nameKana = $state("");
@@ -15,6 +59,16 @@
   let inquiry = $state("");
   let formState = $state<FormState>("idle");
   let errorMessage = $state("");
+  let turnstileToken = $state<string | null>(null);
+
+  // Turnstile ウィジェットの描画エフェクトを "submitting"/"error" のような
+  // 中間状態遷移のたびに再実行させないための派生値。$derived はメモ化されるため、
+  // formState が "done" になったかどうかが実際に変化したときだけ通知される
+  // (参照実装の useEffect 依存配列 [isOpen, submitted] に相当)。
+  let submitted = $derived(formState === "done");
+
+  let turnstileContainer: HTMLDivElement | undefined = $state();
+  let turnstileWidgetId: string | null = null;
 
   let abortController: AbortController | undefined;
 
@@ -26,6 +80,15 @@
     inquiry = "";
     formState = "idle";
     errorMessage = "";
+    turnstileToken = null;
+  };
+
+  const destroyTurnstileWidget = () => {
+    if (turnstileWidgetId && window.turnstile) {
+      window.turnstile.remove(turnstileWidgetId);
+    }
+    turnstileWidgetId = null;
+    turnstileToken = null;
   };
 
   const handleClose = () => {
@@ -33,6 +96,7 @@
     // こうしないと後から解決/拒否した fetch が閉じた後に formState を書き換えてしまう。
     abortController?.abort();
     abortController = undefined;
+    destroyTurnstileWidget();
     resetForm();
     onClose();
   };
@@ -45,8 +109,65 @@
     }
   });
 
+  // モーダルが開いていて、かつ未送信の間だけ Turnstile ウィジェットを描画する。
+  $effect(() => {
+    if (!open || submitted) {
+      return;
+    }
+
+    if (!TURNSTILE_SITE_KEY) {
+      errorMessage = "認証設定が未完了です";
+      return;
+    }
+
+    let cancelled = false;
+
+    loadTurnstileScript()
+      .then(() => {
+        if (cancelled || !turnstileContainer || !window.turnstile) {
+          return;
+        }
+
+        if (turnstileWidgetId) {
+          window.turnstile.remove(turnstileWidgetId);
+        }
+
+        turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+          sitekey: TURNSTILE_SITE_KEY,
+          callback: (token) => {
+            turnstileToken = token;
+            errorMessage = "";
+          },
+          "expired-callback": () => {
+            turnstileToken = null;
+          },
+          "error-callback": () => {
+            turnstileToken = null;
+            errorMessage = "認証確認に失敗しました。再度お試しください。";
+          },
+        });
+      })
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+        errorMessage = "認証設定の読み込みに失敗しました";
+      });
+
+    return () => {
+      cancelled = true;
+      destroyTurnstileWidget();
+    };
+  });
+
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
+
+    if (!turnstileToken) {
+      errorMessage = "認証確認が完了していません";
+      return;
+    }
+
     formState = "submitting";
     errorMessage = "";
 
@@ -54,10 +175,17 @@
     abortController = controller;
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(DOWNLOAD_REQUEST_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ companyName, name, nameKana, email, inquiry }),
+        body: JSON.stringify({
+          companyName,
+          name,
+          nameKana,
+          email,
+          inquiry,
+          turnstileToken,
+        }),
         signal: controller.signal,
       });
 
@@ -83,6 +211,11 @@
             : "送信中にエラーが発生しました";
       }
       formState = "error";
+      // 送信失敗時は同じウィジェットをリセットして再度認証させる(remove ではなく reset)。
+      if (turnstileWidgetId && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetId);
+      }
+      turnstileToken = null;
     } finally {
       if (abortController === controller) {
         abortController = undefined;
@@ -148,7 +281,6 @@
               <input
                 type="text"
                 bind:value={companyName}
-                maxlength="200"
                 placeholder="株式会社〇〇"
                 required
               >
@@ -158,7 +290,6 @@
               <input
                 type="text"
                 bind:value={name}
-                maxlength="100"
                 placeholder="山田 太郎"
                 required
               >
@@ -168,7 +299,6 @@
               <input
                 type="text"
                 bind:value={nameKana}
-                maxlength="100"
                 placeholder="やまだ たろう"
                 required
               >
@@ -178,8 +308,6 @@
               <input
                 type="email"
                 bind:value={email}
-                maxlength="254"
-                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
                 placeholder="example@company.co.jp"
                 required
               >
@@ -188,21 +316,24 @@
               お問い合わせ内容
               <textarea
                 bind:value={inquiry}
-                maxlength="5000"
                 rows="4"
                 placeholder="ご質問・ご要望をご記入ください"
               ></textarea>
             </label>
 
+            <div class="turnstile-wrapper">
+              <div bind:this={turnstileContainer}></div>
+            </div>
+
             <button
               type="submit"
               class="modal-submit"
-              disabled={formState === "submitting"}
+              disabled={formState === "submitting" || !turnstileToken}
             >
               {formState === "submitting" ? "送信中…" : "送信する"}
             </button>
 
-            {#if formState === "error"}
+            {#if errorMessage}
               <p role="alert" class="modal-error">{errorMessage}</p>
             {/if}
 
@@ -292,6 +423,12 @@
   }
   textarea {
     resize: none;
+  }
+  .turnstile-wrapper {
+    display: flex;
+    min-height: 65px;
+    align-items: center;
+    justify-content: center;
   }
   .modal-submit {
     margin-top: 0.4rem;
