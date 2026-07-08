@@ -28,4 +28,4 @@ bun run build  # ビルド
 
 ## ドキュメント
 
-- [Pages Functions (メール送信)](docs/pages-functions.md) -- 環境変数・ローカル検証手順・本番設定
+- [Pages Functions](docs/pages-functions.md) -- 旧 endpoint と資料請求 API 連携設定

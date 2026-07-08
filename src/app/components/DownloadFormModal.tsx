@@ -1,5 +1,56 @@
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+const DOWNLOAD_REQUEST_API_URL =
+  import.meta.env.PUBLIC_DOWNLOAD_REQUEST_API_URL || 'https://api.swarrow.com/download-requests'
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY
+
+let turnstileScriptPromise: Promise<void> | null = null
+
+interface TurnstileApi {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string
+      callback: (token: string) => void
+      'expired-callback': () => void
+      'error-callback': () => void
+    },
+  ) => string
+  reset: (widgetId?: string) => void
+  remove: (widgetId: string) => void
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi
+  }
+}
+
+function loadTurnstileScript(): Promise<void> {
+  if (window.turnstile) {
+    return Promise.resolve()
+  }
+
+  if (turnstileScriptPromise) {
+    return turnstileScriptPromise
+  }
+
+  turnstileScriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.async = true
+    script.defer = true
+    script.onload = () => resolve()
+    script.onerror = () => {
+      turnstileScriptPromise = null
+      reject(new Error('Failed to load Turnstile'))
+    }
+    document.head.appendChild(script)
+  })
+
+  return turnstileScriptPromise
+}
 
 interface DownloadFormModalProps {
   isOpen: boolean
@@ -17,6 +68,56 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null)
+  const turnstileWidgetIdRef = useRef<string | null>(null)
+
+  useEffect(() => {
+    if (!isOpen || submitted) {
+      return
+    }
+
+    if (!TURNSTILE_SITE_KEY) {
+      setSubmitError('認証設定が未完了です')
+      return
+    }
+
+    let cancelled = false
+
+    loadTurnstileScript()
+      .then(() => {
+        if (cancelled || !turnstileContainerRef.current || !window.turnstile) {
+          return
+        }
+
+        if (turnstileWidgetIdRef.current) {
+          window.turnstile.remove(turnstileWidgetIdRef.current)
+        }
+
+        turnstileWidgetIdRef.current = window.turnstile.render(turnstileContainerRef.current, {
+          sitekey: TURNSTILE_SITE_KEY,
+          callback: (token: string) => {
+            setTurnstileToken(token)
+            setSubmitError(null)
+          },
+          'expired-callback': () => setTurnstileToken(null),
+          'error-callback': () => {
+            setTurnstileToken(null)
+            setSubmitError('認証確認に失敗しました。再度お試しください。')
+          },
+        })
+      })
+      .catch(() => setSubmitError('認証設定の読み込みに失敗しました'))
+
+    return () => {
+      cancelled = true
+      if (turnstileWidgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetIdRef.current)
+        turnstileWidgetIdRef.current = null
+      }
+      setTurnstileToken(null)
+    }
+  }, [isOpen, submitted])
 
   if (!isOpen) return null
 
@@ -26,14 +127,19 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!turnstileToken) {
+      setSubmitError('認証確認が完了していません')
+      return
+    }
+
     setIsSubmitting(true)
     setSubmitError(null)
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(DOWNLOAD_REQUEST_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, turnstileToken }),
       })
 
       if (!response.ok) {
@@ -44,6 +150,10 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
       setSubmitted(true)
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : '送信中にエラーが発生しました')
+      if (turnstileWidgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetIdRef.current)
+      }
+      setTurnstileToken(null)
     } finally {
       setIsSubmitting(false)
     }
@@ -52,6 +162,7 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
   const handleClose = () => {
     setSubmitted(false)
     setSubmitError(null)
+    setTurnstileToken(null)
     setFormData({ companyName: '', name: '', nameKana: '', email: '', inquiry: '' })
     onClose()
   }
@@ -173,9 +284,13 @@ export function DownloadFormModal({ isOpen, onClose }: DownloadFormModalProps) {
                   />
                 </div>
 
+                <div className="min-h-[65px] flex items-center justify-center">
+                  <div ref={turnstileContainerRef} />
+                </div>
+
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                   className="bg-sc-orange hover:bg-sc-orange-hover text-white py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(232,123,53,0.4)] text-[16px] font-bold cursor-pointer mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? '送信中...' : '資料をダウンロードする'}
