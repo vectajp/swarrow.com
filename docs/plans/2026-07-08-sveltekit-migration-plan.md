@@ -25,6 +25,12 @@ Cloudflare Pages Functions 動作確認で行う。
 (フロントエンド全置換)と Task 8-10(新規フォーム実装+E2E確認)は特に
 人の目での確認が有効なため、区切りごとに立ち止まることを推奨する。
 
+**注記:** Task 1〜5 の間は `bun run check`/`bun run build` が意図的に失敗する
+状態が続く(Astro/React 由来ファイルが残存し、SvelteKit 側の `vite.config.ts`
+もまだ存在しないため)。これは13タスクを1つのfeatureブランチ上の連続コミットに
+分割したことによる想定内の遷移状態であり、Task 6 完了時点で解消される。個々の
+コミット単体でのCI成功を前提にしない。
+
 **作業前提:**
 - 実装は `/Users/sakurai.yuki/code/github/vectajp/swarrow.com` で
   `feature/GH-3-sveltekit-migration` ブランチを切って行う。
