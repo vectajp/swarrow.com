@@ -11,8 +11,12 @@ https://api.swarrow.com/download-requests
 
 ## 公開環境変数
 
-build 時に以下の公開環境変数を設定します(SvelteKit の `$env/static/public`
-経由で `PUBLIC_` プレフィックスの変数を参照)。
+build 時に以下の公開環境変数を設定します(SvelteKit の `$env/dynamic/public`
+経由で `PUBLIC_` プレフィックスの変数を参照。未設定時は
+`PUBLIC_DOWNLOAD_REQUEST_API_URL` は本番相当のフォールバック値へ、
+`PUBLIC_TURNSTILE_SITE_KEY` は未設定時にエラーメッセージ表示へそれぞれ
+倒す設計 — `$env/static/public` は変数未定義時にビルド自体が失敗するため、
+このプロジェクトの他 LP と同様に採用していない)。
 
 | 変数名 | 説明 |
 | --- | --- |

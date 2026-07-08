@@ -31,9 +31,13 @@ Issue: https://github.com/vectajp/swarrow.com/issues/3
   `SITE_URL` のポート番号)のみ機械的に訂正する(ドキュメント/テンプレートの
   正確性を保つための最小限の訂正であり、温存方針への違反ではない。実装内容
   ・環境変数の説明文・手順そのものは変更しない)。
-- **Always**: 新規フォーム UI は既存の JSON フィールド契約
-  (`companyName` / `name` / `nameKana` / `email` / `inquiry`、文字数制限・
-  email 正規表現含む)を完全に維持する。
+- **Always**: 新規フォーム UI はフィールド名(`companyName` / `name` /
+  `nameKana` / `email` / `inquiry`)を維持する。送信先・ペイロード形式は
+  現在の参照実装(`main` の `swarrow.com-backend` + Turnstile 方式)に
+  追随する。文字数制限・email 正規表現は当初 `functions/api/contact.ts`
+  (現在は 410 で廃止)の契約に基づくものだったため撤回し、代わりに
+  React 参照実装(`main` の `DownloadFormModal.tsx`)が課す制約
+  (`type="email"`/`required` のみ、`maxlength`/`pattern` なし)に合わせる。
 - **Always**: `feature/` ブランチで作業し、PR を作成してレビューを経てから
   `main` にマージする。`main` への直接コミットはしない。
 - **Never**: `docs/sales/miyagawa`(営業資料一式)、`.venv-pptx`、`tmp/`、
