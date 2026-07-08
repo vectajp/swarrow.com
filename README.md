@@ -16,8 +16,8 @@ mise 管理ツールのインストール、`bun install`、git hooks のイン�
 
 - `src/routes/+page.svelte`: Swarrow Call の LP を配置する root route
 - `src/lib/`: LP で使う共有コンポーネント・ユーティリティを置く
-- `static/`: そのまま配信する静的ファイル(画像、資料ダウンロード用 PDF、
-  `robots.txt` など)
+- `static/`: そのまま配信する静的ファイル(画像、`robots.txt`,
+  `_redirects` など)
 
 ## 実行方法
 
@@ -46,4 +46,4 @@ bun run clean      # node_modules / build / .svelte-kit を削除
 ## ドキュメント
 
 - [資料請求 API 連携](docs/download-request-api.md) -- `swarrow.com-backend` への送信設定
-- [資料ダウンロードリンク](docs/download-link.md) -- PDF の差し替え手順・ファイル名変更時の対応
+- [資料ダウンロードリンク](docs/download-link.md) -- 申込者向けメールに記載する資料 URL の運用
