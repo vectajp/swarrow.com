@@ -1,0 +1,314 @@
+<script lang="ts">
+  interface Props {
+    open: boolean;
+    onClose: () => void;
+  }
+
+  let { open, onClose }: Props = $props();
+
+  type FormState = "idle" | "submitting" | "done" | "error";
+
+  let companyName = $state("");
+  let name = $state("");
+  let nameKana = $state("");
+  let email = $state("");
+  let inquiry = $state("");
+  let formState = $state<FormState>("idle");
+  let errorMessage = $state("");
+
+  const resetForm = () => {
+    companyName = "";
+    name = "";
+    nameKana = "";
+    email = "";
+    inquiry = "";
+    formState = "idle";
+    errorMessage = "";
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
+  let closeButton: HTMLButtonElement | undefined;
+
+  $effect(() => {
+    if (open) {
+      closeButton?.focus();
+    }
+  });
+
+  const handleSubmit = async (event: SubmitEvent) => {
+    event.preventDefault();
+    formState = "submitting";
+    errorMessage = "";
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ companyName, name, nameKana, email, inquiry }),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        throw new Error(body?.error ?? "送信に失敗しました");
+      }
+
+      formState = "done";
+    } catch (error) {
+      errorMessage =
+        error instanceof Error ? error.message : "送信中にエラーが発生しました";
+      formState = "error";
+    }
+  };
+</script>
+
+<svelte:window
+  onkeydown={(event) => open && event.key === "Escape" && handleClose()}
+/>
+
+{#if open}
+  <!-- biome-ignore lint/a11y/useKeyWithClickEvents: closing on backdrop click is a pointer-only convenience; keyboard users already have an equivalent via the global Escape handler above and the visible close button below -->
+  <div
+    class="modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="contact-modal-title"
+    onclick={handleClose}
+  >
+    <!-- biome-ignore lint/a11y/useKeyWithClickEvents: this handler only stops click propagation to the backdrop and triggers no action a keyboard user would need -->
+    <div
+      class="modal"
+      role="document"
+      onclick={(event) => event.stopPropagation()}
+    >
+      <button
+        type="button"
+        class="modal-close"
+        bind:this={closeButton}
+        onclick={handleClose}
+        aria-label="閉じる"
+      >
+        ×
+      </button>
+
+      <div class="modal-body">
+        {#if formState === "done"}
+          <div class="modal-done">
+            <h3 id="contact-modal-title">送信が完了しました</h3>
+            <p>
+              ご入力いただいたメールアドレス宛に、資料ダウンロードリンクを含む
+              ご案内をお送りします。担当者よりあらためてご連絡いたします。
+            </p>
+            <button type="button" class="modal-done-btn" onclick={handleClose}>
+              閉じる
+            </button>
+          </div>
+        {:else}
+          <h3 id="contact-modal-title">お問い合わせ</h3>
+          <p class="modal-lead">
+            導入のご相談・デモのご依頼など、以下のフォームからお気軽にお問い合わせください。
+          </p>
+
+          <form onsubmit={handleSubmit}>
+            <label>
+              会社名<span class="required">*</span>
+              <input
+                type="text"
+                bind:value={companyName}
+                maxlength="200"
+                placeholder="株式会社〇〇"
+                required
+              >
+            </label>
+            <label>
+              氏名<span class="required">*</span>
+              <input
+                type="text"
+                bind:value={name}
+                maxlength="100"
+                placeholder="山田 太郎"
+                required
+              >
+            </label>
+            <label>
+              ふりがな<span class="required">*</span>
+              <input
+                type="text"
+                bind:value={nameKana}
+                maxlength="100"
+                placeholder="やまだ たろう"
+                required
+              >
+            </label>
+            <label>
+              メールアドレス<span class="required">*</span>
+              <input
+                type="email"
+                bind:value={email}
+                maxlength="254"
+                placeholder="example@company.co.jp"
+                required
+              >
+            </label>
+            <label>
+              お問い合わせ内容
+              <textarea
+                bind:value={inquiry}
+                maxlength="5000"
+                rows="4"
+                placeholder="ご質問・ご要望をご記入ください"
+              ></textarea>
+            </label>
+
+            <button
+              type="submit"
+              class="modal-submit"
+              disabled={formState === "submitting"}
+            >
+              {formState === "submitting" ? "送信中…" : "送信する"}
+            </button>
+
+            {#if formState === "error"}
+              <p role="alert" class="modal-error">{errorMessage}</p>
+            {/if}
+
+            <p class="modal-note">
+              入力いただいた情報はお問い合わせ対応の目的でのみ使用します。
+            </p>
+          </form>
+        {/if}
+      </div>
+    </div>
+  </div>
+{/if}
+
+<style>
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(9, 32, 69, 0.45);
+    backdrop-filter: blur(2px);
+  }
+  .modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    background: var(--paper, #fff);
+    box-shadow: 0 30px 70px rgba(9, 32, 69, 0.25);
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink-soft, #5a5f63);
+    cursor: pointer;
+  }
+  .modal-body {
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+  }
+  .modal-body h3 {
+    margin: 0 0 0.5rem;
+    color: var(--navy, #092045);
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .modal-lead {
+    margin: 0 0 1.5rem;
+    color: var(--ink-soft, #5a5f63);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy, #092045);
+  }
+  .required {
+    margin-left: 0.2rem;
+    color: var(--coral, #e07a66);
+  }
+  input,
+  textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line, rgba(51, 51, 51, 0.14));
+    border-radius: 12px;
+    font: inherit;
+    color: var(--ink, #333);
+    background: var(--bg, #f4f4f6);
+  }
+  textarea {
+    resize: none;
+  }
+  .modal-submit {
+    margin-top: 0.4rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--navy, #092045);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .modal-submit:hover:not(:disabled) {
+    background: var(--navy-deep, #061936);
+  }
+  .modal-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .modal-error {
+    margin: 0;
+    color: #c0392b;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .modal-note {
+    margin: 0;
+    color: var(--ink-soft, #5a5f63);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .modal-done {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .modal-done p {
+    color: var(--ink-soft, #5a5f63);
+    line-height: 1.8;
+  }
+  .modal-done-btn {
+    margin-top: 1.5rem;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--navy, #092045);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+</style>
