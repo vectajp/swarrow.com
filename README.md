@@ -47,3 +47,4 @@ bun run clean      # node_modules / build / .svelte-kit を削除
 
 - [資料請求 API 連携](docs/download-request-api.md) -- `swarrow.com-backend` への送信設定
 - [資料ダウンロードリンク](docs/download-link.md) -- 申込者向けメールに記載する資料 URL の運用
+- [SEO 運用チェックリスト](docs/seo-operations.md) -- 公開到達性、sitemap、Search Console の確認手順

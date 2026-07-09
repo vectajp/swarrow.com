@@ -1,7 +1,7 @@
 export const site = "https://swarrow.com";
-export const pageTitle = "Swarrow Call｜スマホひとつで、まちの窓口へ";
+export const pageTitle = "Swarrow Call｜自治体向け AI 窓口・電話対応";
 export const pageDescription =
-  "役所・病院・学校。まちのあらゆる窓口をスマホの中へ。1問1答の対話型で、住民がいつでも手続きできる「スマホ市役所」を実現します。";
+  "自治体の住民問い合わせ、AI 受電、AI チャット、AI 架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
 
 export type CustomerSuccessStep = {
   phase: string;
@@ -137,19 +137,23 @@ export const navItems: NavItem[] = [
   { label: "お知らせ", href: "#news" },
 ];
 
-// 構造化データ: 提供事業者(Organization)とサービス(SoftwareApplication)。
+// 構造化データ: 提供事業者(Organization)とサービス(Service)。
 export const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Service",
   name: "Swarrow Call",
-  applicationCategory: "GovTech",
-  operatingSystem: "Web",
+  serviceType: "自治体向け AI 窓口・電話対応",
+  category: "自治体向け AI 窓口・電話対応",
   description: pageDescription,
   url: `${site}/`,
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "JPY",
-    description: "導入のご相談はお問い合わせから",
+  provider: {
+    "@type": "Organization",
+    name: "株式会社Vecta",
+    url: "https://www.vecta.co.jp/",
   },
+  audience: {
+    "@type": "Audience",
+    audienceType: "自治体",
+  },
+  areaServed: "日本",
 };

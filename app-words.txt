@@ -4,6 +4,7 @@ bunfig
 bunx
 edcb
 fontsource
+Googlebot
 Graffer
 hanada
 Hiragino
