@@ -137,13 +137,13 @@ export const navItems: NavItem[] = [
   { label: "お知らせ", href: "#news" },
 ];
 
-// 構造化データ: 提供事業者(Organization)とサービス(SoftwareApplication)。
+// 構造化データ: 提供事業者(Organization)とサービス(Service)。
 export const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Service",
   name: "Swarrow Call",
-  applicationCategory: "自治体向け AI 窓口・電話対応",
-  operatingSystem: "Web",
+  serviceType: "自治体向け AI 窓口・電話対応",
+  category: "自治体向け AI 窓口・電話対応",
   description: pageDescription,
   url: `${site}/`,
   provider: {
@@ -155,9 +155,5 @@ export const jsonLd = {
     "@type": "Audience",
     audienceType: "自治体",
   },
-  featureList: ["AI 受電", "AI チャット", "AI 架電", "住民問い合わせ対応"],
-  offers: {
-    "@type": "Offer",
-    description: "導入のご相談はお問い合わせから",
-  },
+  areaServed: "日本",
 };

@@ -17,6 +17,8 @@
 
   const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
   const REVEAL_SELECTOR = "[data-reveal]";
+  const heroSupportLead =
+    "住民問い合わせ、AI 受電、AI 架電、チャット対応をひとつの知識基盤へ。";
   const AUTOPLAY_VIDEO_SELECTOR = [
     ".hero-video",
     ".knowledge-video",
@@ -215,10 +217,7 @@
             <span class="hero-title-nowrap">電話とチャットで支える。</span>
           </h1>
           <p class="hero-sub">
-            <span>
-              住民問い合わせ、AI 受電、AI
-              架電、チャット対応をひとつの知識基盤へ。
-            </span>
+            <span>{heroSupportLead}</span>
             <span>
               制度変更や FAQ 更新に合わせて、窓口対応を継続的に改善します。
             </span>
