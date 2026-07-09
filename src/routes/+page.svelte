@@ -211,12 +211,17 @@
       <div class="hero-inner">
         <div class="hero-copy">
           <h1 class="hero-title">
-            <span>色々なカタチの</span>
-            <span class="hero-title-nowrap">知識を未来につなぐ。</span>
+            <span>自治体の AI 窓口を、</span>
+            <span class="hero-title-nowrap">電話とチャットで支える。</span>
           </h1>
           <p class="hero-sub">
-            <span>知識を元に人のように自然に回答。</span>
-            <span>回答するほど組織の知識としてどんどんたまる仕組み。</span>
+            <span>
+              住民問い合わせ、AI 受電、AI
+              架電、チャット対応をひとつの知識基盤へ。
+            </span>
+            <span>
+              制度変更や FAQ 更新に合わせて、窓口対応を継続的に改善します。
+            </span>
           </p>
         </div>
 
