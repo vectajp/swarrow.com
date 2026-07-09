@@ -1,7 +1,7 @@
 export const site = "https://swarrow.com";
 export const pageTitle = "Swarrow Call｜自治体向け AI 窓口・電話対応";
 export const pageDescription =
-  "自治体の住民問い合わせ、AI受電、AIチャット、AI架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
+  "自治体の住民問い合わせ、AI 受電、AI チャット、AI 架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
 
 export type CustomerSuccessStep = {
   phase: string;
@@ -142,7 +142,7 @@ export const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Swarrow Call",
-  applicationCategory: "自治体向けAI窓口・電話対応",
+  applicationCategory: "自治体向け AI 窓口・電話対応",
   operatingSystem: "Web",
   description: pageDescription,
   url: `${site}/`,
@@ -155,7 +155,7 @@ export const jsonLd = {
     "@type": "Audience",
     audienceType: "自治体",
   },
-  featureList: ["AI受電", "AIチャット", "AI架電", "住民問い合わせ対応"],
+  featureList: ["AI 受電", "AI チャット", "AI 架電", "住民問い合わせ対応"],
   offers: {
     "@type": "Offer",
     description: "導入のご相談はお問い合わせから",
