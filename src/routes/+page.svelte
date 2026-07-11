@@ -397,65 +397,6 @@
 
     <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
     <section class="workflow">
-      <div class="feature-band feature-band--mist">
-        <div class="workflow-inner">
-          <div class="workflow-copy" data-reveal>
-            <p class="workflow-en">No-Code Flow Editor</p>
-            <h2 class="workflow-title">
-              <span>会話フローを、</span>
-              <span>職員の手で更新。</span>
-            </h2>
-            <p class="workflow-lead">
-              初期設定が済めば、職員自身で会話フローを更新し、対話シナリオを画面上で簡単に設計・編集できます。コードを書かずに分岐や案内文を見直せるため、住民からの問い合わせや制度変更に合わせて、窓口の運用をすばやく改善できます。
-            </p>
-            <ul class="workflow-list">
-              <li>
-                <strong>画面上で流れを組み替える</strong>
-                <small>質問、回答、分岐、案内文を見ながら編集。</small>
-              </li>
-              <li>
-                <strong>現場の気づきをすぐ反映</strong>
-                <small>問い合わせの多い表現や案内不足を職員が更新。</small>
-              </li>
-              <li>
-                <strong>小さな修正は職員が対応</strong>
-                <small>日々の軽微な改善はノーコードで完結。</small>
-              </li>
-            </ul>
-          </div>
-
-          <figure class="workflow-media" data-reveal>
-            <video
-              class="workflow-video"
-              poster="/swarrow-call/workflow-editor-alpha.png"
-              muted
-              loop
-              playsinline
-              preload="none"
-              width="1280"
-              height="720"
-              bind:this={workflowVideo}
-              class:ready={workflowVideoReady}
-              aria-label="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
-            >
-              <source
-                src="/swarrow-call/workflow-editor-alpha.webm"
-                type="video/webm"
-              >
-              <img
-                class="workflow-image"
-                src="/swarrow-call/workflow-editor-alpha.png"
-                alt="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
-                width="1280"
-                height="720"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </figure>
-        </div>
-      </div>
-
       <section
         id="chat"
         class="feature-band feature-band--paper"
@@ -535,7 +476,7 @@
 
       <section
         id="call"
-        class="feature-band feature-band--mist feature-band--last"
+        class="feature-band feature-band--mist"
         aria-labelledby="call-title"
       >
         <div
@@ -649,6 +590,84 @@
               </article>
             {/each}
           </div>
+        </div>
+      </section>
+
+      <section
+        id="operations"
+        class="feature-band feature-band--paper feature-band--last"
+        aria-labelledby="operations-title"
+      >
+        <div
+          class="section-curve-bg section-curve-bg--paper"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 1440 1600"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+            ></path>
+          </svg>
+        </div>
+        <div class="workflow-inner">
+          <div class="workflow-copy" data-reveal>
+            <p class="workflow-en">No-Code Flow Editor</p>
+            <h2 id="operations-title" class="workflow-title">
+              <span>会話フローを、</span>
+              <span>職員の手で更新。</span>
+            </h2>
+            <p class="workflow-lead">
+              初期設定が済めば、職員自身で会話フローを更新し、対話シナリオを画面上で簡単に設計・編集できます。コードを書かずに分岐や案内文を見直せるため、住民からの問い合わせや制度変更に合わせて、窓口の運用をすばやく改善できます。
+            </p>
+            <ul class="workflow-list">
+              <li>
+                <strong>画面上で流れを組み替える</strong>
+                <small>質問、回答、分岐、案内文を見ながら編集。</small>
+              </li>
+              <li>
+                <strong>現場の気づきをすぐ反映</strong>
+                <small>問い合わせの多い表現や案内不足を職員が更新。</small>
+              </li>
+              <li>
+                <strong>小さな修正は職員が対応</strong>
+                <small>日々の軽微な改善はノーコードで完結。</small>
+              </li>
+            </ul>
+          </div>
+
+          <figure class="workflow-media" data-reveal>
+            <video
+              class="workflow-video"
+              poster="/swarrow-call/workflow-editor-alpha.png"
+              muted
+              loop
+              playsinline
+              preload="none"
+              width="1280"
+              height="720"
+              bind:this={workflowVideo}
+              class:ready={workflowVideoReady}
+              aria-label="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
+            >
+              <source
+                src="/swarrow-call/workflow-editor-alpha.webm"
+                type="video/webm"
+              >
+              <img
+                class="workflow-image"
+                src="/swarrow-call/workflow-editor-alpha.png"
+                alt="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
+                width="1280"
+                height="720"
+                loading="lazy"
+                decoding="async"
+              >
+            </video>
+          </figure>
         </div>
       </section>
     </section>
@@ -921,6 +940,7 @@
   #products,
   #chat,
   #call,
+  #operations,
   #case,
   #news,
   #contact,

@@ -6,16 +6,18 @@ let html = "";
 let robots = "";
 let sitemap = "";
 let modalSource = "";
+let pageSource = "";
 
 const countMatches = (value: string, pattern: RegExp) =>
   Array.from(value.matchAll(pattern)).length;
 
 beforeAll(async () => {
-  [html, robots, sitemap, modalSource] = await Promise.all([
+  [html, robots, sitemap, modalSource, pageSource] = await Promise.all([
     Bun.file("build/index.html").text(),
     Bun.file("build/robots.txt").text(),
     Bun.file("build/sitemap.xml").text(),
     Bun.file("src/lib/swarrow/ContactModal.svelte").text(),
+    Bun.file("src/routes/+page.svelte").text(),
   ]);
 });
 
@@ -136,6 +138,22 @@ describe("Swarrow Call section", () => {
       expect(html).toContain(capability);
     }
     expect(html).toContain("/swarrow-call/operator-call.webm");
+  });
+});
+
+describe("section order", () => {
+  test("places common operations after both product details", () => {
+    const chat = html.indexOf('id="chat"');
+    const call = html.indexOf('id="call"');
+    const operations = html.indexOf('id="operations"');
+
+    expect(chat).toBeGreaterThan(-1);
+    expect(call).toBeGreaterThan(chat);
+    expect(operations).toBeGreaterThan(call);
+    expect(countMatches(pageSource, /bind:this=\{workflowVideo\}/g)).toBe(1);
+    expect(pageSource).toContain("class:ready={workflowVideoReady}");
+    expect(pageSource).toContain("new IntersectionObserver");
+    expect(pageSource).toContain("/swarrow-call/workflow-editor-alpha.webm");
   });
 });
 
