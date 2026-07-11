@@ -72,6 +72,21 @@ describe("benefit-led first view", () => {
   });
 });
 
+describe("shared knowledge", () => {
+  test("presents one knowledge base before product details", () => {
+    expect(html).toContain('id="knowledge"');
+    const knowledge = html.match(
+      /<section id="knowledge"[\s\S]*?<\/section>/,
+    )?.[0];
+    expect(knowledge).toContain("1つの知識で、");
+    expect(knowledge).toContain("ホームページも電話も。");
+    expect(html).toContain("Swarrow Chat");
+    expect(html).toContain("Swarrow Call");
+    expect(html).toContain("/swarrow-call/knowledge-flow-alpha.webm");
+    expect(html).not.toContain("Swarrow Call 基盤");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');

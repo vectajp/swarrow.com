@@ -13,6 +13,7 @@
     pageDescription,
     pageTitle,
     painPoints,
+    sharedKnowledge,
     showCaseStudies,
     site,
     siteName,
@@ -277,8 +278,8 @@
       </div>
     </section>
 
-    <!-- Knowledge: 入力された知識を AI が使える形へ変換し、電話やチャットへ出力する流れ。 -->
-    <section class="knowledge">
+    <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
+    <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
       <div class="knowledge-inner">
         <figure class="knowledge-visual" data-reveal>
           <video
@@ -290,7 +291,7 @@
             preload="none"
             width="1280"
             height="720"
-            aria-label="ドキュメント、データベース、Web、電話、チャットを Swarrow Call 基盤がつなぐ知識活用イメージ"
+            aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
           >
             <source
               src="/swarrow-call/knowledge-flow-alpha.webm"
@@ -299,7 +300,7 @@
             <img
               class="knowledge-image"
               src="/swarrow-call/knowledge-flow-alpha.png"
-              alt="ドキュメント、データベース、Web、電話、チャットを Swarrow Call 基盤がつなぐ知識活用イメージ"
+              alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
               width="1672"
               height="941"
               loading="lazy"
@@ -309,40 +310,32 @@
         </figure>
 
         <div class="knowledge-copy" data-reveal>
-          <p class="knowledge-en">Knowledge Pipeline</p>
-          <h2 class="knowledge-title">
-            <span>知識を、AIが動ける</span>
-            <span>データへ。</span>
+          <p class="knowledge-en">Shared Knowledge</p>
+          <h2 id="knowledge-title" class="knowledge-title">
+            <span>1つの知識で、</span>
+            <span>ホームページも電話も。</span>
           </h2>
-          <p class="knowledge-lead">
-            ドキュメント、データベース、画像など、組織に散らばる知識を Swarrow
-            Call基盤がAI
-            に最適なベクトルデータへ変換。弊社独自の業務ノウハウで検索精度と回答粒度をチューニングし、必要な知識を正確に拡張します。
-          </p>
+          <p class="knowledge-lead">{sharedKnowledge.description}</p>
           <ul class="knowledge-flow">
             <li>
-              <span class="knowledge-flow-kicker">Input</span>
+              <span class="knowledge-flow-kicker">Collect</span>
               <span>
-                <strong>あらゆる知識を取り込む</strong>
-                <small>文書、FAQ、業務データ、画像資料をまとめて活用。</small>
+                <strong>散らばる知識をまとめる</strong>
+                <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
               </span>
             </li>
             <li>
-              <span class="knowledge-flow-kicker">Tune</span>
+              <span class="knowledge-flow-kicker">Maintain</span>
               <span>
-                <strong>業務ノウハウで磨き込む</strong>
-                <small
-                  >現場の言い回しや判断基準に合わせて回答品質を調整。</small
-                >
+                <strong>一度の更新で案内をそろえる</strong>
+                <small>制度変更や現場の気づきを共通知識へ反映。</small>
               </span>
             </li>
             <li>
-              <span class="knowledge-flow-kicker">Output</span>
+              <span class="knowledge-flow-kicker">Serve</span>
               <span>
-                <strong>電話・チャットで届け、自動化する</strong>
-                <small
-                  >問い合わせ対応や案内業務を、媒体を問わず一気通貫で支援。</small
-                >
+                <strong>ChatとCallの双方で使う</strong>
+                <small>Webと電話で同じ根拠から住民へ案内。</small>
               </span>
             </li>
           </ul>
@@ -882,6 +875,8 @@
     border-radius: 6px;
   }
   #top,
+  #problems,
+  #knowledge,
   #case,
   #news,
   #contact,
@@ -1150,7 +1145,7 @@
     z-index: 1;
     isolation: isolate;
     overflow: hidden;
-    margin-top: -10.5rem;
+    margin-top: 0;
     background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0) 0,
@@ -1159,7 +1154,7 @@
       var(--paper) 5.75rem,
       var(--paper) 100%
     );
-    padding: clamp(11.25rem, 12.5vw, 12rem) clamp(1.2rem, 4vw, 3.5rem)
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem)
       clamp(3rem, 7vw, 6rem);
   }
   .knowledge-inner {
