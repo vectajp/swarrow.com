@@ -456,7 +456,11 @@
         </div>
       </div>
 
-      <div id="chat" class="feature-band feature-band--paper">
+      <section
+        id="chat"
+        class="feature-band feature-band--paper"
+        aria-labelledby="chat-title"
+      >
         <div
           class="section-curve-bg section-curve-bg--paper"
           aria-hidden="true"
@@ -483,13 +487,13 @@
               preload="none"
               width="1280"
               height="720"
-              aria-label="ホームページやチャットアプリに設置できる Swarrow Call のチャット UI"
+              aria-label="ホームページやLINEに設置できるSwarrow Chatの画面"
             >
               <source src="/swarrow-call/chat-ui.webm" type="video/webm">
               <img
                 class="chat-feature-image"
                 src="/swarrow-call/chat-ui.webp"
-                alt="ホームページやチャットアプリに設置できる Swarrow Call のチャット UI"
+                alt="ホームページやLINEに設置できるSwarrow Chatの画面"
                 width="1672"
                 height="941"
                 loading="lazy"
@@ -499,38 +503,35 @@
           </figure>
 
           <div class="chat-feature-copy">
-            <p class="chat-feature-en">Chat Knowledge Hub</p>
-            <h3 class="chat-feature-title">
-              <span>チャット窓口を、</span>
-              <span>どこにでも。</span>
-            </h3>
+            <p class="chat-feature-en">Municipal Web AI Desk</p>
+            <h2 id="chat-title" class="chat-feature-title">
+              <span>自治体ホームページAI窓口</span>
+              <span>Swarrow Chat</span>
+            </h2>
             <p class="chat-feature-lead">
-              Swarrow Call のチャット UI
-              は、ホームページ、LINE、既存のチャットアプリなど、住民が使い慣れた場所に配置できます。文書、FAQ、業務データ、画像資料に加え、部署に長年蓄積された紙のファイルも知識として取り込み、問い合わせ対応や案内業務に活かせます。
+              ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
             </p>
             <ul class="chat-feature-list">
               <li>
-                <strong>あらゆる情報を知識化</strong>
-                <small>
-                  制度資料、手順書、紙の台帳までインポートし、部署に残すべき知識として整理。
-                </small>
+                <strong>ホームページやLINEに設置</strong>
+                <small>住民が普段利用するデジタル窓口から質問できます。</small>
               </li>
               <li>
-                <strong>会話から業務へつなぐ</strong>
-                <small>
-                  回答だけで終わらず、職員への電話取次ぎ、申請案内、予約などのワークフローを自由に設定。
-                </small>
+                <strong>自治体の資料をもとに回答</strong>
+                <small
+                  >FAQ、制度資料、手順書、業務データを案内に活かします。</small
+                >
               </li>
               <li>
-                <strong>知識を部署の資産にする</strong>
-                <small>
-                  担当者が変わっても、蓄積された判断基準や案内内容を次の職員へ引き継げる仕組みを作ります。
-                </small>
+                <strong>回答から次の手続きへつなぐ</strong>
+                <small
+                  >申請案内、予約、職員への連携など次の行動へ誘導します。</small
+                >
               </li>
             </ul>
           </div>
         </div>
-      </div>
+      </section>
 
       <div id="call" class="feature-band feature-band--mist feature-band--last">
         <div

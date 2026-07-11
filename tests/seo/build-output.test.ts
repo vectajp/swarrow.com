@@ -111,6 +111,17 @@ describe("product overview", () => {
   });
 });
 
+describe("Swarrow Chat section", () => {
+  test("describes Chat as an independent municipal product", () => {
+    expect(html).toMatch(/id="chat"[\s\S]*?<h2[^>]*>[\s\S]*?Swarrow Chat/);
+    expect(html).toContain("自治体ホームページAI窓口");
+    expect(html).toContain("ホームページやLINE");
+    expect(html).toContain("自己解決");
+    expect(html).toContain("/swarrow-call/chat-ui.webm");
+    expect(html).not.toContain("Swarrow Call のチャット UI");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');
