@@ -34,11 +34,41 @@ export const products: readonly Product[] = [
 ];
 
 export const heroCopy = {
-  eyebrow: "自治体の問い合わせ対応を、ひとつの知識で。",
-  title: "電話とホームページの定型対応をAIに。",
-  emphasis: "職員は、本来の仕事へ。",
+  eyebrow: "公開前検証から、公開後の改善まで。",
+  title: "根拠を確認できる回答だけを、住民へ。",
+  emphasis: "検証してから、公開する。",
   description:
-    "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。FAQ・手順書・業務データを1つの知識基盤で管理し、住民からの問い合わせにWebと電話で応えます。",
+    "Swarrow ChatとSwarrow Callは、自治体の公式情報をもとにした回答を公開前に評価します。Vectaが回答方針・参照元・不足情報を整え、自治体と確認した範囲から公開。公開後も利用状況と低評価質問を定期的に確認し、回答品質を継続的に改善します。",
+} as const;
+
+export type AnswerQualityProof = {
+  step: string;
+  title: string;
+  body: string;
+};
+
+export const answerQuality = {
+  kicker: "Answer Quality",
+  title: "公開前に検証し、公開後も改善する。",
+  lead: "Vectaが回答を検証し、自治体と公開範囲を確認。公開後の利用状況まで見て、回答品質を継続的に改善します。",
+  proofs: [
+    {
+      step: "01",
+      title: "Vectaによる公開前検証",
+      body: "評価質問を使い、回答方針・参照元・不足情報を調整します。",
+    },
+    {
+      step: "02",
+      title: "自治体との公開判断",
+      body: "根拠と回答内容を確認できた範囲から公開します。",
+    },
+    {
+      step: "03",
+      title: "継続的な品質改善",
+      body: "利用状況・参照元・低評価質問・改善対象を定期的に確認します。",
+    },
+  ] satisfies readonly AnswerQualityProof[],
+  safeguard: "根拠が確認できない質問には無理に答えず、職員対応へ切り替えます。",
 } as const;
 
 export const painPoints = [
@@ -66,7 +96,7 @@ export const sharedKnowledge = {
 export const pageTitle =
   "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター";
 export const pageDescription =
-  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。FAQや手順書を1つの知識基盤で管理し、ホームページと電話の問い合わせ対応を支援します。";
+  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。自治体の公式情報をもとにした回答を公開前に検証し、参照元の確認と公開後の継続改善でホームページと電話の問い合わせ対応を支えます。";
 
 export type CustomerSuccessStep = {
   phase: string;

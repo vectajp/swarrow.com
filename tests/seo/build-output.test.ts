@@ -49,11 +49,11 @@ describe("neutral Swarrow brand", () => {
   });
 });
 
-describe("benefit-led first view", () => {
-  test("renders one benefit-led H1 and both product names", () => {
+describe("answer-quality first view", () => {
+  test("renders one answer-quality H1 and both product names", () => {
     expect(countMatches(html, /<h1\b/g)).toBe(1);
-    expect(html).toContain("電話とホームページの定型対応をAIに。");
-    expect(html).toContain("職員は、本来の仕事へ。");
+    expect(html).toContain("根拠を確認できる回答だけを、住民へ。");
+    expect(html).toContain("検証してから、公開する。");
 
     const hero = html.match(
       /<section class="hero[^>]*>([\s\S]*?)<\/section>/,
@@ -260,6 +260,10 @@ describe("final search contract", () => {
     );
     expect(description).toContain("Swarrow Chat");
     expect(description).toContain("Swarrow Call");
+    expect(description).toContain("公式情報");
+    expect(description).toContain("公開前");
+    expect(description).toContain("参照元");
+    expect(description).toContain("継続改善");
     expect(metaContent("property", "og:site_name")).toBe("Swarrow");
     expect(metaContent("property", "og:title")).toBe(title);
     expect(metaContent("name", "twitter:title")).toBe(title);
