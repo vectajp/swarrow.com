@@ -5,16 +5,45 @@ import { beforeAll, describe, expect, test } from "bun:test";
 let html = "";
 let robots = "";
 let sitemap = "";
+let modalSource = "";
 
 const countMatches = (value: string, pattern: RegExp) =>
   Array.from(value.matchAll(pattern)).length;
 
 beforeAll(async () => {
-  [html, robots, sitemap] = await Promise.all([
+  [html, robots, sitemap, modalSource] = await Promise.all([
     Bun.file("build/index.html").text(),
     Bun.file("build/robots.txt").text(),
     Bun.file("build/sitemap.xml").text(),
+    Bun.file("src/lib/swarrow/ContactModal.svelte").text(),
   ]);
+});
+
+describe("neutral Swarrow brand", () => {
+  test("uses the existing mark with live Swarrow text", () => {
+    expect(html).toContain('content="Swarrow"');
+    expect(html).toContain('src="/swarrow/icon.png"');
+    expect(html).toContain('class="brand-name');
+    expect(html).toContain('class="foot-name');
+    expect(html).not.toContain('src="/swarrow/logo.svg"');
+    expect(html).not.toContain('src="/swarrow/footer-logo.svg"');
+    expect(html).toContain("© Swarrow");
+  });
+
+  test("uses a municipal organization label without changing request fields", () => {
+    expect(modalSource).toContain("自治体・団体名");
+    for (const field of [
+      "companyName",
+      "name",
+      "nameKana",
+      "email",
+      "inquiry",
+      "turnstileToken",
+    ]) {
+      expect(modalSource).toContain(field);
+    }
+    expect(modalSource).toContain("FALLBACK_DOWNLOAD_REQUEST_API_URL");
+  });
 });
 
 describe("crawlability baseline", () => {

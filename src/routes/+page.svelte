@@ -13,6 +13,7 @@
     pageTitle,
     showCaseStudies,
     site,
+    siteName,
   } from "$lib/swarrow/content";
 
   const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -161,7 +162,7 @@
   <meta name="robots" content="index,follow">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Swarrow Call">
+  <meta property="og:site_name" content={siteName}>
   <meta property="og:title" content={pageTitle}>
   <meta property="og:description" content={pageDescription}>
   <meta property="og:url" content={`${site}/`}>
@@ -176,15 +177,16 @@
 <div class="lp" class:motion={motion}>
   <!-- Header: 透過ヘッダー。スクロールで薄い地を敷く。 -->
   <header class="sc-header" class:scrolled={scrolled}>
-    <a class="brand" href="#top" aria-label="Swarrow Call トップへ">
+    <a class="brand" href="#top" aria-label="Swarrow トップへ">
       <img
-        class="brand-logo"
-        src="/swarrow/logo.svg"
+        class="brand-mark"
+        src="/swarrow/icon.png"
         alt=""
-        width="257"
-        height="44"
+        width="120"
+        height="120"
         decoding="async"
       >
+      <span class="brand-name">Swarrow</span>
     </a>
 
     <nav class="sc-nav" aria-label="グローバルナビゲーション">
@@ -814,13 +816,14 @@
     <div class="foot-top">
       <div class="foot-brand">
         <img
-          class="foot-logo"
-          src="/swarrow/footer-logo.svg"
-          alt="Swarrow Call"
-          width="294"
-          height="205"
+          class="foot-mark"
+          src="/swarrow/icon.png"
+          alt=""
+          width="120"
+          height="120"
           decoding="async"
         >
+        <span class="foot-name">Swarrow</span>
       </div>
       <p class="foot-addr">
         〒150-0002<br>
@@ -832,11 +835,18 @@
       <button type="button" class="foot-link-btn" onclick={openContactModal}>
         お問い合わせ
       </button>
+      <a
+        href={companyOverviewLink.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {companyOverviewLink.label}<span class="ext" aria-hidden="true">↗</span>
+      </a>
       <a href="#footer">情報セキュリティ方針</a>
       <a href="#footer">個人情報保護方針</a>
       <a href="#footer">ウェブサイト利用規約</a>
     </nav>
-    <p class="foot-copy">© Swarrow Call</p>
+    <p class="foot-copy">© Swarrow</p>
   </footer>
 
   <ContactModal open={contactModalOpen} onClose={closeContactModal} />
@@ -918,12 +928,22 @@
   .brand {
     display: inline-flex;
     align-items: center;
+    gap: 0.7rem;
     flex: 0 0 auto;
   }
-  .brand-logo {
+  .brand-mark,
+  .foot-mark {
     display: block;
-    width: clamp(145px, 16vw, 190px);
-    height: auto;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .brand-name,
+  .foot-name {
+    color: var(--navy);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
   .sc-nav {
     display: flex;
@@ -2062,11 +2082,10 @@
   .foot-brand {
     display: flex;
     align-items: center;
+    gap: 0.8rem;
   }
-  .foot-logo {
-    display: block;
-    width: clamp(96px, 10vw, 132px);
-    height: auto;
+  .foot-name {
+    color: #fff;
   }
   .foot-addr {
     margin: 0;

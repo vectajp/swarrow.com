@@ -276,11 +276,11 @@
 
           <form onsubmit={handleSubmit}>
             <label>
-              会社名<span class="required">*</span>
+              自治体・団体名<span class="required">*</span>
               <input
                 type="text"
                 bind:value={companyName}
-                placeholder="株式会社〇〇"
+                placeholder="〇〇市役所"
                 required
               >
             </label>
