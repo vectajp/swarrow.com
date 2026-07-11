@@ -533,7 +533,11 @@
         </div>
       </section>
 
-      <div id="call" class="feature-band feature-band--mist feature-band--last">
+      <section
+        id="call"
+        class="feature-band feature-band--mist feature-band--last"
+        aria-labelledby="call-title"
+      >
         <div
           class="section-curve-bg section-curve-bg--mist section-curve-bg--flip"
           aria-hidden="true"
@@ -551,34 +555,30 @@
         </div>
         <div class="call-feature" data-reveal>
           <div class="call-feature-copy">
-            <p class="call-feature-en">Phone Call Desk</p>
-            <h3 class="call-feature-title">
-              <span>電話の問い合わせも、</span>
-              <span>同じ知識で受ける。</span>
-            </h3>
+            <p class="call-feature-en">Municipal AI Call Center</p>
+            <h2 id="call-title" class="call-feature-title">
+              <span>自治体AIコールセンター</span>
+              <span>Swarrow Call</span>
+            </h2>
             <p class="call-feature-lead">
-              Swarrow Call
-              の電話コール機能は、チャットと同じ知識基盤を音声応対にも展開できます。住民はいつもの電話から要件を伝え、AI
-              が一次案内し、必要な内容だけ職員へつなげます。
+              AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
             </p>
             <ul class="call-feature-list">
               <li>
-                <strong>電話でも同じ知識を参照</strong>
-                <small>
-                  FAQ、手順書、業務データをもとに、音声でも案内内容をそろえます。
-                </small>
+                <strong>AI受電で一次対応</strong>
+                <small>FAQや手順書をもとに、住民からの電話へ案内します。</small>
               </li>
               <li>
-                <strong>必要なときだけ職員へ連携</strong>
-                <small>
-                  内容や緊急度に応じて、要件を整理したうえで担当者へ取り次ぎます。
-                </small>
+                <strong>用件を整理して職員へ取次</strong>
+                <small
+                  >内容や担当部署に応じ、必要な電話を職員へつなぎます。</small
+                >
               </li>
               <li>
-                <strong>応対を次の改善につなげる</strong>
-                <small>
-                  問い合わせ傾向を見直し、FAQ や会話フローの更新に活かせます。
-                </small>
+                <strong>架電業務も自動化</strong>
+                <small
+                  >予約確認、督促、案内、周知などの発信を支援します。</small
+                >
               </li>
             </ul>
           </div>
@@ -643,14 +643,14 @@
                   >
                 </video>
                 <div class="call-feature-card-body">
-                  <h4 class="call-feature-card-title">{capability.title}</h4>
+                  <h3 class="call-feature-card-title">{capability.title}</h3>
                   <p class="call-feature-card-text">{capability.body}</p>
                 </div>
               </article>
             {/each}
           </div>
         </div>
-      </div>
+      </section>
     </section>
 
     <!-- Customer Success: 専任チームが初期構築から運用改善まで伴走する支援体制。 -->

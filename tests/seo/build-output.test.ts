@@ -122,6 +122,23 @@ describe("Swarrow Chat section", () => {
   });
 });
 
+describe("Swarrow Call section", () => {
+  test("connects call capabilities to municipal work outcomes", () => {
+    expect(html).toMatch(/id="call"[\s\S]*?<h2[^>]*>[\s\S]*?Swarrow Call/);
+    expect(html).toContain("自治体AIコールセンター");
+    for (const capability of [
+      "AI受電",
+      "案内",
+      "取次",
+      "タイマー架電",
+      "一括発信",
+    ]) {
+      expect(html).toContain(capability);
+    }
+    expect(html).toContain("/swarrow-call/operator-call.webm");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');
