@@ -35,8 +35,8 @@ export const products: readonly Product[] = [
 
 export const heroCopy = {
   eyebrow: "公開前検証から、公開後の改善まで。",
-  title: "根拠を確認できる回答だけを、住民へ。",
-  emphasis: "検証してから、公開する。",
+  title: ["根拠を確認できる", "回答だけを、住民へ。"],
+  emphasis: ["検証してから、", "公開する。"],
   description:
     "Swarrow ChatとSwarrow Callは、自治体の公式情報をもとにした回答を公開前に評価します。Vectaが回答方針・参照元・不足情報を整え、自治体と確認した範囲から公開。公開後も利用状況と低評価質問を定期的に確認し、回答品質を継続的に改善します。",
 } as const;
@@ -49,7 +49,7 @@ export type AnswerQualityProof = {
 
 export const answerQuality = {
   kicker: "Answer Quality",
-  title: "公開前に検証し、公開後も改善する。",
+  title: ["公開前に検証し、", "公開後も改善する。"],
   lead: "Vectaが回答を検証し、自治体と公開範囲を確認。公開後の利用状況まで見て、回答品質を継続的に改善します。",
   proofs: [
     {

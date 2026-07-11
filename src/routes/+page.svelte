@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import ContactModal from "$lib/swarrow/ContactModal.svelte";
   import {
+    answerQuality,
     callCapabilities,
     cases,
     companyOverviewLink,
@@ -217,9 +218,16 @@
       <div class="hero-inner">
         <div class="hero-copy">
           <p class="hero-eyebrow">{heroCopy.eyebrow}</p>
-          <h1 class="hero-title">
-            <span>{heroCopy.title}</span>
-            <span>{heroCopy.emphasis}</span>
+          <h1
+            class="hero-title"
+            aria-label={`${heroCopy.title.join("")}${heroCopy.emphasis.join("")}`}
+          >
+            {#each heroCopy.title as line (line)}
+              <span>{line}</span>
+            {/each}
+            {#each heroCopy.emphasis as line (line)}
+              <span>{line}</span>
+            {/each}
           </h1>
           <p class="hero-sub">{heroCopy.description}</p>
           <nav class="hero-actions" aria-label="主要な導線">
@@ -230,7 +238,9 @@
             >
               導入相談・デモを依頼する
             </button>
-            <a class="hero-secondary" href="#products">2つの製品を見る</a>
+            <a class="hero-secondary" href="#quality">
+              回答品質の仕組みを見る
+            </a>
           </nav>
         </div>
 
@@ -261,6 +271,38 @@
       </div>
 
       <div class="hero-fade"></div>
+    </section>
+
+    <section id="quality" class="quality" aria-labelledby="quality-title">
+      <div class="quality-shell">
+        <div class="quality-head" data-reveal>
+          <div class="quality-heading">
+            <p class="quality-kicker">{answerQuality.kicker}</p>
+            <h2 id="quality-title" aria-label={answerQuality.title.join("")}>
+              {#each answerQuality.title as line (line)}
+                <span>{line}</span>
+              {/each}
+            </h2>
+          </div>
+          <p class="quality-lead">{answerQuality.lead}</p>
+        </div>
+
+        <ol class="quality-steps" aria-label="回答品質を確保する3段階">
+          {#each answerQuality.proofs as proof (proof.step)}
+            <li class="quality-step" data-reveal>
+              <span class="quality-step-number" aria-hidden="true">
+                {proof.step}
+              </span>
+              <h3>{proof.title}</h3>
+              <p>{proof.body}</p>
+            </li>
+          {/each}
+        </ol>
+
+        <p class="quality-safeguard" data-reveal>
+          {answerQuality.safeguard}
+        </p>
+      </div>
     </section>
 
     <section id="problems" class="problems" aria-labelledby="problems-title">
@@ -936,6 +978,7 @@
     border-radius: 6px;
   }
   #top,
+  #quality,
   #problems,
   #knowledge,
   #products,
@@ -1099,7 +1142,7 @@
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: minmax(320px, 36%) minmax(0, 1fr);
+    grid-template-columns: minmax(400px, 44%) minmax(0, 1fr);
     align-items: start;
     gap: clamp(0.75rem, 2vw, 1.75rem);
     max-width: 1500px;
@@ -1124,11 +1167,12 @@
   }
   .hero-title {
     margin: 0;
-    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+    font-size: clamp(1.9rem, 3.2vw, 3.1rem);
     font-weight: 700;
-    line-height: 1.5;
-    letter-spacing: 0.14em;
+    line-height: 1.42;
+    letter-spacing: 0.09em;
     color: var(--ink);
+    text-wrap: balance;
   }
   .hero-title span {
     display: block;
@@ -1166,6 +1210,132 @@
   .hero-secondary {
     border: 1px solid var(--navy);
     color: var(--navy);
+  }
+
+  /* ===== Answer quality: 公開判断を一続きの検証レールとして示す ===== */
+  .quality {
+    position: relative;
+    z-index: 4;
+    padding: 1px clamp(1.2rem, 4vw, 3.5rem) clamp(3.5rem, 7vw, 5.5rem);
+    background: var(--paper);
+  }
+  .quality-shell {
+    position: relative;
+    max-width: 1180px;
+    margin: -2.4rem auto 0;
+    padding: clamp(2rem, 4vw, 3.2rem);
+    overflow: hidden;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--navy) 0%, #103765 100%);
+    box-shadow: 0 22px 55px rgba(6, 25, 54, 0.18);
+    color: #fff;
+  }
+  .quality-shell::before {
+    position: absolute;
+    top: -8rem;
+    right: -6rem;
+    width: 22rem;
+    height: 22rem;
+    border: 1px solid rgba(198, 208, 220, 0.16);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+  }
+  .quality-head {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: end;
+    gap: clamp(1.5rem, 5vw, 5rem);
+  }
+  .quality-kicker {
+    margin: 0 0 0.7rem;
+    color: #bfcfe3;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .quality-heading h2 {
+    max-width: 30rem;
+    margin: 0;
+    font-size: clamp(1.65rem, 3vw, 2.45rem);
+    line-height: 1.5;
+    letter-spacing: 0.06em;
+    text-wrap: balance;
+  }
+  .quality-heading h2 span {
+    display: block;
+  }
+  .quality-lead {
+    max-width: 36rem;
+    margin: 0;
+    color: #dbe5f1;
+    font-size: clamp(0.92rem, 1.2vw, 1rem);
+  }
+  .quality-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
+    padding: 0;
+    border-top: 1px solid rgba(198, 208, 220, 0.35);
+    list-style: none;
+  }
+  .quality-step {
+    position: relative;
+    min-width: 0;
+    padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.8rem) 0;
+  }
+  .quality-step + .quality-step {
+    border-left: 1px solid rgba(198, 208, 220, 0.22);
+  }
+  .quality-step::before {
+    position: absolute;
+    top: -0.38rem;
+    left: clamp(1rem, 2.5vw, 1.8rem);
+    width: 0.72rem;
+    height: 0.72rem;
+    border: 2px solid var(--navy);
+    border-radius: 50%;
+    background: var(--coral);
+    box-shadow: 0 0 0 4px rgba(224, 122, 102, 0.18);
+    content: "";
+  }
+  .quality-step-number {
+    display: block;
+    margin-bottom: 0.7rem;
+    color: #bfcfe3;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+  .quality-step h3,
+  .quality-step p {
+    margin: 0;
+  }
+  .quality-step h3 {
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+    line-height: 1.55;
+  }
+  .quality-step p {
+    margin-top: 0.65rem;
+    color: #dbe5f1;
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  .quality-safeguard {
+    position: relative;
+    margin: clamp(1.8rem, 4vw, 2.8rem) 0 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(198, 208, 220, 0.3);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-align: center;
   }
   .problems {
     position: relative;
@@ -2330,7 +2500,7 @@
     }
     .hero-title {
       font-size: clamp(1.65rem, 8vw, 2.4rem);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
     }
     .hero-actions {
       justify-content: center;
@@ -2339,6 +2509,43 @@
     .hero-secondary {
       width: 100%;
       box-sizing: border-box;
+    }
+    .quality {
+      padding: 0 1.2rem clamp(3rem, 10vw, 4.5rem);
+    }
+    .quality-shell {
+      margin-top: 0;
+      padding: clamp(1.7rem, 7vw, 2.4rem) clamp(1.2rem, 5vw, 1.7rem);
+      border-radius: 22px;
+    }
+    .quality-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 1rem;
+    }
+    .quality-heading h2 {
+      font-size: clamp(1.45rem, 7vw, 2rem);
+    }
+    .quality-steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 0;
+    }
+    .quality-step {
+      padding: 1.3rem 0 1.3rem 2.2rem;
+      border-left: 1px solid rgba(198, 208, 220, 0.35);
+    }
+    .quality-step + .quality-step {
+      border-top: 1px solid rgba(198, 208, 220, 0.16);
+      border-left: 1px solid rgba(198, 208, 220, 0.35);
+    }
+    .quality-step::before {
+      top: 1.65rem;
+      left: -0.43rem;
+    }
+    .quality-safeguard {
+      margin-top: 1rem;
+      text-align: left;
     }
     .problems-grid {
       grid-template-columns: 1fr;

@@ -52,26 +52,72 @@ describe("neutral Swarrow brand", () => {
 describe("answer-quality first view", () => {
   test("renders one answer-quality H1 and both product names", () => {
     expect(countMatches(html, /<h1\b/g)).toBe(1);
-    expect(html).toContain("根拠を確認できる回答だけを、住民へ。");
-    expect(html).toContain("検証してから、公開する。");
+    for (const line of [
+      "根拠を確認できる",
+      "回答だけを、住民へ。",
+      "検証してから、",
+      "公開する。",
+    ]) {
+      expect(html).toContain(line);
+    }
 
     const hero = html.match(
       /<section class="hero[^>]*>([\s\S]*?)<\/section>/,
     )?.[1];
     expect(hero).toContain("Swarrow Chat");
     expect(hero).toContain("Swarrow Call");
+    expect(hero).toContain('href="#quality"');
+    expect(hero).toContain("回答品質の仕組みを見る");
     expect(hero).not.toContain("hero-news");
   });
 
-  test("places a three-item pain strip immediately after the Hero", () => {
+  test("places a three-item pain strip after the answer-quality proof", () => {
     expect(html).toContain('id="problems"');
     expect(countMatches(html, /class="problem-card\b/g)).toBe(3);
-    expect(html.indexOf('class="hero')).toBeLessThan(
+    expect(html.indexOf('id="quality"')).toBeLessThan(
       html.indexOf('id="problems"'),
     );
     expect(html.indexOf('id="problems"')).toBeLessThan(
       html.indexOf('class="knowledge'),
     );
+  });
+});
+
+describe("answer-quality proof", () => {
+  test("shows the three-stage publication process and safeguard", () => {
+    const quality =
+      html.match(/<section id="quality"[\s\S]*?<\/section>/)?.[0] ?? "";
+
+    expect(quality).toContain("Answer Quality");
+    expect(quality).toContain("公開前に検証し、");
+    expect(quality).toContain("公開後も改善する。");
+    expect(countMatches(quality, /class="quality-step(?:\s|")/g)).toBe(3);
+    for (const title of [
+      "Vectaによる公開前検証",
+      "自治体との公開判断",
+      "継続的な品質改善",
+    ]) {
+      expect(quality).toContain(title);
+    }
+    expect(quality).toContain("回答方針・参照元・不足情報");
+    expect(quality).toContain("利用状況・参照元・低評価質問・改善対象");
+    expect(quality).toContain(
+      "根拠が確認できない質問には無理に答えず、職員対応へ切り替えます。",
+    );
+  });
+
+  test("places proof directly between the Hero and municipal pain points", () => {
+    const hero = html.indexOf('class="hero');
+    const quality = html.indexOf('id="quality"');
+    const problems = html.indexOf('id="problems"');
+    const knowledge = html.indexOf('id="knowledge"');
+
+    expect(
+      [hero, quality, problems, knowledge].every((value) => value >= 0),
+    ).toBe(true);
+    expect(hero).toBeLessThan(quality);
+    expect(quality).toBeLessThan(problems);
+    expect(problems).toBeLessThan(knowledge);
   });
 });
 
@@ -200,6 +246,7 @@ describe("navigation and conversion", () => {
 
   test("keeps the final page sequence and a two-product CTA", () => {
     const ids = [
+      "quality",
       "problems",
       "knowledge",
       "products",
@@ -278,7 +325,9 @@ describe("final search contract", () => {
     expect(body).toContain("Swarrow Chat");
     expect(body).toContain("Swarrow Call");
     expect(body).not.toMatch(/みどり野市|うみかぜ町|あさひ野市|こもれび市/);
-    expect(body).not.toMatch(/問い合わせ全体を70%削減|負担を半減/);
+    expect(body).not.toMatch(
+      /問い合わせ全体を70%削減|負担を半減|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
+    );
   });
 
   test("publishes parseable structured data matching visible services", () => {
