@@ -34,11 +34,11 @@ export const products: readonly Product[] = [
 ];
 
 export const heroCopy = {
-  eyebrow: "公開前検証から、公開後の改善まで。",
-  title: ["根拠を確認できる", "回答だけを、住民へ。"],
-  emphasis: ["検証してから、", "公開する。"],
+  eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
+  title: ["回答精度に妥協しない。"],
+  emphasis: ["そのまちの答えを、", "磨き続ける。"],
   description:
-    "Swarrow ChatとSwarrow Callは、自治体の公式情報をもとにした回答を公開前に評価します。Vectaが回答方針・参照元・不足情報を整え、自治体と確認した範囲から公開。公開後も利用状況と低評価質問を定期的に確認し、回答品質を継続的に改善します。",
+    "Swarrow ChatとSwarrow Callは、自治体の公式情報と業務に合わせ、知識・回答ルール・参照元・職員への引き継ぎまで個別に設計。公開前に回答を検証し、自治体と確認した範囲から公開します。公開後も利用状況や低評価質問をもとに、回答品質を継続的に改善します。",
 } as const;
 
 export type AnswerQualityProof = {
@@ -96,7 +96,7 @@ export const sharedKnowledge = {
 export const pageTitle =
   "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター";
 export const pageDescription =
-  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。自治体の公式情報をもとにした回答を公開前に検証し、参照元の確認と公開後の継続改善でホームページと電話の問い合わせ対応を支えます。";
+  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。自治体の公式情報と業務に合わせて知識・回答ルール・参照元を調整し、公開前検証と公開後の継続改善でホームページと電話の回答精度を磨き続けます。";
 
 export type CustomerSuccessStep = {
   phase: string;

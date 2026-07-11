@@ -53,10 +53,10 @@ describe("answer-quality first view", () => {
   test("renders one answer-quality H1 and both product names", () => {
     expect(countMatches(html, /<h1\b/g)).toBe(1);
     for (const line of [
-      "根拠を確認できる",
-      "回答だけを、住民へ。",
-      "検証してから、",
-      "公開する。",
+      "知識・回答ルール・参照元まで、フルチューニング。",
+      "回答精度に妥協しない。",
+      "そのまちの答えを、",
+      "磨き続ける。",
     ]) {
       expect(html).toContain(line);
     }
@@ -68,6 +68,10 @@ describe("answer-quality first view", () => {
     expect(hero).toContain("Swarrow Call");
     expect(hero).toContain('href="#quality"');
     expect(hero).toContain("回答品質の仕組みを見る");
+    expect(hero).toContain("自治体の公式情報と業務に合わせ");
+    expect(hero).toContain("職員への引き継ぎまで個別に設計");
+    expect(hero).toContain("公開前に回答を検証");
+    expect(hero).toContain("公開後も利用状況や低評価質問");
     expect(hero).not.toContain("hero-news");
   });
 
@@ -310,6 +314,8 @@ describe("final search contract", () => {
     expect(description).toContain("公式情報");
     expect(description).toContain("公開前");
     expect(description).toContain("参照元");
+    expect(description).toContain("回答ルール");
+    expect(description).toContain("回答精度");
     expect(description).toContain("継続改善");
     expect(metaContent("property", "og:site_name")).toBe("Swarrow");
     expect(metaContent("property", "og:title")).toBe(title);
@@ -326,7 +332,7 @@ describe("final search contract", () => {
     expect(body).toContain("Swarrow Call");
     expect(body).not.toMatch(/みどり野市|うみかぜ町|あさひ野市|こもれび市/);
     expect(body).not.toMatch(
-      /問い合わせ全体を70%削減|負担を半減|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
+      /問い合わせ全体を70%削減|負担を半減|最高精度|No\.?1|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
     );
   });
 

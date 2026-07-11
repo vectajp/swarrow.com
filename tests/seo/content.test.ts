@@ -38,11 +38,11 @@ describe("Swarrow product content", () => {
 
   test("defines the approved answer-quality promise and proof", () => {
     expect(heroCopy).toEqual({
-      eyebrow: "公開前検証から、公開後の改善まで。",
-      title: ["根拠を確認できる", "回答だけを、住民へ。"],
-      emphasis: ["検証してから、", "公開する。"],
+      eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
+      title: ["回答精度に妥協しない。"],
+      emphasis: ["そのまちの答えを、", "磨き続ける。"],
       description:
-        "Swarrow ChatとSwarrow Callは、自治体の公式情報をもとにした回答を公開前に評価します。Vectaが回答方針・参照元・不足情報を整え、自治体と確認した範囲から公開。公開後も利用状況と低評価質問を定期的に確認し、回答品質を継続的に改善します。",
+        "Swarrow ChatとSwarrow Callは、自治体の公式情報と業務に合わせ、知識・回答ルール・参照元・職員への引き継ぎまで個別に設計。公開前に回答を検証し、自治体と確認した範囲から公開します。公開後も利用状況や低評価質問をもとに、回答品質を継続的に改善します。",
     });
     expect(answerQuality.kicker).toBe("Answer Quality");
     expect(answerQuality.title.join("")).toBe(
@@ -69,7 +69,7 @@ describe("Swarrow product content", () => {
       sharedKnowledge,
     });
     expect(publicCopy).not.toMatch(
-      /半減|70%削減|100%|どの自治体でも|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
+      /半減|70%削減|100%|最高精度|No\.?1|どの自治体でも|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
     );
   });
 
@@ -89,6 +89,8 @@ describe("two-product search model", () => {
       "公式情報",
       "公開前",
       "参照元",
+      "回答ルール",
+      "回答精度",
       "継続改善",
       "ホームページ",
       "電話",
