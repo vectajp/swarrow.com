@@ -87,6 +87,30 @@ describe("shared knowledge", () => {
   });
 });
 
+describe("product overview", () => {
+  test("shows two equally structured product choices", () => {
+    expect(html).toContain('id="products"');
+    expect(countMatches(html, /class="product-card\b/g)).toBe(2);
+    expect(html).toContain("自治体ホームページAI窓口");
+    expect(html).toContain("自治体AIコールセンター");
+    expect(html).toContain('href="#chat"');
+    expect(html).toContain('href="#call"');
+    expect(html).toContain('href="#products"');
+    expect(html).toContain("単独でも、組み合わせても導入可能");
+  });
+
+  test("places comparison after knowledge and before details", () => {
+    const knowledge = html.indexOf('id="knowledge"');
+    const overview = html.indexOf('id="products"');
+    const chat = html.indexOf('id="chat"');
+    const call = html.indexOf('id="call"');
+
+    expect(knowledge).toBeLessThan(overview);
+    expect(overview).toBeLessThan(chat);
+    expect(overview).toBeLessThan(call);
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');

@@ -13,6 +13,7 @@
     pageDescription,
     pageTitle,
     painPoints,
+    products,
     sharedKnowledge,
     showCaseStudies,
     site,
@@ -229,6 +230,7 @@
             >
               導入相談・デモを依頼する
             </button>
+            <a class="hero-secondary" href="#products">2つの製品を見る</a>
           </nav>
         </div>
 
@@ -355,6 +357,44 @@
       </div>
     </section>
 
+    <section id="products" class="products" aria-labelledby="products-title">
+      <div class="products-inner">
+        <div class="products-head" data-reveal>
+          <p class="products-kicker">Products</p>
+          <h2 id="products-title">問い合わせの入口に合わせて選べる2つの製品</h2>
+          <p>
+            ホームページから始めても、電話から始めても、両方を組み合わせても導入できます。
+          </p>
+        </div>
+
+        <div class="products-grid">
+          {#each products as product (product.id)}
+            <article
+              class="product-card product-card--{product.id}"
+              data-reveal
+            >
+              <p class="product-category">{product.category}</p>
+              <h3>{product.name}</h3>
+              <p class="product-benefit">{product.benefit}</p>
+              <ul>
+                {#each product.useCases as useCase (useCase)}
+                  <li>{useCase}</li>
+                {/each}
+              </ul>
+              <a href={product.href}>{product.name}を見る</a>
+            </article>
+          {/each}
+        </div>
+
+        <p class="products-integration" data-reveal>
+          <strong>{sharedKnowledge.adoption}</strong>
+          <span>
+            併用時は、同じ知識基盤をホームページと電話で共有できます。
+          </span>
+        </p>
+      </div>
+    </section>
+
     <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
     <section class="workflow">
       <div class="feature-band feature-band--mist">
@@ -416,7 +456,7 @@
         </div>
       </div>
 
-      <div class="feature-band feature-band--paper">
+      <div id="chat" class="feature-band feature-band--paper">
         <div
           class="section-curve-bg section-curve-bg--paper"
           aria-hidden="true"
@@ -492,7 +532,7 @@
         </div>
       </div>
 
-      <div class="feature-band feature-band--mist feature-band--last">
+      <div id="call" class="feature-band feature-band--mist feature-band--last">
         <div
           class="section-curve-bg section-curve-bg--mist section-curve-bg--flip"
           aria-hidden="true"
@@ -877,6 +917,9 @@
   #top,
   #problems,
   #knowledge,
+  #products,
+  #chat,
+  #call,
   #case,
   #news,
   #contact,
@@ -1080,7 +1123,8 @@
     gap: 0.8rem;
     margin-top: 1.6rem;
   }
-  .hero-primary {
+  .hero-primary,
+  .hero-secondary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1095,6 +1139,10 @@
     background: var(--navy);
     color: #fff;
     cursor: pointer;
+  }
+  .hero-secondary {
+    border: 1px solid var(--navy);
+    color: var(--navy);
   }
   .problems {
     position: relative;
@@ -1263,6 +1311,83 @@
   }
   .knowledge-curve-bg path {
     fill: currentColor;
+  }
+
+  /* ===== Products ===== */
+  .products {
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem);
+    background: var(--bg);
+  }
+  .products-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .products-head {
+    max-width: 760px;
+  }
+  .products-kicker,
+  .product-category {
+    margin: 0;
+    color: var(--sage-deep);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+  .products-head h2 {
+    margin: 0.5rem 0 0;
+    color: var(--navy);
+    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+    line-height: 1.5;
+  }
+  .products-head > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 26rem;
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--paper);
+    box-shadow: 0 18px 44px rgba(9, 32, 69, 0.08);
+  }
+  .product-card h3 {
+    margin: 0.55rem 0 0;
+    color: var(--navy);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .product-benefit {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+  .product-card ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.2rem 0 1.5rem;
+    padding-left: 1.2rem;
+  }
+  .product-card a {
+    margin-top: auto;
+    color: var(--navy);
+    font-weight: 800;
+  }
+  .products-integration {
+    display: grid;
+    gap: 0.25rem;
+    margin: 1.5rem 0 0;
+    padding: 1.1rem 1.3rem;
+    border-radius: 14px;
+    background: var(--sage-light);
+    color: var(--navy);
+    text-align: center;
   }
 
   /* ===== Workflow ===== */
@@ -2187,12 +2312,19 @@
     .hero-actions {
       justify-content: center;
     }
-    .hero-primary {
+    .hero-primary,
+    .hero-secondary {
       width: 100%;
       box-sizing: border-box;
     }
     .problems-grid {
       grid-template-columns: 1fr;
+    }
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    .product-card {
+      min-height: 0;
     }
     .knowledge {
       margin-top: 0;
