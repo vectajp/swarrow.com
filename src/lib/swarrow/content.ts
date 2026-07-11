@@ -1,4 +1,68 @@
 export const site = "https://swarrow.com";
+export const siteName = "Swarrow";
+
+export type ProductId = "chat" | "call";
+
+export type Product = {
+  id: ProductId;
+  name: string;
+  category: string;
+  benefit: string;
+  useCases: readonly string[];
+  href: `#${ProductId}`;
+};
+
+export const products: readonly Product[] = [
+  {
+    id: "chat",
+    name: "Swarrow Chat",
+    category: "自治体ホームページAI窓口",
+    benefit:
+      "ホームページやLINEで住民の自己解決を促し、電話へ集中する前に定型的な質問へ回答します。",
+    useCases: ["手続き案内", "必要書類", "施設案内", "予約・申請への誘導"],
+    href: "#chat",
+  },
+  {
+    id: "call",
+    name: "Swarrow Call",
+    category: "自治体AIコールセンター",
+    benefit:
+      "AIが電話の一次受付、案内、取次、発信を担い、職員の電話対応を必要な案件へ絞ります。",
+    useCases: ["代表電話", "時間外受付", "担当課取次", "リマインド・一括周知"],
+    href: "#call",
+  },
+];
+
+export const heroCopy = {
+  eyebrow: "自治体の問い合わせ対応を、ひとつの知識で。",
+  title: "電話とホームページの定型対応をAIに。",
+  emphasis: "職員は、本来の仕事へ。",
+  description:
+    "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。FAQ・手順書・業務データを1つの知識基盤で管理し、住民からの問い合わせにWebと電話で応えます。",
+} as const;
+
+export const painPoints = [
+  {
+    title: "同じ問い合わせが繰り返される",
+    body: "手続き、必要書類、担当課などの定型質問が電話や窓口へ集中します。",
+  },
+  {
+    title: "案内の知識が分散している",
+    body: "ホームページと電話でFAQを別々に管理すると、更新と案内内容に差が生まれます。",
+  },
+  {
+    title: "繁忙時や時間外に受けきれない",
+    body: "問い合わせが重なると、職員の本来業務と住民への案内の両方が滞ります。",
+  },
+] as const;
+
+export const sharedKnowledge = {
+  title: "一度整えた知識を、ホームページにも電話にも。",
+  description:
+    "FAQ、手順書、業務データを1つの知識基盤で管理し、Swarrow ChatとSwarrow Callの両方から利用できます。",
+  adoption: "単独でも、組み合わせても導入可能",
+} as const;
+
 export const pageTitle = "Swarrow Call｜自治体向け AI 窓口・電話対応";
 export const pageDescription =
   "自治体の住民問い合わせ、AI 受電、AI チャット、AI 架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
