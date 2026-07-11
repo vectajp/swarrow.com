@@ -63,9 +63,10 @@ export const sharedKnowledge = {
   adoption: "単独でも、組み合わせても導入可能",
 } as const;
 
-export const pageTitle = "Swarrow Call｜自治体向け AI 窓口・電話対応";
+export const pageTitle =
+  "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター";
 export const pageDescription =
-  "自治体の住民問い合わせ、AI 受電、AI チャット、AI 架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
+  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。FAQや手順書を1つの知識基盤で管理し、ホームページと電話の問い合わせ対応を支援します。";
 
 export type CustomerSuccessStep = {
   phase: string;
@@ -202,23 +203,40 @@ export const navItems: NavItem[] = [
   { label: "導入支援", href: "#support" },
 ];
 
-// 構造化データ: 提供事業者(Organization)とサービス(Service)。
+const organizationId = `${site}/#organization`;
+
+// 構造化データ: 提供事業者、Web サイト、公開中の2製品。
 export const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Service",
-  name: "Swarrow Call",
-  serviceType: "自治体向け AI 窓口・電話対応",
-  category: "自治体向け AI 窓口・電話対応",
-  description: pageDescription,
-  url: `${site}/`,
-  provider: {
-    "@type": "Organization",
-    name: "株式会社Vecta",
-    url: "https://www.vecta.co.jp/",
-  },
-  audience: {
-    "@type": "Audience",
-    audienceType: "自治体",
-  },
-  areaServed: "日本",
-};
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: "株式会社Vecta",
+      url: "https://www.vecta.co.jp/",
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site}/#website`,
+      url: `${site}/`,
+      name: siteName,
+      description: pageDescription,
+      publisher: { "@id": organizationId },
+    },
+    ...products.map((product) => ({
+      "@type": "Service",
+      "@id": `${site}/#swarrow-${product.id}`,
+      name: product.name,
+      serviceType: product.category,
+      category: product.category,
+      description: product.benefit,
+      url: `${site}/${product.href}`,
+      provider: { "@id": organizationId },
+      audience: {
+        "@type": "Audience",
+        audienceType: "自治体",
+      },
+      areaServed: "日本",
+    })),
+  ],
+} as const;
