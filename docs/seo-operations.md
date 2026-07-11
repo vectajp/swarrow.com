@@ -54,6 +54,8 @@ Googlebot がページを取得できない可能性が高い。
 公開前に root URL `https://swarrow.com/` へ絞り、直近28日と前28日の
 `clicks`、`impressions`、`CTR`、`average position` を記録する。
 平均掲載順位は補助指標とし、impressions と clicks の傾向を優先する。
+回答品質メッセージの公開日と、変更前の title、description、H1 も同じ記録へ
+残し、どのコピーに対する検索結果かを後から判別できるようにする。
 
 対象クエリ群:
 
@@ -64,9 +66,13 @@ Googlebot がページを取得できない可能性が高い。
   `AI 受電 自治体`
 - Integrated: `自治体 問い合わせ 自動化`、`住民問い合わせ 自動化`、
   `電話 チャット 一元化`
+- Answer Quality: `自治体 AI 回答精度`、`自治体 AI 参照元`、
+  `自治体 AI 誤回答対策`
 
 Performance report の Query filter と Page filter を使う。低頻度 query は
 privacy 保護のため省略される場合があるので、0件を実装失敗とは扱わない。
+Answer Quality 群は上記3語を起点とし、実際に impressions が発生した関連語を
+記録して次回比較へ追加する。
 
 ## 公開直後
 
@@ -86,16 +92,20 @@ privacy 保護のため省略される場合があるので、0件を実装失�
 
 - indexed version の last crawl が公開後へ更新されたか確認する。
 - Google canonical と user canonical が root URL で一致するか確認する。
-- Google が取得した HTML に新しい title と2製品名が反映されたか確認する。
+- Google が取得した HTML に新しい title、2製品名、回答品質を示す H1 が
+  反映されたか確認する。
 - sitemap の Status が Success で、root URL が index 対象か確認する。
 
 ## 公開28日後
 
-- 変更後28日と変更前28日を、同じ root URL・query 群で比較する。
+- 変更後28日と変更前28日を、同じ root URL・5つの query 群で比較する。
 - `impressions`、`clicks`、`CTR` の変化を記録する。
 - `average position` は検索意図や競合で変動するため補助指標として扱う。
 - impressions が増え CTR が下がった場合は title、description、H1 と query の
   一致を見直す。
+- Answer Quality 群が0件でも公開失敗とはしない。既存の Brand、Chat、Call、
+  Integrated 群への流入を併記し、回答品質メッセージが全体の CTR に与えた
+  変化を確認する。
 - `site:swarrow.com` は補助確認に留め、Search Console を判断の正とする。
 
 Search Console API は OAuth と外部状態を必要とし、URL Inspection API も
@@ -107,7 +117,8 @@ Google index 内の版だけを返すため、今回の CI には組み込まな
 - Search Console に sitemap が検出される
 - Search Console の URL 検査で root URL が取得可能になる
 - 検索クエリは `自治体 AI 電話対応`、`AI 受電 自治体`、
-  `住民問い合わせ 自動化` を中心に確認する
+  `住民問い合わせ 自動化` に加え、`自治体 AI 回答精度`、
+  `自治体 AI 参照元`、`自治体 AI 誤回答対策` を確認する
 
 検索順位や即時 index は保証しない。公開到達性、クロール可能性、metadata、
 sitemap、Search Console の検出状況を継続的に確認する。
