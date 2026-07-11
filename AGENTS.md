@@ -1,35 +1,49 @@
-# Swarrow Call
+# Swarrow
 
-AI カスタマーサポートサービス「Swarrow Call」のランディングページ。SvelteKit + Bun で管理する。ランタイム、フォーマット、TypeScript、スペルチェック、git hooks の規約は `.claude/rules/` 配下に分割している。該当するファイルを編集する前に、対応するルールファイルを読むこと。
+Landing page for two municipal AI products: the website AI desk "Swarrow Chat"
+and the AI call center "Swarrow Call". The site uses SvelteKit and Bun. Runtime,
+formatting, TypeScript, spelling, and git-hook rules live under `.claude/rules/`.
+Read the applicable rule file before editing matching files.
 
-## プロジェクト規約
+## Project conventions
 
-- Swarrow Call の LP は root route の `src/routes/+page.svelte` に置く。
-- 共有するコンポーネントやユーティリティは `$lib` エイリアス経由で読めるよう
-  `src/lib/` 配下に置く。
-- credentials、tokens、private keys、本番相当の API endpoint、機微な sample
-  payload はコミットしない。環境ごとに変わる値は保存前に placeholder へ
-  置き換える。
-- パッケージマネージャーと script runner は Bun に統一する。npm、pnpm、
-  Yarn、ESLint、Prettier の設定を追加しない。
-- ビルド/デプロイ先は adapter-static による静的プリレンダリングを前提と
-  する(`vite.config.ts` 参照)。SSR やサーバー専用 API が必要になった場合
-  はこの前提を見直し、adapter を含め改めて設計する。
-- 完了を報告する前に `bun run check` と `bun run build` を実行する。
+- Keep the integrated single-page site in `src/routes/+page.svelte`.
+- Present Swarrow Chat and Swarrow Call as equal, independently adoptable products.
+- Explain the shared knowledge base before either product's detailed section.
+- Keep shared components and utilities under `src/lib/swarrow/` and import them
+  through the `$lib` alias.
+- Reuse the existing media under `static/swarrow-call/`; do not rename those
+  public URLs during the two-product homepage change.
+- Do not publish unsupported performance claims or the fictional case-study data.
+- Do not commit credentials, tokens, private keys, production-equivalent API
+  endpoints, or sensitive sample payloads. Use placeholders for environment values.
+- Bun is the only package manager and script runner. Do not add npm, pnpm, Yarn,
+  ESLint, or Prettier configuration.
+- The deployment target is static prerendering through adapter-static
+  (`vite.config.ts`). Revisit the adapter design before adding SSR or server-only APIs.
+- Before reporting implementation complete, run `bun --bun run test:seo`,
+  `bun --bun run check`, and `bun --bun run build`.
 
-## 資料請求 API
+## Download request API
 
-資料請求フォームの送信、D1 への保存、メール送信は `swarrow.com-backend`
-の `POST https://api.swarrow.com/download-requests` で処理する。frontend
-側は `PUBLIC_DOWNLOAD_REQUEST_API_URL` と Cloudflare Turnstile site key を
-公開環境変数として持つ。連携設定は
-[docs/download-request-api.md](docs/download-request-api.md) を、資料ダウンロードリンクの運用手順は
-[docs/download-link.md](docs/download-link.md) を参照。
+The contact form, D1 persistence, and email delivery are handled by
+`swarrow.com-backend` at `POST https://api.swarrow.com/download-requests`.
+The frontend uses `PUBLIC_DOWNLOAD_REQUEST_API_URL` and a Cloudflare Turnstile
+site key as public environment variables. See `docs/download-request-api.md` for
+integration details and `docs/download-link.md` for download-link operations.
+
+## SEO operations
+
+Local tests validate search-facing HTML contracts, not ranking. Follow
+`docs/seo-operations.md` for pre-deploy baselines, URL Inspection, sitemap checks,
+and 7-day/28-day Search Console measurement. Never store Search Console OAuth
+credentials or exports in the repository.
 
 ## Figma
 
-元デザイン: https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall
+Original design: https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall
 
-## Codex 互換性
+## Codex compatibility
 
-`CLAUDE.md` はこのファイルへの symbolic link である。編集は `AGENTS.md` に対して行い、`CLAUDE.md` を通常ファイルに置き換えないこと。
+`CLAUDE.md` is a symbolic link to this file. Edit `AGENTS.md` and do not replace
+the symlink with a regular file.
