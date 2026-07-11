@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import ContactModal from "$lib/swarrow-call/ContactModal.svelte";
+  import ContactModal from "$lib/swarrow/ContactModal.svelte";
   import {
     callCapabilities,
     cases,
@@ -13,7 +13,7 @@
     pageTitle,
     showCaseStudies,
     site,
-  } from "$lib/swarrow-call/content";
+  } from "$lib/swarrow/content";
 
   const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
   const REVEAL_SELECTOR = "[data-reveal]";
