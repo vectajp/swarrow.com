@@ -615,13 +615,14 @@
         </div>
         <div class="workflow-inner">
           <div class="workflow-copy" data-reveal>
-            <p class="workflow-en">No-Code Flow Editor</p>
+            <p class="workflow-en">Common Operations</p>
             <h2 id="operations-title" class="workflow-title">
-              <span>会話フローを、</span>
-              <span>職員の手で更新。</span>
+              <span>両製品の案内を、</span>
+              <span>職員の手で改善。</span>
             </h2>
             <p class="workflow-lead">
-              初期設定が済めば、職員自身で会話フローを更新し、対話シナリオを画面上で簡単に設計・編集できます。コードを書かずに分岐や案内文を見直せるため、住民からの問い合わせや制度変更に合わせて、窓口の運用をすばやく改善できます。
+              Swarrow ChatとSwarrow
+              Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
             </p>
             <ul class="workflow-list">
               <li>
@@ -629,12 +630,12 @@
                 <small>質問、回答、分岐、案内文を見ながら編集。</small>
               </li>
               <li>
-                <strong>現場の気づきをすぐ反映</strong>
-                <small>問い合わせの多い表現や案内不足を職員が更新。</small>
+                <strong>一度の更新を両製品へ反映</strong>
+                <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
               </li>
               <li>
-                <strong>小さな修正は職員が対応</strong>
-                <small>日々の軽微な改善はノーコードで完結。</small>
+                <strong>現場の気づきをすぐ反映</strong>
+                <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
               </li>
             </ul>
           </div>
@@ -651,7 +652,7 @@
               height="720"
               bind:this={workflowVideo}
               class:ready={workflowVideoReady}
-              aria-label="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
+              aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
             >
               <source
                 src="/swarrow-call/workflow-editor-alpha.webm"
@@ -660,7 +661,7 @@
               <img
                 class="workflow-image"
                 src="/swarrow-call/workflow-editor-alpha.png"
-                alt="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
+                alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
                 width="1280"
                 height="720"
                 loading="lazy"

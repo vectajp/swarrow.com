@@ -157,6 +157,19 @@ describe("section order", () => {
   });
 });
 
+describe("common operations", () => {
+  test("describes one update workflow for both products", () => {
+    const operations = html.match(
+      /<section id="operations"[\s\S]*?<\/section>/,
+    )?.[0];
+    expect(operations).toContain("両製品の案内を、");
+    expect(operations).toContain("職員の手で改善。");
+    expect(operations).toContain("Swarrow ChatとSwarrow Call");
+    expect(operations).toContain("一度の更新");
+    expect(operations).toContain("/swarrow-call/workflow-editor-alpha.webm");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');
