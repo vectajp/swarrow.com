@@ -55,8 +55,7 @@ describe("answer-quality first view", () => {
     for (const line of [
       "知識・回答ルール・参照元まで、フルチューニング。",
       "回答精度に妥協しない。",
-      "そのまちの答えを、",
-      "磨き続ける。",
+      "フルチューニングAI。",
     ]) {
       expect(html).toContain(line);
     }
@@ -72,6 +71,7 @@ describe("answer-quality first view", () => {
     expect(hero).toContain("職員への引き継ぎまで個別に設計");
     expect(hero).toContain("公開前に回答を検証");
     expect(hero).toContain("公開後も利用状況や低評価質問");
+    expect(hero).not.toContain("そのまちの答えを、");
     expect(hero).not.toContain("hero-news");
   });
 

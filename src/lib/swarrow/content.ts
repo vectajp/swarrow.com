@@ -36,7 +36,7 @@ export const products: readonly Product[] = [
 export const heroCopy = {
   eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
   title: ["回答精度に妥協しない。"],
-  emphasis: ["そのまちの答えを、", "磨き続ける。"],
+  emphasis: ["フルチューニングAI。"],
   description:
     "Swarrow ChatとSwarrow Callは、自治体の公式情報と業務に合わせ、知識・回答ルール・参照元・職員への引き継ぎまで個別に設計。公開前に回答を検証し、自治体と確認した範囲から公開します。公開後も利用状況や低評価質問をもとに、回答品質を継続的に改善します。",
 } as const;
