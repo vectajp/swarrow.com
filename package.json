@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
+    "test": "bun test tests/seo/content.test.ts",
+    "test:seo": "bun test tests/seo/content.test.ts && bun --bun run build && bun test tests/seo/build-output.test.ts",
     "check": "biome check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:fix": "biome check --write",
     "clean": "git clean -xdf node_modules build .svelte-kit",
