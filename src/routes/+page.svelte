@@ -674,7 +674,7 @@
     </section>
 
     <!-- Customer Success: 専任チームが初期構築から運用改善まで伴走する支援体制。 -->
-    <section class="function">
+    <section id="support" class="function" aria-labelledby="support-title">
       <div class="function-curve-bg" aria-hidden="true">
         <svg
           viewBox="0 0 1440 900"
@@ -690,13 +690,13 @@
       <div class="customer-success-hero" data-reveal>
         <div class="function-head">
           <p class="function-en">Customer Success</p>
-          <h2 class="function-ja">カスタマーサクセス</h2>
+          <h2 id="support-title" class="function-ja">カスタマーサクセス</h2>
           <p class="customer-success-lead">
             成果を出すことにコミットする、専門チームの徹底した伴走サポート。
           </p>
           <p class="customer-success-body">
-            Swarrow Call
-            は、導入して終わりのサービスではありません。すべてのお客様に専任のカスタマーサクセスチームがつき、初期構築から運用改善まで成果に向けて伴走します。
+            Swarrow ChatとSwarrow
+            Callは、導入して終わりのサービスではありません。単独導入でも併用でも、専任チームが知識基盤の初期構築から利用状況の確認、継続的な改善まで伴走します。
           </p>
         </div>
 
@@ -942,6 +942,7 @@
   #chat,
   #call,
   #operations,
+  #support,
   #case,
   #news,
   #contact,

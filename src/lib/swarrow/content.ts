@@ -80,7 +80,7 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "1",
     title: "導入準備",
-    body: "機能の説明会、各種テンプレートの提供、稼働までのプロジェクト進行を専任チームが丁寧に支えます。",
+    body: "対象部署と問い合わせ業務を整理し、Chat、Call、併用のどこから始めるかを専任チームが一緒に設計します。",
     video: "/swarrow-call/customer-success-step-1.webm",
     poster: "/swarrow-call/customer-success-step-1-poster.webp",
     alt: "カスタマーサクセスチームが導入準備の説明会と進行を支援するイメージ",
@@ -88,7 +88,7 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "2",
     title: "初期構築",
-    body: "貴社の要件をヒアリングし、当社がチャットボットの土台を構築。回答品質を左右する知識基盤づくりから整えます。",
+    body: "自治体の要件をヒアリングし、FAQ、手順書、会話フローなど両製品が利用する知識基盤を整えます。",
     video: "/swarrow-call/customer-success-step-2.webm",
     poster: "/swarrow-call/customer-success-step-2-poster.webp",
     alt: "カスタマーサクセスチームが初期構築の計画を整理するイメージ",

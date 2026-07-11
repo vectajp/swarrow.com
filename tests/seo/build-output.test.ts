@@ -170,6 +170,18 @@ describe("common operations", () => {
   });
 });
 
+describe("shared customer success", () => {
+  test("supports Chat, Call, and combined adoption", () => {
+    const support =
+      html.match(/<section id="support"[\s\S]*?<\/section>/)?.[0] ?? "";
+    expect(support).toMatch(/Swarrow ChatとSwarrow\s+Call/);
+    expect(support).toContain("導入準備");
+    expect(support).toContain("初期構築");
+    expect(support).toContain("運用改善");
+    expect(support).not.toContain("貴社");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');
