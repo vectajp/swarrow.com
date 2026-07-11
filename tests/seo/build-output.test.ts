@@ -1,6 +1,7 @@
 /// <reference types="bun" />
 
 import { beforeAll, describe, expect, test } from "bun:test";
+import { existsSync } from "node:fs";
 
 let html = "";
 let robots = "";
@@ -242,5 +243,67 @@ describe("crawlability baseline", () => {
       (match) => match[1],
     );
     expect(locations).toEqual(["https://swarrow.com/"]);
+  });
+});
+
+describe("final search contract", () => {
+  const metaContent = (kind: "name" | "property", key: string) =>
+    html.match(
+      new RegExp(`<meta ${kind}="${key}" content="([^"]*)"\\s*\\/?>`),
+    )?.[1];
+
+  test("keeps visible metadata and social metadata consistent", () => {
+    const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+    const description = metaContent("name", "description");
+    expect(title).toBe(
+      "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター",
+    );
+    expect(description).toContain("Swarrow Chat");
+    expect(description).toContain("Swarrow Call");
+    expect(metaContent("property", "og:site_name")).toBe("Swarrow");
+    expect(metaContent("property", "og:title")).toBe(title);
+    expect(metaContent("name", "twitter:title")).toBe(title);
+    expect(metaContent("property", "og:description")).toBe(description);
+    expect(metaContent("name", "twitter:description")).toBe(description);
+    expect(metaContent("property", "og:url")).toBe("https://swarrow.com/");
+  });
+
+  test("renders one H1 and both services in visible body content", () => {
+    const body = html.split("<body")[1] ?? "";
+    expect(countMatches(body, /<h1\b/g)).toBe(1);
+    expect(body).toContain("Swarrow Chat");
+    expect(body).toContain("Swarrow Call");
+    expect(body).not.toMatch(/みどり野市|うみかぜ町|あさひ野市|こもれび市/);
+    expect(body).not.toMatch(/問い合わせ全体を70%削減|負担を半減/);
+  });
+
+  test("publishes parseable structured data matching visible services", () => {
+    const body = html.split("<body")[1] ?? "";
+    const match = html.match(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+    );
+    expect(match).not.toBeNull();
+    const data = JSON.parse(match?.[1] ?? "{}");
+    const graph = data["@graph"] as Array<Record<string, unknown>>;
+    const services = graph.filter((item) => item["@type"] === "Service");
+    expect(graph.some((item) => item["@type"] === "WebSite")).toBe(true);
+    expect(services).toHaveLength(2);
+    for (const service of services) {
+      expect(body).toContain(String(service.name));
+      expect(body).toContain(String(service.serviceType));
+    }
+  });
+
+  test("keeps every referenced Swarrow media file present", () => {
+    const media = new Set(
+      Array.from(
+        html.matchAll(/(?:src|poster)="(\/swarrow-call\/[^"]+)"/g),
+        (match) => match[1],
+      ),
+    );
+    expect(media.size).toBeGreaterThan(0);
+    for (const path of media) {
+      expect(existsSync(`static${path}`)).toBe(true);
+    }
   });
 });
