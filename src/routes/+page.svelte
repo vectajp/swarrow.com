@@ -840,14 +840,14 @@
     </section>
 
     <!-- CTA -->
-    <section id="contact" class="cta">
+    <section id="contact" class="cta" aria-labelledby="contact-title">
       <div class="cta-inner" data-reveal>
-        <h2 class="cta-title">
-          <span>AI チャットボット・AI コールセンターを、</span>
-          <span>もっと身近に。</span>
+        <h2 id="contact-title" class="cta-title">
+          <span>Swarrow Chat・Swarrow Callの導入相談</span>
+          <span>単独導入から併用まで、ご相談ください。</span>
         </h2>
         <p class="cta-sub">
-          窓口対応の課題に合わせて、導入相談からデモまでスピーディーにご案内します。まずは気軽にご相談ください。
+          現在の問い合わせ件数、対象部署、ホームページと電話の運用状況を伺い、始め方とデモをご案内します。
         </p>
         <button type="button" class="cta-btn" onclick={openContactModal}>
           導入相談・デモを依頼する<span class="ext">↗</span>

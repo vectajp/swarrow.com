@@ -182,6 +182,41 @@ describe("shared customer success", () => {
   });
 });
 
+describe("navigation and conversion", () => {
+  test("all in-page links point to rendered targets", () => {
+    const ids = new Set(
+      Array.from(html.matchAll(/\sid="([^"]+)"/g), (match) => match[1]),
+    );
+    const internalTargets = Array.from(
+      html.matchAll(/href="#([^"]+)"/g),
+      (match) => match[1],
+    );
+
+    for (const target of internalTargets) {
+      expect(ids.has(target)).toBe(true);
+    }
+  });
+
+  test("keeps the final page sequence and a two-product CTA", () => {
+    const ids = [
+      "problems",
+      "knowledge",
+      "products",
+      "chat",
+      "call",
+      "operations",
+      "support",
+      "news",
+      "contact",
+    ];
+    const positions = ids.map((id) => html.indexOf(`id="${id}"`));
+    expect(positions.every((position) => position >= 0)).toBe(true);
+    expect([...positions].sort((a, b) => a - b)).toEqual(positions);
+    expect(html).toContain("Swarrow Chat・Swarrow Callの導入相談");
+    expect(html).toContain("単独導入から併用まで");
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');

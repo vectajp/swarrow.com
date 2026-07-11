@@ -196,9 +196,10 @@ export const companyOverviewLink: NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  ...(showCaseStudies ? [{ label: "導入事例", href: "#case" }] : []),
-  companyOverviewLink,
-  { label: "お知らせ", href: "#news" },
+  { label: "製品", href: "#products" },
+  { label: "Swarrow Chat", href: "#chat" },
+  { label: "Swarrow Call", href: "#call" },
+  { label: "導入支援", href: "#support" },
 ];
 
 // 構造化データ: 提供事業者(Organization)とサービス(Service)。
