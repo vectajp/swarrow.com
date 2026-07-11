@@ -46,6 +46,32 @@ describe("neutral Swarrow brand", () => {
   });
 });
 
+describe("benefit-led first view", () => {
+  test("renders one benefit-led H1 and both product names", () => {
+    expect(countMatches(html, /<h1\b/g)).toBe(1);
+    expect(html).toContain("電話とホームページの定型対応をAIに。");
+    expect(html).toContain("職員は、本来の仕事へ。");
+
+    const hero = html.match(
+      /<section class="hero[^>]*>([\s\S]*?)<\/section>/,
+    )?.[1];
+    expect(hero).toContain("Swarrow Chat");
+    expect(hero).toContain("Swarrow Call");
+    expect(hero).not.toContain("hero-news");
+  });
+
+  test("places a three-item pain strip immediately after the Hero", () => {
+    expect(html).toContain('id="problems"');
+    expect(countMatches(html, /class="problem-card\b/g)).toBe(3);
+    expect(html.indexOf('class="hero')).toBeLessThan(
+      html.indexOf('id="problems"'),
+    );
+    expect(html.indexOf('id="problems"')).toBeLessThan(
+      html.indexOf('class="knowledge'),
+    );
+  });
+});
+
 describe("crawlability baseline", () => {
   test("publishes Japanese HTML with one canonical URL", () => {
     expect(html).toContain('<html lang="ja">');

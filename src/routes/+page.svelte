@@ -6,11 +6,13 @@
     cases,
     companyOverviewLink,
     customerSuccessSteps,
+    heroCopy,
     jsonLd,
     navItems,
     news,
     pageDescription,
     pageTitle,
+    painPoints,
     showCaseStudies,
     site,
     siteName,
@@ -18,8 +20,6 @@
 
   const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
   const REVEAL_SELECTOR = "[data-reveal]";
-  const heroSupportLead =
-    "住民問い合わせ、AI 受電、AI 架電、チャット対応をひとつの知識基盤へ。";
   const AUTOPLAY_VIDEO_SELECTOR = [
     ".hero-video",
     ".knowledge-video",
@@ -214,16 +214,21 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-copy">
+          <p class="hero-eyebrow">{heroCopy.eyebrow}</p>
           <h1 class="hero-title">
-            <span>自治体の AI 窓口を、</span>
-            <span class="hero-title-nowrap">電話とチャットで支える。</span>
+            <span>{heroCopy.title}</span>
+            <span>{heroCopy.emphasis}</span>
           </h1>
-          <p class="hero-sub">
-            <span>{heroSupportLead}</span>
-            <span>
-              制度変更や FAQ 更新に合わせて、窓口対応を継続的に改善します。
-            </span>
-          </p>
+          <p class="hero-sub">{heroCopy.description}</p>
+          <nav class="hero-actions" aria-label="主要な導線">
+            <button
+              type="button"
+              class="hero-primary"
+              onclick={openContactModal}
+            >
+              導入相談・デモを依頼する
+            </button>
+          </nav>
         </div>
 
         <div class="hero-media" aria-hidden="true">
@@ -250,41 +255,26 @@
             >
           </video>
         </div>
-
-        <nav class="hero-mobile-actions" aria-label="小画面用の重要な導線">
-          <button
-            type="button"
-            class="hero-mobile-contact"
-            onclick={openContactModal}
-          >
-            お問い合わせ
-          </button>
-          <a
-            class="hero-mobile-company"
-            href={companyOverviewLink.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{companyOverviewLink.label}を別タブで開く"
-          >
-            {companyOverviewLink.label}
-            <span class="ext" aria-hidden="true">↗</span>
-          </a>
-        </nav>
-
-        <a class="hero-news" href="#news">
-          <span class="hero-news-head">
-            <span class="hero-news-date">2026.07.07</span>
-            <span class="hero-news-badge">最新情報</span>
-          </span>
-          <span class="hero-news-text">
-            Swarrow Call
-            オンラインセミナー「役所の箱ファイルの電子化作戦」を開催。
-          </span>
-          <span class="hero-news-go" aria-hidden="true">↗</span>
-        </a>
       </div>
 
       <div class="hero-fade"></div>
+    </section>
+
+    <section id="problems" class="problems" aria-labelledby="problems-title">
+      <div class="problems-inner">
+        <p class="problems-kicker">自治体窓口が抱える課題</p>
+        <h2 id="problems-title" class="problems-title">
+          問い合わせ対応が、職員の時間を奪っていませんか。
+        </h2>
+        <div class="problems-grid">
+          {#each painPoints as point (point.title)}
+            <article class="problem-card" data-reveal>
+              <h3>{point.title}</h3>
+              <p>{point.body}</p>
+            </article>
+          {/each}
+        </div>
+      </div>
     </section>
 
     <!-- Knowledge: 入力された知識を AI が使える形へ変換し、電話やチャットへ出力する流れ。 -->
@@ -1059,10 +1049,17 @@
   .hero-copy {
     position: relative;
     z-index: 2;
-    align-self: start;
+    align-self: center;
     min-width: 0;
-    height: 15rem;
-    margin-top: 9rem;
+    margin-top: clamp(3rem, 8vw, 8rem);
+  }
+  .hero-eyebrow,
+  .problems-kicker {
+    margin: 0 0 0.8rem;
+    color: var(--sage-deep);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
   }
   .hero-title {
     margin: 0;
@@ -1075,82 +1072,76 @@
   .hero-title span {
     display: block;
   }
-  .hero-title-nowrap {
-    white-space: nowrap;
-  }
   .hero-sub {
-    margin: 1.6rem 0 0;
-    font-size: clamp(0.82rem, 1.2vw, 1rem);
-    letter-spacing: 0.03em;
+    max-width: 36rem;
+    margin: 1.35rem 0 0;
     color: var(--ink-soft);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    letter-spacing: 0.02em;
   }
-  .hero-sub span {
-    display: block;
-    white-space: nowrap;
-  }
-  .hero-news {
-    position: absolute;
-    right: clamp(1.2rem, 4vw, 3.5rem);
-    bottom: clamp(10rem, 14vw, 12rem);
-    z-index: 4;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.4rem 1rem;
-    align-items: center;
-    width: min(320px, 40vw);
-    box-sizing: border-box;
-    padding: 1rem 1.2rem;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 10px 30px rgba(9, 32, 69, 0.1);
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
-  }
-  .hero-news:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(9, 32, 69, 0.16);
-  }
-  .hero-news-head {
-    grid-column: 1 / -1;
+  .hero-actions {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+  }
+  .hero-primary {
+    display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-  }
-  .hero-news-date {
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-  .hero-news-badge {
-    padding: 0.15rem 0.55rem;
-    border: 1px solid var(--ink);
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 700;
-  }
-  .hero-news-text {
-    font-size: 0.82rem;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .hero-news-go {
-    align-self: end;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--ink);
+    justify-content: center;
+    min-height: 2.9rem;
+    padding: 0.7rem 1.4rem;
     border-radius: 999px;
-    font-size: 1.1rem;
+    font: inherit;
+    font-weight: 800;
   }
-  .hero-mobile-actions {
-    display: none;
+  .hero-primary {
+    border: 0;
+    background: var(--navy);
+    color: #fff;
+    cursor: pointer;
+  }
+  .problems {
+    position: relative;
+    z-index: 3;
+    padding: clamp(2.75rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem);
+    background: var(--paper);
+  }
+  .problems-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .problems-title {
+    max-width: 48rem;
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(1.5rem, 3vw, 2.35rem);
+    line-height: 1.55;
+  }
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: clamp(1.8rem, 4vw, 3rem);
+  }
+  .problem-card {
+    padding: 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--bg);
+  }
+  .problem-card h3,
+  .problem-card p {
+    margin: 0;
+  }
+  .problem-card h3 {
+    color: var(--navy);
+    font-size: 1rem;
+  }
+  .problem-card p {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
   }
 
   /* ===== Knowledge ===== */
@@ -2198,57 +2189,15 @@
       font-size: clamp(1.65rem, 8vw, 2.4rem);
       letter-spacing: 0.1em;
     }
-    .hero-sub {
-      font-size: clamp(0.42rem, 2.1vw, 0.82rem);
-      letter-spacing: 0;
-    }
-    .hero-news {
-      position: static;
-      width: 100%;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-    .hero-mobile-actions {
-      position: relative;
-      z-index: 3;
-      display: grid;
-      gap: 0.7rem;
-      align-items: center;
-      box-sizing: border-box;
-      width: 100%;
-      margin: 1.1rem auto 0;
-      padding: 0.8rem;
-      border: 1px solid rgba(9, 32, 69, 0.1);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-      box-shadow: 0 14px 36px rgba(9, 32, 69, 0.12);
-      backdrop-filter: blur(8px);
-    }
-    .hero-mobile-contact {
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      background: var(--navy);
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 1rem;
-      font-weight: 800;
-      line-height: 1.4;
-      padding: 0.95rem 1.2rem;
-      white-space: nowrap;
-      box-shadow: 0 10px 22px rgba(9, 32, 69, 0.18);
-    }
-    .hero-mobile-company {
-      display: inline-flex;
-      align-items: center;
+    .hero-actions {
       justify-content: center;
-      min-height: 1.8rem;
-      color: var(--navy);
-      font-size: 0.86rem;
-      font-weight: 700;
-      line-height: 1.4;
-      white-space: nowrap;
+    }
+    .hero-primary {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .problems-grid {
+      grid-template-columns: 1fr;
     }
     .knowledge {
       margin-top: 0;
