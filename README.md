@@ -1,6 +1,9 @@
-# Swarrow Call
+# Swarrow
 
-AI カスタマーサポートサービス「Swarrow Call」のランディングページ。SvelteKit + Bun で管理する。
+自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター
+「Swarrow Call」の統合ランディングページ。SvelteKit + Bun で管理する。
+
+両製品は個別導入でき、併用時は同じ知識基盤をホームページと電話で共有する。
 
 元デザイン: https://www.figma.com/design/2eT31sLxtnkjkDpM1l1CMI/SwarrowCall
 
@@ -14,8 +17,8 @@ mise 管理ツールのインストール、`bun install`、git hooks のイン�
 
 ## ディレクトリ
 
-- `src/routes/+page.svelte`: Swarrow Call の LP を配置する root route
-- `src/lib/`: LP で使う共有コンポーネント・ユーティリティを置く
+- `src/routes/+page.svelte`: 2製品を扱う single-page site の root route
+- `src/lib/swarrow/`: LP で使う共有コンポーネント・コンテンツを置く
 - `static/`: そのまま配信する静的ファイル(画像、`robots.txt`,
   `_redirects` など)
 
@@ -31,9 +34,9 @@ bun run preview  # build/ の内容を http://localhost:4174/ でプレビュー
 
 ## LP 変更時の注意
 
-- Swarrow Call の LP は `src/routes/+page.svelte` を編集する
+- Swarrow Chat / Swarrow Call の統合 LP は `src/routes/+page.svelte` を編集する
 - credentials、tokens、private keys、本番相当の API endpoint、機微なサンプル payload は保存しない
-- 変更後は `bun run check` と `bun run build` を実行する
+- 変更後は `bun --bun run test:seo`、`bun run check`、`bun run build` を実行する
 
 ## その他のコマンド
 
@@ -41,6 +44,7 @@ bun run preview  # build/ の内容を http://localhost:4174/ でプレビュー
 bun run check      # Biome のフォーマット/リントチェック + svelte-check による型チェック
 bun run check:fix  # Biome によるフォーマット/リントの自動修正
 bun run clean      # node_modules / build / .svelte-kit を削除
+bun --bun run test:seo # metadata、canonical、robots、sitemap、JSON-LD を検証
 ```
 
 ## ドキュメント

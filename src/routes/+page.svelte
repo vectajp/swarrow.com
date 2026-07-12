@@ -1,24 +1,25 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import ContactModal from "$lib/swarrow-call/ContactModal.svelte";
+  import ContactModal from "$lib/swarrow/ContactModal.svelte";
   import {
     callCapabilities,
     cases,
-    companyOverviewLink,
     customerSuccessSteps,
+    heroCopy,
     jsonLd,
     navItems,
     news,
     pageDescription,
     pageTitle,
+    products,
+    sharedKnowledge,
     showCaseStudies,
     site,
-  } from "$lib/swarrow-call/content";
+    siteName,
+  } from "$lib/swarrow/content";
 
   const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
   const REVEAL_SELECTOR = "[data-reveal]";
-  const heroSupportLead =
-    "住民問い合わせ、AI 受電、AI 架電、チャット対応をひとつの知識基盤へ。";
   const AUTOPLAY_VIDEO_SELECTOR = [
     ".hero-video",
     ".knowledge-video",
@@ -29,6 +30,7 @@
     ".customer-success-video",
     ".customer-success-step-video",
   ].join(", ");
+  const currentYear = new Date().getFullYear();
 
   const isExternalHref = (href: string) => /^https?:\/\//.test(href);
   const playVideo = (video: HTMLVideoElement) => {
@@ -161,7 +163,7 @@
   <meta name="robots" content="index,follow">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Swarrow Call">
+  <meta property="og:site_name" content={siteName}>
   <meta property="og:title" content={pageTitle}>
   <meta property="og:description" content={pageDescription}>
   <meta property="og:url" content={`${site}/`}>
@@ -176,15 +178,16 @@
 <div class="lp" class:motion={motion}>
   <!-- Header: 透過ヘッダー。スクロールで薄い地を敷く。 -->
   <header class="sc-header" class:scrolled={scrolled}>
-    <a class="brand" href="#top" aria-label="Swarrow Call トップへ">
+    <a class="brand" href="#top" aria-label="Swarrow トップへ">
       <img
-        class="brand-logo"
-        src="/swarrow/logo.svg"
+        class="brand-mark"
+        src="/swarrow/icon.png"
         alt=""
-        width="257"
-        height="44"
+        width="120"
+        height="120"
         decoding="async"
       >
+      <span class="brand-name">Swarrow</span>
     </a>
 
     <nav class="sc-nav" aria-label="グローバルナビゲーション">
@@ -212,16 +215,28 @@
     <section class="hero">
       <div class="hero-inner">
         <div class="hero-copy">
-          <h1 class="hero-title">
-            <span>自治体の AI 窓口を、</span>
-            <span class="hero-title-nowrap">電話とチャットで支える。</span>
+          <p class="hero-eyebrow">{heroCopy.eyebrow}</p>
+          <h1
+            class="hero-title"
+            aria-label={`${heroCopy.title.join("")}${heroCopy.emphasis.join("")}`}
+          >
+            {#each heroCopy.title as line (line)}
+              <span>{line}</span>
+            {/each}
+            {#each heroCopy.emphasis as line (line)}
+              <span class="hero-title-emphasis">{line}</span>
+            {/each}
           </h1>
-          <p class="hero-sub">
-            <span>{heroSupportLead}</span>
-            <span>
-              制度変更や FAQ 更新に合わせて、窓口対応を継続的に改善します。
-            </span>
-          </p>
+          <p class="hero-sub">{heroCopy.description}</p>
+          <nav class="hero-actions" aria-label="主要な導線">
+            <button
+              type="button"
+              class="hero-primary"
+              onclick={openContactModal}
+            >
+              導入相談・デモを依頼する
+            </button>
+          </nav>
         </div>
 
         <div class="hero-media" aria-hidden="true">
@@ -248,45 +263,315 @@
             >
           </video>
         </div>
-
-        <nav class="hero-mobile-actions" aria-label="小画面用の重要な導線">
-          <button
-            type="button"
-            class="hero-mobile-contact"
-            onclick={openContactModal}
-          >
-            お問い合わせ
-          </button>
-          <a
-            class="hero-mobile-company"
-            href={companyOverviewLink.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{companyOverviewLink.label}を別タブで開く"
-          >
-            {companyOverviewLink.label}
-            <span class="ext" aria-hidden="true">↗</span>
-          </a>
-        </nav>
-
-        <a class="hero-news" href="#news">
-          <span class="hero-news-head">
-            <span class="hero-news-date">2026.07.07</span>
-            <span class="hero-news-badge">最新情報</span>
-          </span>
-          <span class="hero-news-text">
-            Swarrow Call
-            オンラインセミナー「役所の箱ファイルの電子化作戦」を開催。
-          </span>
-          <span class="hero-news-go" aria-hidden="true">↗</span>
-        </a>
       </div>
 
       <div class="hero-fade"></div>
     </section>
 
-    <!-- Knowledge: 入力された知識を AI が使える形へ変換し、電話やチャットへ出力する流れ。 -->
-    <section class="knowledge">
+    <section id="products" class="products" aria-labelledby="products-title">
+      <div
+        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip hero-products-curve"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="products-inner">
+        <div class="products-head" data-reveal>
+          <p class="products-kicker section-kicker">Products</p>
+          <h2 id="products-title">問い合わせの入口に合わせて選べる2つの製品</h2>
+          <p>
+            ホームページから始めても、電話から始めても、両方を組み合わせても導入できます。
+          </p>
+        </div>
+
+        <div class="products-grid">
+          {#each products as product (product.id)}
+            <article
+              class="product-card product-card--{product.id}"
+              data-reveal
+            >
+              <img
+                class="product-card-watermark"
+                src={product.backgroundIcon}
+                alt=""
+                width="900"
+                height="720"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              >
+              <p class="product-category">{product.category}</p>
+              <div class="product-name">
+                <img
+                  class="product-name-icon"
+                  src={product.icon}
+                  alt=""
+                  width="961"
+                  height="1006"
+                  decoding="async"
+                >
+                <h3>{product.name}</h3>
+              </div>
+              <p class="product-benefit">{product.benefit}</p>
+              <ul>
+                {#each product.useCases as useCase (useCase)}
+                  <li>{useCase}</li>
+                {/each}
+              </ul>
+              <a href={product.href}>{product.name}を見る</a>
+            </article>
+          {/each}
+        </div>
+
+        <p class="products-integration" data-reveal>
+          <strong>{sharedKnowledge.adoption}</strong>
+          <span>
+            併用時は、同じ知識基盤をホームページと電話で共有できます。
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section
+      id="chat"
+      class="feature-band feature-band--mist"
+      aria-labelledby="chat-title"
+    >
+      <div
+        class="section-curve-bg section-curve-bg--mist chat-top-curve"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="chat-feature" data-reveal>
+        <figure class="chat-feature-media">
+          <video
+            class="chat-feature-video"
+            poster="/swarrow-call/chat-ui.webp"
+            muted
+            loop
+            playsinline
+            preload="none"
+            width="1280"
+            height="720"
+            aria-label="ホームページやLINEに設置できるSwarrow Chatの画面"
+          >
+            <source src="/swarrow-call/chat-ui.webm" type="video/webm">
+            <img
+              class="chat-feature-image"
+              src="/swarrow-call/chat-ui.webp"
+              alt="ホームページやLINEに設置できるSwarrow Chatの画面"
+              width="1672"
+              height="941"
+              loading="lazy"
+              decoding="async"
+            >
+          </video>
+        </figure>
+
+        <div class="chat-feature-copy">
+          <p class="chat-feature-en">Municipal Web AI Desk</p>
+          <h2 id="chat-title" class="chat-feature-title">
+            <span class="chat-feature-title-label">
+              自治体ホームページAI窓口
+            </span>
+            <span class="feature-product-name">
+              <img
+                class="feature-product-icon"
+                src="/swarrow-call/swarrow-chat-icon-flat.png"
+                alt=""
+                width="961"
+                height="1006"
+                decoding="async"
+              >
+              Swarrow Chat
+            </span>
+          </h2>
+          <p class="chat-feature-lead">
+            ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
+          </p>
+          <ul class="chat-feature-list">
+            <li>
+              <strong>ホームページやLINEに設置</strong>
+              <small>住民が普段利用するデジタル窓口から質問できます。</small>
+            </li>
+            <li>
+              <strong>自治体の資料をもとに回答</strong>
+              <small
+                >FAQ、制度資料、手順書、業務データを案内に活かします。</small
+              >
+            </li>
+            <li>
+              <strong>回答から次の手続きへつなぐ</strong>
+              <small
+                >申請案内、予約、職員への連携など次の行動へ誘導します。</small
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="call"
+      class="feature-band feature-band--paper"
+      aria-labelledby="call-title"
+    >
+      <div
+        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="call-feature" data-reveal>
+        <div class="call-feature-copy">
+          <p class="call-feature-en">Municipal AI Call Center</p>
+          <h2 id="call-title" class="call-feature-title">
+            <span>自治体AIコールセンター</span>
+            <span class="feature-product-name">
+              <img
+                class="feature-product-icon"
+                src="/swarrow-call/swarrow-call-icon-flat.png"
+                alt=""
+                width="961"
+                height="1006"
+                loading="lazy"
+                decoding="async"
+              >
+              Swarrow Call
+            </span>
+          </h2>
+          <p class="call-feature-lead">
+            AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
+          </p>
+          <ul class="call-feature-list">
+            <li>
+              <strong>AI受電で一次対応</strong>
+              <small>FAQや手順書をもとに、住民からの電話へ案内します。</small>
+            </li>
+            <li>
+              <strong>用件を整理して職員へ取次</strong>
+              <small
+                >内容や担当部署に応じ、必要な電話を職員へつなぎます。</small
+              >
+            </li>
+            <li>
+              <strong>架電業務も自動化</strong>
+              <small>予約確認、督促、案内、周知などの発信を支援します。</small>
+            </li>
+          </ul>
+        </div>
+
+        <figure class="call-feature-media">
+          <div class="call-feature-window">
+            <span class="call-feature-window-bar" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </span>
+            <video
+              class="call-feature-video"
+              poster="/swarrow-call/operator-call-poster.webp"
+              muted
+              loop
+              playsinline
+              preload="none"
+              width="1280"
+              height="720"
+              aria-label="電話問い合わせを受けるオペレーターのイメージ"
+            >
+              <source src="/swarrow-call/operator-call.webm" type="video/webm">
+              <source src="/swarrow-call/operator-call.mp4" type="video/mp4">
+              <img
+                class="call-feature-image"
+                src="/swarrow-call/operator-call-poster.webp"
+                alt="電話問い合わせを受けるオペレーターのイメージ"
+                width="1280"
+                height="720"
+                loading="lazy"
+                decoding="async"
+              >
+            </video>
+          </div>
+        </figure>
+
+        <div class="call-feature-cards">
+          {#each callCapabilities as capability (capability.title)}
+            <article class="call-feature-card">
+              <video
+                class="call-feature-card-video"
+                poster={capability.poster}
+                muted
+                loop
+                playsinline
+                preload="none"
+                width="1536"
+                height="1024"
+                aria-label={capability.alt}
+              >
+                <source src={capability.video} type="video/webm">
+                <img
+                  class="call-feature-card-image"
+                  src={capability.poster}
+                  alt={capability.alt}
+                  width="1536"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </video>
+              <div class="call-feature-card-body">
+                <h3 class="call-feature-card-title">{capability.title}</h3>
+                <p class="call-feature-card-text">{capability.body}</p>
+              </div>
+            </article>
+          {/each}
+        </div>
+      </div>
+    </section>
+
+    <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
+    <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
+      <div
+        class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
       <div class="knowledge-inner">
         <figure class="knowledge-visual" data-reveal>
           <video
@@ -298,7 +583,7 @@
             preload="none"
             width="1280"
             height="720"
-            aria-label="ドキュメント、データベース、Web、電話、チャットを Swarrow Call 基盤がつなぐ知識活用イメージ"
+            aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
           >
             <source
               src="/swarrow-call/knowledge-flow-alpha.webm"
@@ -307,7 +592,7 @@
             <img
               class="knowledge-image"
               src="/swarrow-call/knowledge-flow-alpha.png"
-              alt="ドキュメント、データベース、Web、電話、チャットを Swarrow Call 基盤がつなぐ知識活用イメージ"
+              alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
               width="1672"
               height="941"
               loading="lazy"
@@ -317,318 +602,118 @@
         </figure>
 
         <div class="knowledge-copy" data-reveal>
-          <p class="knowledge-en">Knowledge Pipeline</p>
-          <h2 class="knowledge-title">
-            <span>知識を、AIが動ける</span>
-            <span>データへ。</span>
+          <p class="knowledge-en section-kicker">Shared Knowledge</p>
+          <h2 id="knowledge-title" class="knowledge-title">
+            <span>1つの知識で、</span>
+            <span>ホームページも電話も。</span>
           </h2>
-          <p class="knowledge-lead">
-            ドキュメント、データベース、画像など、組織に散らばる知識を Swarrow
-            Call基盤がAI
-            に最適なベクトルデータへ変換。弊社独自の業務ノウハウで検索精度と回答粒度をチューニングし、必要な知識を正確に拡張します。
-          </p>
+          <p class="knowledge-lead">{sharedKnowledge.description}</p>
           <ul class="knowledge-flow">
             <li>
-              <span class="knowledge-flow-kicker">Input</span>
+              <span class="knowledge-flow-kicker">Collect</span>
               <span>
-                <strong>あらゆる知識を取り込む</strong>
-                <small>文書、FAQ、業務データ、画像資料をまとめて活用。</small>
+                <strong>散らばる知識をまとめる</strong>
+                <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
               </span>
             </li>
             <li>
-              <span class="knowledge-flow-kicker">Tune</span>
+              <span class="knowledge-flow-kicker">Maintain</span>
               <span>
-                <strong>業務ノウハウで磨き込む</strong>
-                <small
-                  >現場の言い回しや判断基準に合わせて回答品質を調整。</small
-                >
+                <strong>一度の更新で案内をそろえる</strong>
+                <small>制度変更や現場の気づきを共通知識へ反映。</small>
               </span>
             </li>
             <li>
-              <span class="knowledge-flow-kicker">Output</span>
+              <span class="knowledge-flow-kicker">Serve</span>
               <span>
-                <strong>電話・チャットで届け、自動化する</strong>
-                <small
-                  >問い合わせ対応や案内業務を、媒体を問わず一気通貫で支援。</small
-                >
+                <strong>ChatとCallの双方で使う</strong>
+                <small>Webと電話で同じ根拠から住民へ案内。</small>
               </span>
             </li>
           </ul>
         </div>
       </div>
-      <div class="knowledge-curve-bg" aria-hidden="true">
+    </section>
+
+    <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
+    <section
+      id="operations"
+      class="feature-band feature-band--paper feature-band--last"
+      aria-labelledby="operations-title"
+    >
+      <div class="section-curve-bg section-curve-bg--paper" aria-hidden="true">
         <svg
-          viewBox="0 0 1440 900"
+          viewBox="0 0 1440 1600"
           preserveAspectRatio="none"
           aria-hidden="true"
           focusable="false"
         >
           <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V900H-80Z"
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
           ></path>
         </svg>
       </div>
-    </section>
+      <div class="workflow-inner">
+        <div class="workflow-copy" data-reveal>
+          <p class="workflow-en">Common Operations</p>
+          <h2 id="operations-title" class="workflow-title">
+            <span>両製品の案内を、</span>
+            <span>職員の手で改善。</span>
+          </h2>
+          <p class="workflow-lead">
+            Swarrow ChatとSwarrow
+            Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
+          </p>
+          <ul class="workflow-list">
+            <li>
+              <strong>画面上で流れを組み替える</strong>
+              <small>質問、回答、分岐、案内文を見ながら編集。</small>
+            </li>
+            <li>
+              <strong>一度の更新を両製品へ反映</strong>
+              <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
+            </li>
+            <li>
+              <strong>現場の気づきをすぐ反映</strong>
+              <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
+            </li>
+          </ul>
+        </div>
 
-    <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
-    <section class="workflow">
-      <div class="feature-band feature-band--mist">
-        <div class="workflow-inner">
-          <div class="workflow-copy" data-reveal>
-            <p class="workflow-en">No-Code Flow Editor</p>
-            <h2 class="workflow-title">
-              <span>会話フローを、</span>
-              <span>職員の手で更新。</span>
-            </h2>
-            <p class="workflow-lead">
-              初期設定が済めば、職員自身で会話フローを更新し、対話シナリオを画面上で簡単に設計・編集できます。コードを書かずに分岐や案内文を見直せるため、住民からの問い合わせや制度変更に合わせて、窓口の運用をすばやく改善できます。
-            </p>
-            <ul class="workflow-list">
-              <li>
-                <strong>画面上で流れを組み替える</strong>
-                <small>質問、回答、分岐、案内文を見ながら編集。</small>
-              </li>
-              <li>
-                <strong>現場の気づきをすぐ反映</strong>
-                <small>問い合わせの多い表現や案内不足を職員が更新。</small>
-              </li>
-              <li>
-                <strong>小さな修正は職員が対応</strong>
-                <small>日々の軽微な改善はノーコードで完結。</small>
-              </li>
-            </ul>
-          </div>
-
-          <figure class="workflow-media" data-reveal>
-            <video
-              class="workflow-video"
-              poster="/swarrow-call/workflow-editor-alpha.png"
-              muted
-              loop
-              playsinline
-              preload="none"
+        <figure class="workflow-media" data-reveal>
+          <video
+            class="workflow-video"
+            poster="/swarrow-call/workflow-editor-alpha.png"
+            muted
+            loop
+            playsinline
+            preload="none"
+            width="1280"
+            height="720"
+            bind:this={workflowVideo}
+            class:ready={workflowVideoReady}
+            aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
+          >
+            <source
+              src="/swarrow-call/workflow-editor-alpha.webm"
+              type="video/webm"
+            >
+            <img
+              class="workflow-image"
+              src="/swarrow-call/workflow-editor-alpha.png"
+              alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
               width="1280"
               height="720"
-              bind:this={workflowVideo}
-              class:ready={workflowVideoReady}
-              aria-label="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
+              loading="lazy"
+              decoding="async"
             >
-              <source
-                src="/swarrow-call/workflow-editor-alpha.webm"
-                type="video/webm"
-              >
-              <img
-                class="workflow-image"
-                src="/swarrow-call/workflow-editor-alpha.png"
-                alt="画面上で会話フローと対話シナリオを設計・編集するノーコード編集画面"
-                width="1280"
-                height="720"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </figure>
-        </div>
-      </div>
-
-      <div class="feature-band feature-band--paper">
-        <div
-          class="section-curve-bg section-curve-bg--paper"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
-        </div>
-        <div class="chat-feature" data-reveal>
-          <figure class="chat-feature-media">
-            <video
-              class="chat-feature-video"
-              poster="/swarrow-call/chat-ui.webp"
-              muted
-              loop
-              playsinline
-              preload="none"
-              width="1280"
-              height="720"
-              aria-label="ホームページやチャットアプリに設置できる Swarrow Call のチャット UI"
-            >
-              <source src="/swarrow-call/chat-ui.webm" type="video/webm">
-              <img
-                class="chat-feature-image"
-                src="/swarrow-call/chat-ui.webp"
-                alt="ホームページやチャットアプリに設置できる Swarrow Call のチャット UI"
-                width="1672"
-                height="941"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </figure>
-
-          <div class="chat-feature-copy">
-            <p class="chat-feature-en">Chat Knowledge Hub</p>
-            <h3 class="chat-feature-title">
-              <span>チャット窓口を、</span>
-              <span>どこにでも。</span>
-            </h3>
-            <p class="chat-feature-lead">
-              Swarrow Call のチャット UI
-              は、ホームページ、LINE、既存のチャットアプリなど、住民が使い慣れた場所に配置できます。文書、FAQ、業務データ、画像資料に加え、部署に長年蓄積された紙のファイルも知識として取り込み、問い合わせ対応や案内業務に活かせます。
-            </p>
-            <ul class="chat-feature-list">
-              <li>
-                <strong>あらゆる情報を知識化</strong>
-                <small>
-                  制度資料、手順書、紙の台帳までインポートし、部署に残すべき知識として整理。
-                </small>
-              </li>
-              <li>
-                <strong>会話から業務へつなぐ</strong>
-                <small>
-                  回答だけで終わらず、職員への電話取次ぎ、申請案内、予約などのワークフローを自由に設定。
-                </small>
-              </li>
-              <li>
-                <strong>知識を部署の資産にする</strong>
-                <small>
-                  担当者が変わっても、蓄積された判断基準や案内内容を次の職員へ引き継げる仕組みを作ります。
-                </small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="feature-band feature-band--mist feature-band--last">
-        <div
-          class="section-curve-bg section-curve-bg--mist section-curve-bg--flip"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
-        </div>
-        <div class="call-feature" data-reveal>
-          <div class="call-feature-copy">
-            <p class="call-feature-en">Phone Call Desk</p>
-            <h3 class="call-feature-title">
-              <span>電話の問い合わせも、</span>
-              <span>同じ知識で受ける。</span>
-            </h3>
-            <p class="call-feature-lead">
-              Swarrow Call
-              の電話コール機能は、チャットと同じ知識基盤を音声応対にも展開できます。住民はいつもの電話から要件を伝え、AI
-              が一次案内し、必要な内容だけ職員へつなげます。
-            </p>
-            <ul class="call-feature-list">
-              <li>
-                <strong>電話でも同じ知識を参照</strong>
-                <small>
-                  FAQ、手順書、業務データをもとに、音声でも案内内容をそろえます。
-                </small>
-              </li>
-              <li>
-                <strong>必要なときだけ職員へ連携</strong>
-                <small>
-                  内容や緊急度に応じて、要件を整理したうえで担当者へ取り次ぎます。
-                </small>
-              </li>
-              <li>
-                <strong>応対を次の改善につなげる</strong>
-                <small>
-                  問い合わせ傾向を見直し、FAQ や会話フローの更新に活かせます。
-                </small>
-              </li>
-            </ul>
-          </div>
-
-          <figure class="call-feature-media">
-            <div class="call-feature-window">
-              <span class="call-feature-window-bar" aria-hidden="true">
-                <i></i><i></i><i></i>
-              </span>
-              <video
-                class="call-feature-video"
-                poster="/swarrow-call/operator-call-poster.webp"
-                muted
-                loop
-                playsinline
-                preload="none"
-                width="1280"
-                height="720"
-                aria-label="電話問い合わせを受けるオペレーターのイメージ"
-              >
-                <source
-                  src="/swarrow-call/operator-call.webm"
-                  type="video/webm"
-                >
-                <source src="/swarrow-call/operator-call.mp4" type="video/mp4">
-                <img
-                  class="call-feature-image"
-                  src="/swarrow-call/operator-call-poster.webp"
-                  alt="電話問い合わせを受けるオペレーターのイメージ"
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </video>
-            </div>
-          </figure>
-
-          <div class="call-feature-cards">
-            {#each callCapabilities as capability (capability.title)}
-              <article class="call-feature-card">
-                <video
-                  class="call-feature-card-video"
-                  poster={capability.poster}
-                  muted
-                  loop
-                  playsinline
-                  preload="none"
-                  width="1536"
-                  height="1024"
-                  aria-label={capability.alt}
-                >
-                  <source src={capability.video} type="video/webm">
-                  <img
-                    class="call-feature-card-image"
-                    src={capability.poster}
-                    alt={capability.alt}
-                    width="1536"
-                    height="1024"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                </video>
-                <div class="call-feature-card-body">
-                  <h4 class="call-feature-card-title">{capability.title}</h4>
-                  <p class="call-feature-card-text">{capability.body}</p>
-                </div>
-              </article>
-            {/each}
-          </div>
-        </div>
+          </video>
+        </figure>
       </div>
     </section>
 
     <!-- Customer Success: 専任チームが初期構築から運用改善まで伴走する支援体制。 -->
-    <section class="function">
+    <section id="support" class="function" aria-labelledby="support-title">
       <div class="function-curve-bg" aria-hidden="true">
         <svg
           viewBox="0 0 1440 900"
@@ -644,13 +729,13 @@
       <div class="customer-success-hero" data-reveal>
         <div class="function-head">
           <p class="function-en">Customer Success</p>
-          <h2 class="function-ja">カスタマーサクセス</h2>
+          <h2 id="support-title" class="function-ja">カスタマーサクセス</h2>
           <p class="customer-success-lead">
             成果を出すことにコミットする、専門チームの徹底した伴走サポート。
           </p>
           <p class="customer-success-body">
-            Swarrow Call
-            は、導入して終わりのサービスではありません。すべてのお客様に専任のカスタマーサクセスチームがつき、初期構築から運用改善まで成果に向けて伴走します。
+            Swarrow ChatとSwarrow
+            Callは、導入して終わりのサービスではありません。単独導入でも併用でも、専任チームが知識基盤の初期構築から利用状況の確認、継続的な改善まで伴走します。
           </p>
         </div>
 
@@ -794,14 +879,14 @@
     </section>
 
     <!-- CTA -->
-    <section id="contact" class="cta">
+    <section id="contact" class="cta" aria-labelledby="contact-title">
       <div class="cta-inner" data-reveal>
-        <h2 class="cta-title">
-          <span>AI チャットボット・AI コールセンターを、</span>
-          <span>もっと身近に。</span>
+        <h2 id="contact-title" class="cta-title">
+          <span>Swarrow Chat・Swarrow Callの導入相談</span>
+          <span>単独導入から併用まで、ご相談ください。</span>
         </h2>
         <p class="cta-sub">
-          窓口対応の課題に合わせて、導入相談からデモまでスピーディーにご案内します。まずは気軽にご相談ください。
+          現在の問い合わせ件数、対象部署、ホームページと電話の運用状況を伺い、始め方とデモをご案内します。
         </p>
         <button type="button" class="cta-btn" onclick={openContactModal}>
           導入相談・デモを依頼する<span class="ext">↗</span>
@@ -810,33 +895,35 @@
     </section>
   </main>
 
-  <footer id="footer" class="sc-footer">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <img
-          class="foot-logo"
-          src="/swarrow/footer-logo.svg"
-          alt="Swarrow Call"
-          width="294"
-          height="205"
-          decoding="async"
-        >
+  <footer id="footer" class="vecta-footer">
+    <div class="vecta-footer-inner">
+      <div class="vecta-footer-content">
+        <div class="vecta-footer-brand">
+          <a
+            class="vecta-footer-logo-link"
+            href="https://www.vecta.co.jp"
+            aria-label="Vectaのウェブサイトへ"
+          >
+            <img
+              src="/vecta/logo_horizontal.svg"
+              alt="Vecta"
+              width="300"
+              height="100"
+              decoding="async"
+            >
+          </a>
+          <p>まちの知識を、未来へつなぐ。</p>
+        </div>
+        <address class="vecta-footer-address">
+          〒150-0002<br>
+          東京都渋谷区渋谷2-19-15<br>
+          宮益坂ビルディング609
+        </address>
       </div>
-      <p class="foot-addr">
-        〒150-0002<br>
-        東京都渋谷区渋谷2-19-15<br>
-        宮益坂ビルディング609
+      <p class="vecta-footer-copy">
+        © {currentYear} Vecta. All rights reserved.
       </p>
     </div>
-    <nav class="foot-links" aria-label="フッターナビゲーション">
-      <button type="button" class="foot-link-btn" onclick={openContactModal}>
-        お問い合わせ
-      </button>
-      <a href="#footer">情報セキュリティ方針</a>
-      <a href="#footer">個人情報保護方針</a>
-      <a href="#footer">ウェブサイト利用規約</a>
-    </nav>
-    <p class="foot-copy">© Swarrow Call</p>
   </footer>
 
   <ContactModal open={contactModalOpen} onClose={closeContactModal} />
@@ -882,6 +969,12 @@
     border-radius: 6px;
   }
   #top,
+  #knowledge,
+  #products,
+  #chat,
+  #call,
+  #operations,
+  #support,
   #case,
   #news,
   #contact,
@@ -918,12 +1011,20 @@
   .brand {
     display: inline-flex;
     align-items: center;
+    gap: 0.7rem;
     flex: 0 0 auto;
   }
-  .brand-logo {
+  .brand-mark {
     display: block;
-    width: clamp(145px, 16vw, 190px);
-    height: auto;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .brand-name {
+    color: var(--navy);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
   .sc-nav {
     display: flex;
@@ -981,7 +1082,7 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: min(1280px, 132%);
+    width: min(1760px, 180%);
     max-width: none;
     height: auto;
     background: var(--bg);
@@ -1028,7 +1129,7 @@
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: minmax(320px, 36%) minmax(0, 1fr);
+    grid-template-columns: minmax(400px, 44%) minmax(0, 1fr);
     align-items: start;
     gap: clamp(0.75rem, 2vw, 1.75rem);
     max-width: 1500px;
@@ -1041,114 +1142,83 @@
     z-index: 2;
     align-self: start;
     min-width: 0;
-    height: 15rem;
-    margin-top: 9rem;
+    margin-top: clamp(5.5rem, 7vw, 6.5rem);
+    font-family: "Noto Sans JP", sans-serif;
+  }
+  .hero-eyebrow {
+    margin: 0 0 0.8rem;
+    color: var(--sage-deep);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+  .section-kicker {
+    margin: 0 0 0.5rem;
+    color: var(--sage-deep);
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
   }
   .hero-title {
     margin: 0;
-    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+    color: var(--navy);
+    font-family: "Montserrat", "Noto Sans JP", sans-serif;
+    font-size: 3.35rem;
     font-weight: 700;
-    line-height: 1.5;
-    letter-spacing: 0.14em;
-    color: var(--ink);
+    line-height: 1.18;
+    letter-spacing: 0;
+    text-wrap: balance;
   }
   .hero-title span {
     display: block;
+    white-space: nowrap;
   }
-  .hero-title-nowrap {
+  .hero-title .hero-title-emphasis {
+    font-size: clamp(1.85rem, 3vw, 2.75rem);
     white-space: nowrap;
   }
   .hero-sub {
-    margin: 1.6rem 0 0;
-    font-size: clamp(0.82rem, 1.2vw, 1rem);
-    letter-spacing: 0.03em;
-    color: var(--ink-soft);
+    max-width: 40rem;
+    margin: 1.15rem 0 0;
+    color: var(--navy);
+    font-size: 1.22rem;
+    line-height: 1.95;
+    letter-spacing: 0;
   }
-  .hero-sub span {
-    display: block;
-    white-space: nowrap;
-  }
-  .hero-news {
-    position: absolute;
-    right: clamp(1.2rem, 4vw, 3.5rem);
-    bottom: clamp(10rem, 14vw, 12rem);
-    z-index: 4;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.4rem 1rem;
-    align-items: center;
-    width: min(320px, 40vw);
-    box-sizing: border-box;
-    padding: 1rem 1.2rem;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 10px 30px rgba(9, 32, 69, 0.1);
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
-  }
-  .hero-news:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(9, 32, 69, 0.16);
-  }
-  .hero-news-head {
-    grid-column: 1 / -1;
+  .hero-actions {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+  }
+  .hero-primary {
+    display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-  }
-  .hero-news-date {
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-  .hero-news-badge {
-    padding: 0.15rem 0.55rem;
-    border: 1px solid var(--ink);
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 700;
-  }
-  .hero-news-text {
-    font-size: 0.82rem;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .hero-news-go {
-    align-self: end;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 1px solid var(--ink);
+    justify-content: center;
+    min-height: 2.9rem;
+    padding: 0.7rem 1.4rem;
     border-radius: 999px;
-    font-size: 1.1rem;
+    font: inherit;
+    font-weight: 800;
   }
-  .hero-mobile-actions {
-    display: none;
+  .hero-primary {
+    border: 0;
+    background: var(--navy);
+    color: #fff;
+    cursor: pointer;
   }
-
   /* ===== Knowledge ===== */
   .knowledge {
+    --band-bg: var(--bg);
+
     position: relative;
-    z-index: 1;
     isolation: isolate;
-    overflow: hidden;
-    margin-top: -10.5rem;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0,
-      rgba(255, 255, 255, 0) 1rem,
-      rgba(255, 255, 255, 0.7) 3.75rem,
-      var(--paper) 5.75rem,
-      var(--paper) 100%
-    );
-    padding: clamp(11.25rem, 12.5vw, 12rem) clamp(1.2rem, 4vw, 3.5rem)
+    overflow: visible;
+    margin-top: 0;
+    background: transparent;
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem)
       clamp(3rem, 7vw, 6rem);
   }
   .knowledge-inner {
@@ -1179,13 +1249,6 @@
   }
   .knowledge-copy {
     min-width: 0;
-  }
-  .knowledge-en {
-    margin: 0 0 0.5rem;
-    color: var(--sage-deep);
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 700;
   }
   .knowledge-title {
     margin: 0;
@@ -1240,33 +1303,119 @@
     font-size: 0.88rem;
     line-height: 1.8;
   }
-  .knowledge-curve-bg {
+  /* ===== Products ===== */
+  .products {
+    --band-bg: var(--paper);
+
+    position: relative;
+    isolation: isolate;
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem);
+    background: transparent;
+  }
+  .products-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .products-head {
+    max-width: 860px;
+  }
+  .product-category {
+    margin: 0;
+    color: var(--sage-deep);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+  .products-head h2 {
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .products-head > p:last-child {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+  }
+  .product-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    min-height: 26rem;
+    overflow: hidden;
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--paper);
+    box-shadow: 0 18px 44px rgba(9, 32, 69, 0.08);
+  }
+  .product-card > :not(.product-card-watermark) {
+    position: relative;
+    z-index: 1;
+  }
+  .product-card-watermark {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    right: -2rem;
+    bottom: 0.5rem;
     z-index: 0;
-    height: clamp(15rem, 27vw, 26rem);
-    color: var(--bg);
+    width: min(70%, 24rem);
+    height: auto;
+    opacity: 0.045;
     pointer-events: none;
+    user-select: none;
   }
-  .knowledge-curve-bg svg {
-    display: block;
-    width: 100%;
-    height: 100%;
+  .product-name {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.65rem, 1.4vw, 0.9rem);
+    margin-top: 0.55rem;
   }
-  .knowledge-curve-bg path {
-    fill: currentColor;
+  .product-name-icon {
+    flex: 0 0 auto;
+    width: clamp(2.5rem, 4vw, 3rem);
+    height: auto;
+  }
+  .product-card h3 {
+    margin: 0;
+    color: var(--navy);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .product-benefit {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+  }
+  .product-card ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.2rem 0 1.5rem;
+    padding-left: 1.2rem;
+  }
+  .product-card a {
+    margin-top: auto;
+    color: var(--navy);
+    font-weight: 800;
+  }
+  .products-integration {
+    display: grid;
+    gap: 0.25rem;
+    margin: 1.5rem 0 0;
+    padding: 1.1rem 1.3rem;
+    border-radius: 14px;
+    background: var(--sage-light);
+    color: var(--navy);
+    text-align: center;
   }
 
   /* ===== Workflow ===== */
-  .workflow {
-    position: relative;
-    isolation: isolate;
-    overflow: visible;
-    background: transparent;
-    padding: 0;
-  }
   .feature-band {
     --band-bg: var(--bg);
 
@@ -1521,6 +1670,20 @@
   .chat-feature-title span {
     display: block;
   }
+  .chat-feature-title-label {
+    white-space: nowrap;
+  }
+  :is(.chat-feature-title, .call-feature-title) .feature-product-name {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .feature-product-icon {
+    display: block;
+    width: clamp(2rem, 3.5vw, 2.75rem);
+    height: auto;
+    flex: 0 0 auto;
+  }
   .chat-feature-lead {
     margin: 1.2rem 0 1.45rem;
     color: var(--ink);
@@ -1736,6 +1899,18 @@
       clamp(3rem, 8vw, 7rem);
     max-width: 1180px;
     margin: clamp(-1.5rem, -2vw, -0.75rem) auto 0;
+  }
+  .function::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: 100vw;
+    height: 100%;
+    background: var(--paper);
+    content: "";
+    pointer-events: none;
+    transform: translateX(-50%);
   }
   .function-curve-bg {
     position: absolute;
@@ -2046,70 +2221,55 @@
   }
 
   /* ===== Footer ===== */
-  .sc-footer {
+  .vecta-footer {
     background: var(--navy);
-    color: #e8edf2;
-    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem);
+    color: #fff;
+    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) 1rem;
   }
-  .foot-top {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1.5rem;
+  .vecta-footer-inner {
     max-width: 1180px;
     margin: 0 auto;
   }
-  .foot-brand {
-    display: flex;
-    align-items: center;
+  .vecta-footer-content {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 2rem;
   }
-  .foot-logo {
+  .vecta-footer-logo-link {
+    display: inline-block;
+    border-radius: 0.25rem;
+  }
+  .vecta-footer-logo-link:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.72);
+    outline-offset: 0.35rem;
+  }
+  .vecta-footer-brand img {
     display: block;
-    width: clamp(96px, 10vw, 132px);
+    width: 150px;
     height: auto;
+    margin-bottom: 0.75rem;
+    filter: brightness(0) invert(1);
   }
-  .foot-addr {
+  .vecta-footer-brand p {
     margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.9;
-    color: #b9c4d4;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
   }
-  .foot-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    max-width: 1180px;
-    margin: 2rem auto;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  .vecta-footer-address {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
+    font-style: normal;
+    line-height: 1.75;
   }
-  .foot-links a {
-    font-size: 0.88rem;
-    color: #d6deea;
+  .vecta-footer-copy {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.9rem;
+    text-align: center;
   }
-  .foot-links a:hover {
-    color: #fff;
-  }
-  .foot-link-btn {
-    padding: 0;
-    border: none;
-    background: none;
-    font: inherit;
-    font-size: 0.88rem;
-    color: #d6deea;
-    cursor: pointer;
-  }
-  .foot-link-btn:hover {
-    color: #fff;
-  }
-  .foot-copy {
-    max-width: 1180px;
-    margin: 0 auto;
-    font-size: 0.78rem;
-    color: #9aa8bd;
-  }
-
   /* ===== Reveal(JS+モーション時のみ) ===== */
   .motion [data-reveal] {
     opacity: 0;
@@ -2124,7 +2284,21 @@
   }
 
   /* ===== Responsive ===== */
+  @media (min-width: 769px) {
+    .vecta-footer-content {
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 4rem;
+    }
+    .vecta-footer-address {
+      text-align: right;
+    }
+  }
+
   @media (max-width: 1240px) {
+    .hero-title span {
+      white-space: normal;
+    }
     .workflow-inner {
       grid-template-columns: minmax(0, 0.5fr) minmax(0, 0.5fr);
     }
@@ -2173,71 +2347,39 @@
     }
     .hero-video,
     .hero-video-fallback {
-      width: min(900px, 140vw);
+      width: min(1240px, 190vw);
     }
     .hero-title {
-      font-size: clamp(1.65rem, 8vw, 2.4rem);
-      letter-spacing: 0.1em;
+      font-size: clamp(2.35rem, 10vw, 3.1rem);
+    }
+    .hero-title .hero-title-emphasis {
+      font-size: clamp(1.58rem, calc(7.45vw - 0.22rem), 1em);
     }
     .hero-sub {
-      font-size: clamp(0.42rem, 2.1vw, 0.82rem);
-      letter-spacing: 0;
+      font-size: 1.08rem;
     }
-    .hero-news {
-      position: static;
-      width: 100%;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-    .hero-mobile-actions {
-      position: relative;
-      z-index: 3;
-      display: grid;
-      gap: 0.7rem;
-      align-items: center;
-      box-sizing: border-box;
-      width: 100%;
-      margin: 1.1rem auto 0;
-      padding: 0.8rem;
-      border: 1px solid rgba(9, 32, 69, 0.1);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-      box-shadow: 0 14px 36px rgba(9, 32, 69, 0.12);
-      backdrop-filter: blur(8px);
-    }
-    .hero-mobile-contact {
-      width: 100%;
-      border: none;
-      border-radius: 999px;
-      background: var(--navy);
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 1rem;
-      font-weight: 800;
-      line-height: 1.4;
-      padding: 0.95rem 1.2rem;
-      white-space: nowrap;
-      box-shadow: 0 10px 22px rgba(9, 32, 69, 0.18);
-    }
-    .hero-mobile-company {
-      display: inline-flex;
-      align-items: center;
+    .hero-actions {
       justify-content: center;
-      min-height: 1.8rem;
-      color: var(--navy);
-      font-size: 0.86rem;
-      font-weight: 700;
-      line-height: 1.4;
-      white-space: nowrap;
+    }
+    .hero-primary {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    .product-card {
+      min-height: 0;
+    }
+    .product-card-watermark {
+      right: -1.5rem;
+      bottom: -0.25rem;
+      width: min(76%, 20rem);
     }
     .knowledge {
       margin-top: 0;
-      background: var(--paper);
+      background: var(--band-bg);
       padding-top: clamp(2.5rem, 8vw, 3.5rem);
-    }
-    .knowledge-curve-bg {
-      height: clamp(13rem, 58vw, 17rem);
     }
     .feature-band {
       padding: clamp(3rem, 9vw, 4.75rem) clamp(1.2rem, 4vw, 3.5rem);
@@ -2249,6 +2391,8 @@
       height: calc(100% + 4.5rem);
     }
     .feature-band,
+    .products,
+    .knowledge,
     .case,
     .news,
     .function {
@@ -2268,6 +2412,8 @@
       display: none;
     }
     .feature-band::before,
+    .products::before,
+    .knowledge::before,
     .case::before,
     .news::before,
     .function::before {
@@ -2284,6 +2430,8 @@
       transform: translateX(-50%);
     }
     .feature-band > :not(.section-curve-bg),
+    .products > :not(.section-curve-bg),
+    .knowledge > :not(.section-curve-bg),
     .case > :not(.section-curve-bg),
     .news > :not(.section-curve-bg),
     .function > :not(.function-curve-bg) {
@@ -2349,6 +2497,10 @@
     .call-feature-title,
     .function-ja {
       order: 2;
+    }
+    .chat-feature-title-label {
+      font-size: clamp(1.12rem, 6vw, 1em);
+      letter-spacing: 0.02em;
     }
     .knowledge-visual,
     .workflow-media,
@@ -2464,6 +2616,21 @@
     }
     .news-go {
       display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .products-head h2 {
+      font-size: clamp(0.8rem, calc(4.7vw - 0.15rem), 1.6rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2.12rem;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
     }
   }
 

@@ -1,7 +1,63 @@
 export const site = "https://swarrow.com";
-export const pageTitle = "Swarrow Call｜自治体向け AI 窓口・電話対応";
+export const siteName = "Swarrow";
+
+export type ProductId = "chat" | "call";
+
+export type Product = {
+  id: ProductId;
+  name: string;
+  category: string;
+  benefit: string;
+  useCases: readonly string[];
+  href: `#${ProductId}`;
+  backgroundIcon: `/swarrow-call/${string}.png`;
+  icon: `/swarrow-call/${string}.png`;
+};
+
+export const products: readonly Product[] = [
+  {
+    id: "chat",
+    name: "Swarrow Chat",
+    category: "自治体ホームページAI窓口",
+    benefit:
+      "ホームページやLINEで住民の自己解決を促し、電話へ集中する前に定型的な質問へ回答します。",
+    useCases: ["手続き案内", "必要書類", "施設案内", "予約・申請への誘導"],
+    href: "#chat",
+    backgroundIcon: "/swarrow-call/swarrow-chat-icon-flat.png",
+    icon: "/swarrow-call/swarrow-chat-icon-flat.png",
+  },
+  {
+    id: "call",
+    name: "Swarrow Call",
+    category: "自治体AIコールセンター",
+    benefit:
+      "AIが電話の一次受付、案内、取次、発信を担い、職員の電話対応を必要な案件へ絞ります。",
+    useCases: ["代表電話", "時間外受付", "担当課取次", "リマインド・一括周知"],
+    href: "#call",
+    backgroundIcon: "/swarrow-call/swarrow-call-icon-flat.png",
+    icon: "/swarrow-call/swarrow-call-icon-flat.png",
+  },
+];
+
+export const heroCopy = {
+  eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
+  title: ["回答精度に妥協しない。"],
+  emphasis: ["自治体フルチューニングAI。"],
+  description:
+    "チャットやコールセンターのAI機能を安心してご利用いただくには、回答精度を支える設計が欠かせません。自治体の公式情報・回答ルール・職員への引き継ぎなどを、実際のオペレーションに合わせて個別に設計します。公開後も利用状況をもとに回答品質を継続的に高め、運用を重ねるほど改善につなげられる仕組みを整えます。",
+} as const;
+
+export const sharedKnowledge = {
+  title: "一度整えた知識を、ホームページにも電話にも。",
+  description:
+    "FAQ、手順書、業務データを1つの知識基盤で管理し、Swarrow ChatとSwarrow Callの両方から利用できます。",
+  adoption: "単独でも、組み合わせても導入可能",
+} as const;
+
+export const pageTitle =
+  "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター";
 export const pageDescription =
-  "自治体の住民問い合わせ、AI 受電、AI チャット、AI 架電をひとつの知識基盤で支援。電話とチャットの窓口対応を継続的に改善します。";
+  "自治体ホームページAI窓口「Swarrow Chat」と自治体AIコールセンター「Swarrow Call」。自治体の公式情報と業務に合わせて知識・回答ルール・参照元を調整し、公開前検証と公開後の継続改善でホームページと電話の回答精度を磨き続けます。";
 
 export type CustomerSuccessStep = {
   phase: string;
@@ -16,7 +72,7 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "1",
     title: "導入準備",
-    body: "機能の説明会、各種テンプレートの提供、稼働までのプロジェクト進行を専任チームが丁寧に支えます。",
+    body: "対象部署と問い合わせ業務を整理し、Chat、Call、併用のどこから始めるかを専任チームが一緒に設計します。",
     video: "/swarrow-call/customer-success-step-1.webm",
     poster: "/swarrow-call/customer-success-step-1-poster.webp",
     alt: "カスタマーサクセスチームが導入準備の説明会と進行を支援するイメージ",
@@ -24,7 +80,7 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "2",
     title: "初期構築",
-    body: "貴社の要件をヒアリングし、当社がチャットボットの土台を構築。回答品質を左右する知識基盤づくりから整えます。",
+    body: "自治体の要件をヒアリングし、FAQ、手順書、会話フローなど両製品が利用する知識基盤を整えます。",
     video: "/swarrow-call/customer-success-step-2.webm",
     poster: "/swarrow-call/customer-success-step-2-poster.webp",
     alt: "カスタマーサクセスチームが初期構築の計画を整理するイメージ",
@@ -132,28 +188,46 @@ export const companyOverviewLink: NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  ...(showCaseStudies ? [{ label: "導入事例", href: "#case" }] : []),
-  companyOverviewLink,
-  { label: "お知らせ", href: "#news" },
+  { label: "製品", href: "#products" },
+  { label: "Swarrow Chat", href: "#chat" },
+  { label: "Swarrow Call", href: "#call" },
+  { label: "導入支援", href: "#support" },
 ];
 
-// 構造化データ: 提供事業者(Organization)とサービス(Service)。
+const organizationId = `${site}/#organization`;
+
+// 構造化データ: 提供事業者、Web サイト、公開中の2製品。
 export const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Service",
-  name: "Swarrow Call",
-  serviceType: "自治体向け AI 窓口・電話対応",
-  category: "自治体向け AI 窓口・電話対応",
-  description: pageDescription,
-  url: `${site}/`,
-  provider: {
-    "@type": "Organization",
-    name: "株式会社Vecta",
-    url: "https://www.vecta.co.jp/",
-  },
-  audience: {
-    "@type": "Audience",
-    audienceType: "自治体",
-  },
-  areaServed: "日本",
-};
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      name: "株式会社Vecta",
+      url: "https://www.vecta.co.jp/",
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site}/#website`,
+      url: `${site}/`,
+      name: siteName,
+      description: pageDescription,
+      publisher: { "@id": organizationId },
+    },
+    ...products.map((product) => ({
+      "@type": "Service",
+      "@id": `${site}/#swarrow-${product.id}`,
+      name: product.name,
+      serviceType: product.category,
+      category: product.category,
+      description: product.benefit,
+      url: `${site}/${product.href}`,
+      provider: { "@id": organizationId },
+      audience: {
+        "@type": "Audience",
+        audienceType: "自治体",
+      },
+      areaServed: "日本",
+    })),
+  ],
+} as const;
