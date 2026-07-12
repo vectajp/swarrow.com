@@ -10,6 +10,8 @@ export type Product = {
   benefit: string;
   useCases: readonly string[];
   href: `#${ProductId}`;
+  backgroundIcon: `/swarrow-call/${string}.png`;
+  icon: `/swarrow-call/${string}.png`;
 };
 
 export const products: readonly Product[] = [
@@ -21,6 +23,8 @@ export const products: readonly Product[] = [
       "ホームページやLINEで住民の自己解決を促し、電話へ集中する前に定型的な質問へ回答します。",
     useCases: ["手続き案内", "必要書類", "施設案内", "予約・申請への誘導"],
     href: "#chat",
+    backgroundIcon: "/swarrow-call/swarrow-chat-icon-flat.png",
+    icon: "/swarrow-call/swarrow-chat-icon-flat.png",
   },
   {
     id: "call",
@@ -30,61 +34,18 @@ export const products: readonly Product[] = [
       "AIが電話の一次受付、案内、取次、発信を担い、職員の電話対応を必要な案件へ絞ります。",
     useCases: ["代表電話", "時間外受付", "担当課取次", "リマインド・一括周知"],
     href: "#call",
+    backgroundIcon: "/swarrow-call/swarrow-call-icon-flat.png",
+    icon: "/swarrow-call/swarrow-call-icon-flat.png",
   },
 ];
 
 export const heroCopy = {
   eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
   title: ["回答精度に妥協しない。"],
-  emphasis: ["フルチューニングAI。"],
+  emphasis: ["自治体フルチューニングAI。"],
   description:
-    "Swarrow ChatとSwarrow Callは、自治体の公式情報と業務に合わせ、知識・回答ルール・参照元・職員への引き継ぎまで個別に設計。公開前に回答を検証し、自治体と確認した範囲から公開します。公開後も利用状況や低評価質問をもとに、回答品質を継続的に改善します。",
+    "チャットやコールセンターのAI機能を安心してご利用いただくには、回答精度を支える設計が欠かせません。自治体の公式情報・回答ルール・職員への引き継ぎなどを、実際のオペレーションに合わせて個別に設計します。公開後も利用状況をもとに回答品質を継続的に高め、運用を重ねるほど改善につなげられる仕組みを整えます。",
 } as const;
-
-export type AnswerQualityProof = {
-  step: string;
-  title: string;
-  body: string;
-};
-
-export const answerQuality = {
-  kicker: "Answer Quality",
-  title: ["公開前に検証し、", "公開後も改善する。"],
-  lead: "Vectaが回答を検証し、自治体と公開範囲を確認。公開後の利用状況まで見て、回答品質を継続的に改善します。",
-  proofs: [
-    {
-      step: "01",
-      title: "Vectaによる公開前検証",
-      body: "評価質問を使い、回答方針・参照元・不足情報を調整します。",
-    },
-    {
-      step: "02",
-      title: "自治体との公開判断",
-      body: "根拠と回答内容を確認できた範囲から公開します。",
-    },
-    {
-      step: "03",
-      title: "継続的な品質改善",
-      body: "利用状況・参照元・低評価質問・改善対象を定期的に確認します。",
-    },
-  ] satisfies readonly AnswerQualityProof[],
-  safeguard: "根拠が確認できない質問には無理に答えず、職員対応へ切り替えます。",
-} as const;
-
-export const painPoints = [
-  {
-    title: "同じ問い合わせが繰り返される",
-    body: "手続き、必要書類、担当課などの定型質問が電話や窓口へ集中します。",
-  },
-  {
-    title: "案内の知識が分散している",
-    body: "ホームページと電話でFAQを別々に管理すると、更新と案内内容に差が生まれます。",
-  },
-  {
-    title: "繁忙時や時間外に受けきれない",
-    body: "問い合わせが重なると、職員の本来業務と住民への案内の両方が滞ります。",
-  },
-] as const;
 
 export const sharedKnowledge = {
   title: "一度整えた知識を、ホームページにも電話にも。",

@@ -2,10 +2,8 @@
   import { onMount } from "svelte";
   import ContactModal from "$lib/swarrow/ContactModal.svelte";
   import {
-    answerQuality,
     callCapabilities,
     cases,
-    companyOverviewLink,
     customerSuccessSteps,
     heroCopy,
     jsonLd,
@@ -13,7 +11,6 @@
     news,
     pageDescription,
     pageTitle,
-    painPoints,
     products,
     sharedKnowledge,
     showCaseStudies,
@@ -33,6 +30,7 @@
     ".customer-success-video",
     ".customer-success-step-video",
   ].join(", ");
+  const currentYear = new Date().getFullYear();
 
   const isExternalHref = (href: string) => /^https?:\/\//.test(href);
   const playVideo = (video: HTMLVideoElement) => {
@@ -226,7 +224,7 @@
               <span>{line}</span>
             {/each}
             {#each heroCopy.emphasis as line (line)}
-              <span>{line}</span>
+              <span class="hero-title-emphasis">{line}</span>
             {/each}
           </h1>
           <p class="hero-sub">{heroCopy.description}</p>
@@ -238,9 +236,6 @@
             >
               導入相談・デモを依頼する
             </button>
-            <a class="hero-secondary" href="#quality">
-              回答品質の仕組みを見る
-            </a>
           </nav>
         </div>
 
@@ -273,136 +268,25 @@
       <div class="hero-fade"></div>
     </section>
 
-    <section id="quality" class="quality" aria-labelledby="quality-title">
-      <div class="quality-shell">
-        <div class="quality-head" data-reveal>
-          <div class="quality-heading">
-            <p class="quality-kicker">{answerQuality.kicker}</p>
-            <h2 id="quality-title" aria-label={answerQuality.title.join("")}>
-              {#each answerQuality.title as line (line)}
-                <span>{line}</span>
-              {/each}
-            </h2>
-          </div>
-          <p class="quality-lead">{answerQuality.lead}</p>
-        </div>
-
-        <ol class="quality-steps" aria-label="回答品質を確保する3段階">
-          {#each answerQuality.proofs as proof (proof.step)}
-            <li class="quality-step" data-reveal>
-              <span class="quality-step-number" aria-hidden="true">
-                {proof.step}
-              </span>
-              <h3>{proof.title}</h3>
-              <p>{proof.body}</p>
-            </li>
-          {/each}
-        </ol>
-
-        <p class="quality-safeguard" data-reveal>
-          {answerQuality.safeguard}
-        </p>
-      </div>
-    </section>
-
-    <section id="problems" class="problems" aria-labelledby="problems-title">
-      <div class="problems-inner">
-        <p class="problems-kicker">自治体窓口が抱える課題</p>
-        <h2 id="problems-title" class="problems-title">
-          問い合わせ対応が、職員の時間を奪っていませんか。
-        </h2>
-        <div class="problems-grid">
-          {#each painPoints as point (point.title)}
-            <article class="problem-card" data-reveal>
-              <h3>{point.title}</h3>
-              <p>{point.body}</p>
-            </article>
-          {/each}
-        </div>
-      </div>
-    </section>
-
-    <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
-    <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
-      <div class="knowledge-inner">
-        <figure class="knowledge-visual" data-reveal>
-          <video
-            class="knowledge-video"
-            poster="/swarrow-call/knowledge-flow-alpha.png"
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1280"
-            height="720"
-            aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
-          >
-            <source
-              src="/swarrow-call/knowledge-flow-alpha.webm"
-              type="video/webm"
-            >
-            <img
-              class="knowledge-image"
-              src="/swarrow-call/knowledge-flow-alpha.png"
-              alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
-              width="1672"
-              height="941"
-              loading="lazy"
-              decoding="async"
-            >
-          </video>
-        </figure>
-
-        <div class="knowledge-copy" data-reveal>
-          <p class="knowledge-en">Shared Knowledge</p>
-          <h2 id="knowledge-title" class="knowledge-title">
-            <span>1つの知識で、</span>
-            <span>ホームページも電話も。</span>
-          </h2>
-          <p class="knowledge-lead">{sharedKnowledge.description}</p>
-          <ul class="knowledge-flow">
-            <li>
-              <span class="knowledge-flow-kicker">Collect</span>
-              <span>
-                <strong>散らばる知識をまとめる</strong>
-                <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
-              </span>
-            </li>
-            <li>
-              <span class="knowledge-flow-kicker">Maintain</span>
-              <span>
-                <strong>一度の更新で案内をそろえる</strong>
-                <small>制度変更や現場の気づきを共通知識へ反映。</small>
-              </span>
-            </li>
-            <li>
-              <span class="knowledge-flow-kicker">Serve</span>
-              <span>
-                <strong>ChatとCallの双方で使う</strong>
-                <small>Webと電話で同じ根拠から住民へ案内。</small>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="knowledge-curve-bg" aria-hidden="true">
+    <section id="products" class="products" aria-labelledby="products-title">
+      <div
+        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip hero-products-curve"
+        aria-hidden="true"
+      >
         <svg
-          viewBox="0 0 1440 900"
+          viewBox="0 0 1440 1600"
           preserveAspectRatio="none"
           aria-hidden="true"
           focusable="false"
         >
           <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V900H-80Z"
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
           ></path>
         </svg>
       </div>
-    </section>
-
-    <section id="products" class="products" aria-labelledby="products-title">
       <div class="products-inner">
         <div class="products-head" data-reveal>
-          <p class="products-kicker">Products</p>
+          <p class="products-kicker section-kicker">Products</p>
           <h2 id="products-title">問い合わせの入口に合わせて選べる2つの製品</h2>
           <p>
             ホームページから始めても、電話から始めても、両方を組み合わせても導入できます。
@@ -415,8 +299,28 @@
               class="product-card product-card--{product.id}"
               data-reveal
             >
+              <img
+                class="product-card-watermark"
+                src={product.backgroundIcon}
+                alt=""
+                width="900"
+                height="720"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              >
               <p class="product-category">{product.category}</p>
-              <h3>{product.name}</h3>
+              <div class="product-name">
+                <img
+                  class="product-name-icon"
+                  src={product.icon}
+                  alt=""
+                  width="961"
+                  height="1006"
+                  decoding="async"
+                >
+                <h3>{product.name}</h3>
+              </div>
               <p class="product-benefit">{product.benefit}</p>
               <ul>
                 {#each product.useCases as useCase (useCase)}
@@ -441,11 +345,11 @@
     <section class="workflow">
       <section
         id="chat"
-        class="feature-band feature-band--paper"
+        class="feature-band feature-band--mist"
         aria-labelledby="chat-title"
       >
         <div
-          class="section-curve-bg section-curve-bg--paper"
+          class="section-curve-bg section-curve-bg--mist chat-top-curve"
           aria-hidden="true"
         >
           <svg
@@ -488,8 +392,20 @@
           <div class="chat-feature-copy">
             <p class="chat-feature-en">Municipal Web AI Desk</p>
             <h2 id="chat-title" class="chat-feature-title">
-              <span>自治体ホームページAI窓口</span>
-              <span>Swarrow Chat</span>
+              <span class="chat-feature-title-label">
+                自治体ホームページAI窓口
+              </span>
+              <span class="feature-product-name">
+                <img
+                  class="feature-product-icon"
+                  src="/swarrow-call/swarrow-chat-icon-flat.png"
+                  alt=""
+                  width="961"
+                  height="1006"
+                  decoding="async"
+                >
+                Swarrow Chat
+              </span>
             </h2>
             <p class="chat-feature-lead">
               ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
@@ -518,11 +434,11 @@
 
       <section
         id="call"
-        class="feature-band feature-band--mist"
+        class="feature-band feature-band--paper"
         aria-labelledby="call-title"
       >
         <div
-          class="section-curve-bg section-curve-bg--mist section-curve-bg--flip"
+          class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
           aria-hidden="true"
         >
           <svg
@@ -541,7 +457,18 @@
             <p class="call-feature-en">Municipal AI Call Center</p>
             <h2 id="call-title" class="call-feature-title">
               <span>自治体AIコールセンター</span>
-              <span>Swarrow Call</span>
+              <span class="feature-product-name">
+                <img
+                  class="feature-product-icon"
+                  src="/swarrow-call/swarrow-call-icon-flat.png"
+                  alt=""
+                  width="961"
+                  height="1006"
+                  loading="lazy"
+                  decoding="async"
+                >
+                Swarrow Call
+              </span>
             </h2>
             <p class="call-feature-lead">
               AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
@@ -631,6 +558,90 @@
                 </div>
               </article>
             {/each}
+          </div>
+        </div>
+      </section>
+
+      <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
+      <section
+        id="knowledge"
+        class="knowledge"
+        aria-labelledby="knowledge-title"
+      >
+        <div
+          class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 1440 1600"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+            ></path>
+          </svg>
+        </div>
+        <div class="knowledge-inner">
+          <figure class="knowledge-visual" data-reveal>
+            <video
+              class="knowledge-video"
+              poster="/swarrow-call/knowledge-flow-alpha.png"
+              muted
+              loop
+              playsinline
+              preload="none"
+              width="1280"
+              height="720"
+              aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+            >
+              <source
+                src="/swarrow-call/knowledge-flow-alpha.webm"
+                type="video/webm"
+              >
+              <img
+                class="knowledge-image"
+                src="/swarrow-call/knowledge-flow-alpha.png"
+                alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+                width="1672"
+                height="941"
+                loading="lazy"
+                decoding="async"
+              >
+            </video>
+          </figure>
+
+          <div class="knowledge-copy" data-reveal>
+            <p class="knowledge-en section-kicker">Shared Knowledge</p>
+            <h2 id="knowledge-title" class="knowledge-title">
+              <span>1つの知識で、</span>
+              <span>ホームページも電話も。</span>
+            </h2>
+            <p class="knowledge-lead">{sharedKnowledge.description}</p>
+            <ul class="knowledge-flow">
+              <li>
+                <span class="knowledge-flow-kicker">Collect</span>
+                <span>
+                  <strong>散らばる知識をまとめる</strong>
+                  <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
+                </span>
+              </li>
+              <li>
+                <span class="knowledge-flow-kicker">Maintain</span>
+                <span>
+                  <strong>一度の更新で案内をそろえる</strong>
+                  <small>制度変更や現場の気づきを共通知識へ反映。</small>
+                </span>
+              </li>
+              <li>
+                <span class="knowledge-flow-kicker">Serve</span>
+                <span>
+                  <strong>ChatとCallの双方で使う</strong>
+                  <small>Webと電話で同じ根拠から住民へ案内。</small>
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -898,41 +909,35 @@
     </section>
   </main>
 
-  <footer id="footer" class="sc-footer">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <img
-          class="foot-mark"
-          src="/swarrow/icon.png"
-          alt=""
-          width="120"
-          height="120"
-          decoding="async"
-        >
-        <span class="foot-name">Swarrow</span>
+  <footer id="footer" class="vecta-footer">
+    <div class="vecta-footer-inner">
+      <div class="vecta-footer-content">
+        <div class="vecta-footer-brand">
+          <a
+            class="vecta-footer-logo-link"
+            href="https://www.vecta.co.jp"
+            aria-label="Vectaのウェブサイトへ"
+          >
+            <img
+              src="/vecta/logo_horizontal.svg"
+              alt="Vecta"
+              width="300"
+              height="100"
+              decoding="async"
+            >
+          </a>
+          <p>まちの知識を、未来へつなぐ。</p>
+        </div>
+        <address class="vecta-footer-address">
+          〒150-0002<br>
+          東京都渋谷区渋谷2-19-15<br>
+          宮益坂ビルディング609
+        </address>
       </div>
-      <p class="foot-addr">
-        〒150-0002<br>
-        東京都渋谷区渋谷2-19-15<br>
-        宮益坂ビルディング609
+      <p class="vecta-footer-copy">
+        © {currentYear} Vecta. All rights reserved.
       </p>
     </div>
-    <nav class="foot-links" aria-label="フッターナビゲーション">
-      <button type="button" class="foot-link-btn" onclick={openContactModal}>
-        お問い合わせ
-      </button>
-      <a
-        href={companyOverviewLink.href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {companyOverviewLink.label}<span class="ext" aria-hidden="true">↗</span>
-      </a>
-      <a href="#footer">情報セキュリティ方針</a>
-      <a href="#footer">個人情報保護方針</a>
-      <a href="#footer">ウェブサイト利用規約</a>
-    </nav>
-    <p class="foot-copy">© Swarrow</p>
   </footer>
 
   <ContactModal open={contactModalOpen} onClose={closeContactModal} />
@@ -978,8 +983,6 @@
     border-radius: 6px;
   }
   #top,
-  #quality,
-  #problems,
   #knowledge,
   #products,
   #chat,
@@ -1025,14 +1028,12 @@
     gap: 0.7rem;
     flex: 0 0 auto;
   }
-  .brand-mark,
-  .foot-mark {
+  .brand-mark {
     display: block;
     width: 2.5rem;
     height: 2.5rem;
   }
-  .brand-name,
-  .foot-name {
+  .brand-name {
     color: var(--navy);
     font-size: clamp(1.25rem, 2vw, 1.7rem);
     font-weight: 800;
@@ -1095,7 +1096,7 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: min(1280px, 132%);
+    width: min(1760px, 180%);
     max-width: none;
     height: auto;
     background: var(--bg);
@@ -1153,36 +1154,52 @@
   .hero-copy {
     position: relative;
     z-index: 2;
-    align-self: center;
+    align-self: start;
     min-width: 0;
-    margin-top: clamp(3rem, 8vw, 8rem);
+    margin-top: clamp(5.5rem, 7vw, 6.5rem);
+    font-family: "Noto Sans JP", sans-serif;
   }
-  .hero-eyebrow,
-  .problems-kicker {
+  .hero-eyebrow {
     margin: 0 0 0.8rem;
     color: var(--sage-deep);
     font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.12em;
   }
+  .section-kicker {
+    margin: 0 0 0.5rem;
+    color: var(--sage-deep);
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
+  }
   .hero-title {
     margin: 0;
-    font-size: clamp(1.9rem, 3.2vw, 3.1rem);
+    color: var(--navy);
+    font-family: "Montserrat", "Noto Sans JP", sans-serif;
+    font-size: 3.35rem;
     font-weight: 700;
-    line-height: 1.42;
-    letter-spacing: 0.09em;
-    color: var(--ink);
+    line-height: 1.18;
+    letter-spacing: 0;
     text-wrap: balance;
   }
   .hero-title span {
     display: block;
+    white-space: nowrap;
+  }
+  .hero-title .hero-title-emphasis {
+    font-size: clamp(1.85rem, 3vw, 2.75rem);
+    white-space: nowrap;
   }
   .hero-sub {
-    max-width: 36rem;
-    margin: 1.35rem 0 0;
-    color: var(--ink-soft);
-    font-size: clamp(0.9rem, 1.2vw, 1rem);
-    letter-spacing: 0.02em;
+    max-width: 40rem;
+    margin: 1.15rem 0 0;
+    color: var(--navy);
+    font-size: 1.22rem;
+    line-height: 1.95;
+    letter-spacing: 0;
   }
   .hero-actions {
     display: flex;
@@ -1190,8 +1207,7 @@
     gap: 0.8rem;
     margin-top: 1.6rem;
   }
-  .hero-primary,
-  .hero-secondary {
+  .hero-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1207,194 +1223,15 @@
     color: #fff;
     cursor: pointer;
   }
-  .hero-secondary {
-    border: 1px solid var(--navy);
-    color: var(--navy);
-  }
-
-  /* ===== Answer quality: 公開判断を一続きの検証レールとして示す ===== */
-  .quality {
-    position: relative;
-    z-index: 4;
-    padding: 1px clamp(1.2rem, 4vw, 3.5rem) clamp(3.5rem, 7vw, 5.5rem);
-    background: var(--paper);
-  }
-  .quality-shell {
-    position: relative;
-    max-width: 1180px;
-    margin: -2.4rem auto 0;
-    padding: clamp(2rem, 4vw, 3.2rem);
-    overflow: hidden;
-    border-radius: 28px;
-    background: linear-gradient(135deg, var(--navy) 0%, #103765 100%);
-    box-shadow: 0 22px 55px rgba(6, 25, 54, 0.18);
-    color: #fff;
-  }
-  .quality-shell::before {
-    position: absolute;
-    top: -8rem;
-    right: -6rem;
-    width: 22rem;
-    height: 22rem;
-    border: 1px solid rgba(198, 208, 220, 0.16);
-    border-radius: 50%;
-    content: "";
-    pointer-events: none;
-  }
-  .quality-head {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    align-items: end;
-    gap: clamp(1.5rem, 5vw, 5rem);
-  }
-  .quality-kicker {
-    margin: 0 0 0.7rem;
-    color: #bfcfe3;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .quality-heading h2 {
-    max-width: 30rem;
-    margin: 0;
-    font-size: clamp(1.65rem, 3vw, 2.45rem);
-    line-height: 1.5;
-    letter-spacing: 0.06em;
-    text-wrap: balance;
-  }
-  .quality-heading h2 span {
-    display: block;
-  }
-  .quality-lead {
-    max-width: 36rem;
-    margin: 0;
-    color: #dbe5f1;
-    font-size: clamp(0.92rem, 1.2vw, 1rem);
-  }
-  .quality-steps {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: clamp(2rem, 4vw, 3rem) 0 0;
-    padding: 0;
-    border-top: 1px solid rgba(198, 208, 220, 0.35);
-    list-style: none;
-  }
-  .quality-step {
-    position: relative;
-    min-width: 0;
-    padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.8rem) 0;
-  }
-  .quality-step + .quality-step {
-    border-left: 1px solid rgba(198, 208, 220, 0.22);
-  }
-  .quality-step::before {
-    position: absolute;
-    top: -0.38rem;
-    left: clamp(1rem, 2.5vw, 1.8rem);
-    width: 0.72rem;
-    height: 0.72rem;
-    border: 2px solid var(--navy);
-    border-radius: 50%;
-    background: var(--coral);
-    box-shadow: 0 0 0 4px rgba(224, 122, 102, 0.18);
-    content: "";
-  }
-  .quality-step-number {
-    display: block;
-    margin-bottom: 0.7rem;
-    color: #bfcfe3;
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.16em;
-  }
-  .quality-step h3,
-  .quality-step p {
-    margin: 0;
-  }
-  .quality-step h3 {
-    font-size: clamp(1rem, 1.4vw, 1.18rem);
-    line-height: 1.55;
-  }
-  .quality-step p {
-    margin-top: 0.65rem;
-    color: #dbe5f1;
-    font-size: 0.9rem;
-    line-height: 1.8;
-  }
-  .quality-safeguard {
-    position: relative;
-    margin: clamp(1.8rem, 4vw, 2.8rem) 0 0;
-    padding: 1rem 1.25rem;
-    border: 1px solid rgba(198, 208, 220, 0.3);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.07);
-    color: #fff;
-    font-size: clamp(0.9rem, 1.2vw, 1rem);
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-align: center;
-  }
-  .problems {
-    position: relative;
-    z-index: 3;
-    padding: clamp(2.75rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem);
-    background: var(--paper);
-  }
-  .problems-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-  .problems-title {
-    max-width: 48rem;
-    margin: 0;
-    color: var(--navy);
-    font-size: clamp(1.5rem, 3vw, 2.35rem);
-    line-height: 1.55;
-  }
-  .problems-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    margin-top: clamp(1.8rem, 4vw, 3rem);
-  }
-  .problem-card {
-    padding: 1.4rem;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    background: var(--bg);
-  }
-  .problem-card h3,
-  .problem-card p {
-    margin: 0;
-  }
-  .problem-card h3 {
-    color: var(--navy);
-    font-size: 1rem;
-  }
-  .problem-card p {
-    margin-top: 0.5rem;
-    color: var(--ink-soft);
-    font-size: 0.9rem;
-  }
-
   /* ===== Knowledge ===== */
   .knowledge {
+    --band-bg: var(--bg);
+
     position: relative;
-    z-index: 1;
     isolation: isolate;
-    overflow: hidden;
+    overflow: visible;
     margin-top: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0,
-      rgba(255, 255, 255, 0) 1rem,
-      rgba(255, 255, 255, 0.7) 3.75rem,
-      var(--paper) 5.75rem,
-      var(--paper) 100%
-    );
+    background: transparent;
     padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem)
       clamp(3rem, 7vw, 6rem);
   }
@@ -1426,13 +1263,6 @@
   }
   .knowledge-copy {
     min-width: 0;
-  }
-  .knowledge-en {
-    margin: 0 0 0.5rem;
-    color: var(--sage-deep);
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 700;
   }
   .knowledge-title {
     margin: 0;
@@ -1487,38 +1317,24 @@
     font-size: 0.88rem;
     line-height: 1.8;
   }
-  .knowledge-curve-bg {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 0;
-    height: clamp(15rem, 27vw, 26rem);
-    color: var(--bg);
-    pointer-events: none;
-  }
-  .knowledge-curve-bg svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  .knowledge-curve-bg path {
-    fill: currentColor;
-  }
-
   /* ===== Products ===== */
   .products {
+    --band-bg: var(--paper);
+
+    position: relative;
+    isolation: isolate;
     padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 4vw, 3.5rem);
-    background: var(--bg);
+    background: transparent;
   }
   .products-inner {
+    position: relative;
+    z-index: 1;
     max-width: 1180px;
     margin: 0 auto;
   }
   .products-head {
-    max-width: 760px;
+    max-width: 860px;
   }
-  .products-kicker,
   .product-category {
     margin: 0;
     color: var(--sage-deep);
@@ -1527,10 +1343,11 @@
     letter-spacing: 0.1em;
   }
   .products-head h2 {
-    margin: 0.5rem 0 0;
+    margin: 0;
     color: var(--navy);
     font-size: clamp(1.6rem, 3.2vw, 2.5rem);
     line-height: 1.5;
+    white-space: nowrap;
   }
   .products-head > p:last-child {
     margin: 1rem 0 0;
@@ -1543,17 +1360,46 @@
     margin-top: clamp(2rem, 5vw, 3.5rem);
   }
   .product-card {
+    position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     min-height: 26rem;
+    overflow: hidden;
     padding: clamp(1.5rem, 3vw, 2.2rem);
     border: 1px solid var(--line);
     border-radius: 22px;
     background: var(--paper);
     box-shadow: 0 18px 44px rgba(9, 32, 69, 0.08);
   }
+  .product-card > :not(.product-card-watermark) {
+    position: relative;
+    z-index: 1;
+  }
+  .product-card-watermark {
+    position: absolute;
+    right: -2rem;
+    bottom: 0.5rem;
+    z-index: 0;
+    width: min(70%, 24rem);
+    height: auto;
+    opacity: 0.045;
+    pointer-events: none;
+    user-select: none;
+  }
+  .product-name {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.65rem, 1.4vw, 0.9rem);
+    margin-top: 0.55rem;
+  }
+  .product-name-icon {
+    flex: 0 0 auto;
+    width: clamp(2.5rem, 4vw, 3rem);
+    height: auto;
+  }
   .product-card h3 {
-    margin: 0.55rem 0 0;
+    margin: 0;
     color: var(--navy);
     font-size: clamp(1.5rem, 3vw, 2.2rem);
   }
@@ -1845,6 +1691,20 @@
   .chat-feature-title span {
     display: block;
   }
+  .chat-feature-title-label {
+    white-space: nowrap;
+  }
+  :is(.chat-feature-title, .call-feature-title) .feature-product-name {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .feature-product-icon {
+    display: block;
+    width: clamp(2rem, 3.5vw, 2.75rem);
+    height: auto;
+    flex: 0 0 auto;
+  }
   .chat-feature-lead {
     margin: 1.2rem 0 1.45rem;
     color: var(--ink);
@@ -2060,6 +1920,18 @@
       clamp(3rem, 8vw, 7rem);
     max-width: 1180px;
     margin: clamp(-1.5rem, -2vw, -0.75rem) auto 0;
+  }
+  .function::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: 100vw;
+    height: 100%;
+    background: var(--paper);
+    content: "";
+    pointer-events: none;
+    transform: translateX(-50%);
   }
   .function-curve-bg {
     position: absolute;
@@ -2370,69 +2242,55 @@
   }
 
   /* ===== Footer ===== */
-  .sc-footer {
+  .vecta-footer {
     background: var(--navy);
-    color: #e8edf2;
-    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem);
+    color: #fff;
+    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) 1rem;
   }
-  .foot-top {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1.5rem;
+  .vecta-footer-inner {
     max-width: 1180px;
     margin: 0 auto;
   }
-  .foot-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+  .vecta-footer-content {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 2rem;
   }
-  .foot-name {
-    color: #fff;
+  .vecta-footer-logo-link {
+    display: inline-block;
+    border-radius: 0.25rem;
   }
-  .foot-addr {
+  .vecta-footer-logo-link:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.72);
+    outline-offset: 0.35rem;
+  }
+  .vecta-footer-brand img {
+    display: block;
+    width: 150px;
+    height: auto;
+    margin-bottom: 0.75rem;
+    filter: brightness(0) invert(1);
+  }
+  .vecta-footer-brand p {
     margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.9;
-    color: #b9c4d4;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
   }
-  .foot-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    max-width: 1180px;
-    margin: 2rem auto;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  .vecta-footer-address {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.95rem;
+    font-style: normal;
+    line-height: 1.75;
   }
-  .foot-links a {
-    font-size: 0.88rem;
-    color: #d6deea;
+  .vecta-footer-copy {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.9rem;
+    text-align: center;
   }
-  .foot-links a:hover {
-    color: #fff;
-  }
-  .foot-link-btn {
-    padding: 0;
-    border: none;
-    background: none;
-    font: inherit;
-    font-size: 0.88rem;
-    color: #d6deea;
-    cursor: pointer;
-  }
-  .foot-link-btn:hover {
-    color: #fff;
-  }
-  .foot-copy {
-    max-width: 1180px;
-    margin: 0 auto;
-    font-size: 0.78rem;
-    color: #9aa8bd;
-  }
-
   /* ===== Reveal(JS+モーション時のみ) ===== */
   .motion [data-reveal] {
     opacity: 0;
@@ -2447,7 +2305,21 @@
   }
 
   /* ===== Responsive ===== */
+  @media (min-width: 769px) {
+    .vecta-footer-content {
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 4rem;
+    }
+    .vecta-footer-address {
+      text-align: right;
+    }
+  }
+
   @media (max-width: 1240px) {
+    .hero-title span {
+      white-space: normal;
+    }
     .workflow-inner {
       grid-template-columns: minmax(0, 0.5fr) minmax(0, 0.5fr);
     }
@@ -2496,59 +2368,23 @@
     }
     .hero-video,
     .hero-video-fallback {
-      width: min(900px, 140vw);
+      width: min(1240px, 190vw);
     }
     .hero-title {
-      font-size: clamp(1.65rem, 8vw, 2.4rem);
-      letter-spacing: 0.06em;
+      font-size: clamp(2.35rem, 10vw, 3.1rem);
+    }
+    .hero-title .hero-title-emphasis {
+      font-size: clamp(1.58rem, calc(7.45vw - 0.22rem), 1em);
+    }
+    .hero-sub {
+      font-size: 1.08rem;
     }
     .hero-actions {
       justify-content: center;
     }
-    .hero-primary,
-    .hero-secondary {
+    .hero-primary {
       width: 100%;
       box-sizing: border-box;
-    }
-    .quality {
-      padding: 0 1.2rem clamp(3rem, 10vw, 4.5rem);
-    }
-    .quality-shell {
-      margin-top: 0;
-      padding: clamp(1.7rem, 7vw, 2.4rem) clamp(1.2rem, 5vw, 1.7rem);
-      border-radius: 22px;
-    }
-    .quality-head {
-      grid-template-columns: 1fr;
-      align-items: start;
-      gap: 1rem;
-    }
-    .quality-heading h2 {
-      font-size: clamp(1.45rem, 7vw, 2rem);
-    }
-    .quality-steps {
-      grid-template-columns: 1fr;
-      gap: 0;
-      border-top: 0;
-    }
-    .quality-step {
-      padding: 1.3rem 0 1.3rem 2.2rem;
-      border-left: 1px solid rgba(198, 208, 220, 0.35);
-    }
-    .quality-step + .quality-step {
-      border-top: 1px solid rgba(198, 208, 220, 0.16);
-      border-left: 1px solid rgba(198, 208, 220, 0.35);
-    }
-    .quality-step::before {
-      top: 1.65rem;
-      left: -0.43rem;
-    }
-    .quality-safeguard {
-      margin-top: 1rem;
-      text-align: left;
-    }
-    .problems-grid {
-      grid-template-columns: 1fr;
     }
     .products-grid {
       grid-template-columns: 1fr;
@@ -2556,13 +2392,15 @@
     .product-card {
       min-height: 0;
     }
+    .product-card-watermark {
+      right: -1.5rem;
+      bottom: -0.25rem;
+      width: min(76%, 20rem);
+    }
     .knowledge {
       margin-top: 0;
-      background: var(--paper);
+      background: var(--band-bg);
       padding-top: clamp(2.5rem, 8vw, 3.5rem);
-    }
-    .knowledge-curve-bg {
-      height: clamp(13rem, 58vw, 17rem);
     }
     .feature-band {
       padding: clamp(3rem, 9vw, 4.75rem) clamp(1.2rem, 4vw, 3.5rem);
@@ -2574,6 +2412,8 @@
       height: calc(100% + 4.5rem);
     }
     .feature-band,
+    .products,
+    .knowledge,
     .case,
     .news,
     .function {
@@ -2593,6 +2433,8 @@
       display: none;
     }
     .feature-band::before,
+    .products::before,
+    .knowledge::before,
     .case::before,
     .news::before,
     .function::before {
@@ -2609,6 +2451,8 @@
       transform: translateX(-50%);
     }
     .feature-band > :not(.section-curve-bg),
+    .products > :not(.section-curve-bg),
+    .knowledge > :not(.section-curve-bg),
     .case > :not(.section-curve-bg),
     .news > :not(.section-curve-bg),
     .function > :not(.function-curve-bg) {
@@ -2674,6 +2518,10 @@
     .call-feature-title,
     .function-ja {
       order: 2;
+    }
+    .chat-feature-title-label {
+      font-size: clamp(1.12rem, 6vw, 1em);
+      letter-spacing: 0.02em;
     }
     .knowledge-visual,
     .workflow-media,
@@ -2789,6 +2637,21 @@
     }
     .news-go {
       display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .products-head h2 {
+      font-size: clamp(0.8rem, calc(4.7vw - 0.15rem), 1.6rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2.12rem;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
     }
   }
 

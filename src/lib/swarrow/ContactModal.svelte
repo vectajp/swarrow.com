@@ -276,7 +276,10 @@
 
           <form onsubmit={handleSubmit}>
             <label>
-              自治体・団体名<span class="required">*</span>
+              <span class="field-label">
+                自治体・団体名<span class="required" aria-hidden="true">*</span>
+                <span class="visually-hidden">必須</span>
+              </span>
               <input
                 type="text"
                 bind:value={companyName}
@@ -285,7 +288,10 @@
               >
             </label>
             <label>
-              氏名<span class="required">*</span>
+              <span class="field-label">
+                氏名<span class="required" aria-hidden="true">*</span>
+                <span class="visually-hidden">必須</span>
+              </span>
               <input
                 type="text"
                 bind:value={name}
@@ -294,7 +300,10 @@
               >
             </label>
             <label>
-              ふりがな<span class="required">*</span>
+              <span class="field-label">
+                ふりがな<span class="required" aria-hidden="true">*</span>
+                <span class="visually-hidden">必須</span>
+              </span>
               <input
                 type="text"
                 bind:value={nameKana}
@@ -303,7 +312,10 @@
               >
             </label>
             <label>
-              メールアドレス<span class="required">*</span>
+              <span class="field-label">
+                メールアドレス<span class="required" aria-hidden="true">*</span>
+                <span class="visually-hidden">必須</span>
+              </span>
               <input
                 type="email"
                 bind:value={email}
@@ -312,10 +324,12 @@
               >
             </label>
             <label>
-              お問い合わせ内容
+              <span class="field-label">
+                お問い合わせ内容<span class="optional">任意</span>
+              </span>
               <textarea
                 bind:value={inquiry}
-                rows="4"
+                rows="3"
                 placeholder="ご質問・ご要望をご記入ください"
               ></textarea>
             </label>
@@ -361,9 +375,10 @@
   .modal {
     position: relative;
     width: 100%;
-    max-width: 520px;
-    max-height: 90vh;
+    max-width: 560px;
+    max-height: min(90dvh, 880px);
     overflow-y: auto;
+    scrollbar-gutter: stable;
     border-radius: 24px;
     background: var(--paper, #fff);
     box-shadow: 0 30px 70px rgba(9, 32, 69, 0.25);
@@ -372,15 +387,36 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    border: none;
-    background: transparent;
+    z-index: 1;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid var(--line, rgba(51, 51, 51, 0.14));
+    border-radius: 999px;
+    background: var(--bg, #f4f4f6);
     font-size: 1.5rem;
     line-height: 1;
     color: var(--ink-soft, #5a5f63);
     cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+  .modal-close:hover {
+    border-color: rgba(9, 32, 69, 0.28);
+    background: #fff;
+    color: var(--navy, #092045);
+  }
+  .modal-close:focus-visible,
+  .modal-submit:focus-visible,
+  .modal-done-btn:focus-visible {
+    outline: 3px solid rgba(20, 92, 160, 0.28);
+    outline-offset: 3px;
   }
   .modal-body {
-    padding: clamp(1.75rem, 4vw, 2.5rem);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
   }
   .modal-body h3 {
     margin: 0 0 0.5rem;
@@ -396,32 +432,88 @@
   }
   form {
     display: flex;
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 1.25rem;
   }
   label {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    font-size: 0.85rem;
+    gap: 0.5rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--navy, #092045);
   }
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
   .required {
-    margin-left: 0.2rem;
     color: var(--coral, #e07a66);
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .optional {
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: #eef1f5;
+    color: var(--ink-soft, #5a5f63);
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   input,
   textarea {
-    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.65rem 1rem;
     border: 1px solid var(--line, rgba(51, 51, 51, 0.14));
     border-radius: 12px;
     font: inherit;
+    font-weight: 400;
+    line-height: 1.6;
     color: var(--ink, #333);
-    background: var(--bg, #f4f4f6);
+    background: #f7f8fa;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #777d84;
+    opacity: 1;
+  }
+  input:hover,
+  textarea:hover {
+    border-color: rgba(9, 32, 69, 0.3);
+  }
+  input:focus,
+  textarea:focus {
+    border-color: #145ca0;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(20, 92, 160, 0.14);
   }
   textarea {
-    resize: none;
+    resize: vertical;
   }
   .turnstile-wrapper {
     display: flex;
@@ -477,5 +569,23 @@
     color: #fff;
     font-weight: 700;
     cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    .modal-backdrop {
+      align-items: flex-end;
+      padding: 0.5rem;
+    }
+    .modal {
+      max-height: calc(100dvh - 1rem);
+      border-radius: 20px;
+    }
+    .modal-body {
+      padding: 1.5rem;
+      padding-top: 4.25rem;
+    }
+    .modal-body h3 {
+      font-size: 1.3rem;
+    }
   }
 </style>

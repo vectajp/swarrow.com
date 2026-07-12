@@ -2,12 +2,10 @@
 
 import { describe, expect, test } from "bun:test";
 import {
-  answerQuality,
   heroCopy,
   jsonLd,
   pageDescription,
   pageTitle,
-  painPoints,
   products,
   sharedKnowledge,
   showCaseStudies,
@@ -26,6 +24,14 @@ describe("Swarrow product content", () => {
     ]);
     expect(products.every(({ href }) => href.startsWith("#"))).toBe(true);
     expect(products.every(({ benefit }) => benefit.length > 0)).toBe(true);
+    expect(products.map(({ backgroundIcon }) => backgroundIcon)).toEqual([
+      "/swarrow-call/swarrow-chat-icon-flat.png",
+      "/swarrow-call/swarrow-call-icon-flat.png",
+    ]);
+    expect(products.map(({ icon }) => icon)).toEqual([
+      "/swarrow-call/swarrow-chat-icon-flat.png",
+      "/swarrow-call/swarrow-call-icon-flat.png",
+    ]);
   });
 
   test("states independent adoption and the shared knowledge value", () => {
@@ -36,35 +42,20 @@ describe("Swarrow product content", () => {
     expect(sharedKnowledge.description).toContain("Swarrow Call");
   });
 
-  test("defines the approved answer-quality promise and proof", () => {
+  test("defines the approved answer-quality promise", () => {
     expect(heroCopy).toEqual({
       eyebrow: "知識・回答ルール・参照元まで、フルチューニング。",
       title: ["回答精度に妥協しない。"],
-      emphasis: ["フルチューニングAI。"],
+      emphasis: ["自治体フルチューニングAI。"],
       description:
-        "Swarrow ChatとSwarrow Callは、自治体の公式情報と業務に合わせ、知識・回答ルール・参照元・職員への引き継ぎまで個別に設計。公開前に回答を検証し、自治体と確認した範囲から公開します。公開後も利用状況や低評価質問をもとに、回答品質を継続的に改善します。",
+        "チャットやコールセンターのAI機能を安心してご利用いただくには、回答精度を支える設計が欠かせません。自治体の公式情報・回答ルール・職員への引き継ぎなどを、実際のオペレーションに合わせて個別に設計します。公開後も利用状況をもとに回答品質を継続的に高め、運用を重ねるほど改善につなげられる仕組みを整えます。",
     });
-    expect(answerQuality.kicker).toBe("Answer Quality");
-    expect(answerQuality.title.join("")).toBe(
-      "公開前に検証し、公開後も改善する。",
-    );
-    expect(answerQuality.proofs.map(({ title }) => title)).toEqual([
-      "Vectaによる公開前検証",
-      "自治体との公開判断",
-      "継続的な品質改善",
-    ]);
-    expect(answerQuality.proofs).toHaveLength(3);
-    expect(answerQuality.safeguard).toBe(
-      "根拠が確認できない質問には無理に答えず、職員対応へ切り替えます。",
-    );
   });
 
   test("avoids unsupported guarantees and case-specific conditions", () => {
     const publicCopy = JSON.stringify({
-      answerQuality,
       heroCopy,
       pageDescription,
-      painPoints,
       products,
       sharedKnowledge,
     });
