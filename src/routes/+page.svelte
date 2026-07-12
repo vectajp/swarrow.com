@@ -341,389 +341,375 @@
       </div>
     </section>
 
-    <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
-    <section class="workflow">
-      <section
-        id="chat"
-        class="feature-band feature-band--mist"
-        aria-labelledby="chat-title"
+    <section
+      id="chat"
+      class="feature-band feature-band--mist"
+      aria-labelledby="chat-title"
+    >
+      <div
+        class="section-curve-bg section-curve-bg--mist chat-top-curve"
+        aria-hidden="true"
       >
-        <div
-          class="section-curve-bg section-curve-bg--mist chat-top-curve"
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
           aria-hidden="true"
+          focusable="false"
         >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="chat-feature" data-reveal>
+        <figure class="chat-feature-media">
+          <video
+            class="chat-feature-video"
+            poster="/swarrow-call/chat-ui.webp"
+            muted
+            loop
+            playsinline
+            preload="none"
+            width="1280"
+            height="720"
+            aria-label="ホームページやLINEに設置できるSwarrow Chatの画面"
           >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
+            <source src="/swarrow-call/chat-ui.webm" type="video/webm">
+            <img
+              class="chat-feature-image"
+              src="/swarrow-call/chat-ui.webp"
+              alt="ホームページやLINEに設置できるSwarrow Chatの画面"
+              width="1672"
+              height="941"
+              loading="lazy"
+              decoding="async"
+            >
+          </video>
+        </figure>
+
+        <div class="chat-feature-copy">
+          <p class="chat-feature-en">Municipal Web AI Desk</p>
+          <h2 id="chat-title" class="chat-feature-title">
+            <span class="chat-feature-title-label">
+              自治体ホームページAI窓口
+            </span>
+            <span class="feature-product-name">
+              <img
+                class="feature-product-icon"
+                src="/swarrow-call/swarrow-chat-icon-flat.png"
+                alt=""
+                width="961"
+                height="1006"
+                decoding="async"
+              >
+              Swarrow Chat
+            </span>
+          </h2>
+          <p class="chat-feature-lead">
+            ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
+          </p>
+          <ul class="chat-feature-list">
+            <li>
+              <strong>ホームページやLINEに設置</strong>
+              <small>住民が普段利用するデジタル窓口から質問できます。</small>
+            </li>
+            <li>
+              <strong>自治体の資料をもとに回答</strong>
+              <small
+                >FAQ、制度資料、手順書、業務データを案内に活かします。</small
+              >
+            </li>
+            <li>
+              <strong>回答から次の手続きへつなぐ</strong>
+              <small
+                >申請案内、予約、職員への連携など次の行動へ誘導します。</small
+              >
+            </li>
+          </ul>
         </div>
-        <div class="chat-feature" data-reveal>
-          <figure class="chat-feature-media">
+      </div>
+    </section>
+
+    <section
+      id="call"
+      class="feature-band feature-band--paper"
+      aria-labelledby="call-title"
+    >
+      <div
+        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="call-feature" data-reveal>
+        <div class="call-feature-copy">
+          <p class="call-feature-en">Municipal AI Call Center</p>
+          <h2 id="call-title" class="call-feature-title">
+            <span>自治体AIコールセンター</span>
+            <span class="feature-product-name">
+              <img
+                class="feature-product-icon"
+                src="/swarrow-call/swarrow-call-icon-flat.png"
+                alt=""
+                width="961"
+                height="1006"
+                loading="lazy"
+                decoding="async"
+              >
+              Swarrow Call
+            </span>
+          </h2>
+          <p class="call-feature-lead">
+            AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
+          </p>
+          <ul class="call-feature-list">
+            <li>
+              <strong>AI受電で一次対応</strong>
+              <small>FAQや手順書をもとに、住民からの電話へ案内します。</small>
+            </li>
+            <li>
+              <strong>用件を整理して職員へ取次</strong>
+              <small
+                >内容や担当部署に応じ、必要な電話を職員へつなぎます。</small
+              >
+            </li>
+            <li>
+              <strong>架電業務も自動化</strong>
+              <small>予約確認、督促、案内、周知などの発信を支援します。</small>
+            </li>
+          </ul>
+        </div>
+
+        <figure class="call-feature-media">
+          <div class="call-feature-window">
+            <span class="call-feature-window-bar" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </span>
             <video
-              class="chat-feature-video"
-              poster="/swarrow-call/chat-ui.webp"
+              class="call-feature-video"
+              poster="/swarrow-call/operator-call-poster.webp"
               muted
               loop
               playsinline
               preload="none"
               width="1280"
               height="720"
-              aria-label="ホームページやLINEに設置できるSwarrow Chatの画面"
+              aria-label="電話問い合わせを受けるオペレーターのイメージ"
             >
-              <source src="/swarrow-call/chat-ui.webm" type="video/webm">
+              <source src="/swarrow-call/operator-call.webm" type="video/webm">
+              <source src="/swarrow-call/operator-call.mp4" type="video/mp4">
               <img
-                class="chat-feature-image"
-                src="/swarrow-call/chat-ui.webp"
-                alt="ホームページやLINEに設置できるSwarrow Chatの画面"
-                width="1672"
-                height="941"
+                class="call-feature-image"
+                src="/swarrow-call/operator-call-poster.webp"
+                alt="電話問い合わせを受けるオペレーターのイメージ"
+                width="1280"
+                height="720"
                 loading="lazy"
                 decoding="async"
               >
             </video>
-          </figure>
-
-          <div class="chat-feature-copy">
-            <p class="chat-feature-en">Municipal Web AI Desk</p>
-            <h2 id="chat-title" class="chat-feature-title">
-              <span class="chat-feature-title-label">
-                自治体ホームページAI窓口
-              </span>
-              <span class="feature-product-name">
-                <img
-                  class="feature-product-icon"
-                  src="/swarrow-call/swarrow-chat-icon-flat.png"
-                  alt=""
-                  width="961"
-                  height="1006"
-                  decoding="async"
-                >
-                Swarrow Chat
-              </span>
-            </h2>
-            <p class="chat-feature-lead">
-              ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
-            </p>
-            <ul class="chat-feature-list">
-              <li>
-                <strong>ホームページやLINEに設置</strong>
-                <small>住民が普段利用するデジタル窓口から質問できます。</small>
-              </li>
-              <li>
-                <strong>自治体の資料をもとに回答</strong>
-                <small
-                  >FAQ、制度資料、手順書、業務データを案内に活かします。</small
-                >
-              </li>
-              <li>
-                <strong>回答から次の手続きへつなぐ</strong>
-                <small
-                  >申請案内、予約、職員への連携など次の行動へ誘導します。</small
-                >
-              </li>
-            </ul>
           </div>
-        </div>
-      </section>
+        </figure>
 
-      <section
-        id="call"
-        class="feature-band feature-band--paper"
-        aria-labelledby="call-title"
-      >
-        <div
-          class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
-        </div>
-        <div class="call-feature" data-reveal>
-          <div class="call-feature-copy">
-            <p class="call-feature-en">Municipal AI Call Center</p>
-            <h2 id="call-title" class="call-feature-title">
-              <span>自治体AIコールセンター</span>
-              <span class="feature-product-name">
-                <img
-                  class="feature-product-icon"
-                  src="/swarrow-call/swarrow-call-icon-flat.png"
-                  alt=""
-                  width="961"
-                  height="1006"
-                  loading="lazy"
-                  decoding="async"
-                >
-                Swarrow Call
-              </span>
-            </h2>
-            <p class="call-feature-lead">
-              AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
-            </p>
-            <ul class="call-feature-list">
-              <li>
-                <strong>AI受電で一次対応</strong>
-                <small>FAQや手順書をもとに、住民からの電話へ案内します。</small>
-              </li>
-              <li>
-                <strong>用件を整理して職員へ取次</strong>
-                <small
-                  >内容や担当部署に応じ、必要な電話を職員へつなぎます。</small
-                >
-              </li>
-              <li>
-                <strong>架電業務も自動化</strong>
-                <small
-                  >予約確認、督促、案内、周知などの発信を支援します。</small
-                >
-              </li>
-            </ul>
-          </div>
-
-          <figure class="call-feature-media">
-            <div class="call-feature-window">
-              <span class="call-feature-window-bar" aria-hidden="true">
-                <i></i><i></i><i></i>
-              </span>
+        <div class="call-feature-cards">
+          {#each callCapabilities as capability (capability.title)}
+            <article class="call-feature-card">
               <video
-                class="call-feature-video"
-                poster="/swarrow-call/operator-call-poster.webp"
+                class="call-feature-card-video"
+                poster={capability.poster}
                 muted
                 loop
                 playsinline
                 preload="none"
-                width="1280"
-                height="720"
-                aria-label="電話問い合わせを受けるオペレーターのイメージ"
+                width="1536"
+                height="1024"
+                aria-label={capability.alt}
               >
-                <source
-                  src="/swarrow-call/operator-call.webm"
-                  type="video/webm"
-                >
-                <source src="/swarrow-call/operator-call.mp4" type="video/mp4">
+                <source src={capability.video} type="video/webm">
                 <img
-                  class="call-feature-image"
-                  src="/swarrow-call/operator-call-poster.webp"
-                  alt="電話問い合わせを受けるオペレーターのイメージ"
-                  width="1280"
-                  height="720"
+                  class="call-feature-card-image"
+                  src={capability.poster}
+                  alt={capability.alt}
+                  width="1536"
+                  height="1024"
                   loading="lazy"
                   decoding="async"
                 >
               </video>
-            </div>
-          </figure>
-
-          <div class="call-feature-cards">
-            {#each callCapabilities as capability (capability.title)}
-              <article class="call-feature-card">
-                <video
-                  class="call-feature-card-video"
-                  poster={capability.poster}
-                  muted
-                  loop
-                  playsinline
-                  preload="none"
-                  width="1536"
-                  height="1024"
-                  aria-label={capability.alt}
-                >
-                  <source src={capability.video} type="video/webm">
-                  <img
-                    class="call-feature-card-image"
-                    src={capability.poster}
-                    alt={capability.alt}
-                    width="1536"
-                    height="1024"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                </video>
-                <div class="call-feature-card-body">
-                  <h3 class="call-feature-card-title">{capability.title}</h3>
-                  <p class="call-feature-card-text">{capability.body}</p>
-                </div>
-              </article>
-            {/each}
-          </div>
+              <div class="call-feature-card-body">
+                <h3 class="call-feature-card-title">{capability.title}</h3>
+                <p class="call-feature-card-text">{capability.body}</p>
+              </div>
+            </article>
+          {/each}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
-      <section
-        id="knowledge"
-        class="knowledge"
-        aria-labelledby="knowledge-title"
+    <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
+    <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
+      <div
+        class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
+        aria-hidden="true"
       >
-        <div
-          class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
           aria-hidden="true"
+          focusable="false"
         >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="knowledge-inner">
+        <figure class="knowledge-visual" data-reveal>
+          <video
+            class="knowledge-video"
+            poster="/swarrow-call/knowledge-flow-alpha.png"
+            muted
+            loop
+            playsinline
+            preload="none"
+            width="1280"
+            height="720"
+            aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
           >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
+            <source
+              src="/swarrow-call/knowledge-flow-alpha.webm"
+              type="video/webm"
+            >
+            <img
+              class="knowledge-image"
+              src="/swarrow-call/knowledge-flow-alpha.png"
+              alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+              width="1672"
+              height="941"
+              loading="lazy"
+              decoding="async"
+            >
+          </video>
+        </figure>
+
+        <div class="knowledge-copy" data-reveal>
+          <p class="knowledge-en section-kicker">Shared Knowledge</p>
+          <h2 id="knowledge-title" class="knowledge-title">
+            <span>1つの知識で、</span>
+            <span>ホームページも電話も。</span>
+          </h2>
+          <p class="knowledge-lead">{sharedKnowledge.description}</p>
+          <ul class="knowledge-flow">
+            <li>
+              <span class="knowledge-flow-kicker">Collect</span>
+              <span>
+                <strong>散らばる知識をまとめる</strong>
+                <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
+              </span>
+            </li>
+            <li>
+              <span class="knowledge-flow-kicker">Maintain</span>
+              <span>
+                <strong>一度の更新で案内をそろえる</strong>
+                <small>制度変更や現場の気づきを共通知識へ反映。</small>
+              </span>
+            </li>
+            <li>
+              <span class="knowledge-flow-kicker">Serve</span>
+              <span>
+                <strong>ChatとCallの双方で使う</strong>
+                <small>Webと電話で同じ根拠から住民へ案内。</small>
+              </span>
+            </li>
+          </ul>
         </div>
-        <div class="knowledge-inner">
-          <figure class="knowledge-visual" data-reveal>
-            <video
-              class="knowledge-video"
-              poster="/swarrow-call/knowledge-flow-alpha.png"
-              muted
-              loop
-              playsinline
-              preload="none"
+      </div>
+    </section>
+
+    <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
+    <section
+      id="operations"
+      class="feature-band feature-band--paper feature-band--last"
+      aria-labelledby="operations-title"
+    >
+      <div class="section-curve-bg section-curve-bg--paper" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 1600"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="workflow-inner">
+        <div class="workflow-copy" data-reveal>
+          <p class="workflow-en">Common Operations</p>
+          <h2 id="operations-title" class="workflow-title">
+            <span>両製品の案内を、</span>
+            <span>職員の手で改善。</span>
+          </h2>
+          <p class="workflow-lead">
+            Swarrow ChatとSwarrow
+            Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
+          </p>
+          <ul class="workflow-list">
+            <li>
+              <strong>画面上で流れを組み替える</strong>
+              <small>質問、回答、分岐、案内文を見ながら編集。</small>
+            </li>
+            <li>
+              <strong>一度の更新を両製品へ反映</strong>
+              <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
+            </li>
+            <li>
+              <strong>現場の気づきをすぐ反映</strong>
+              <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
+            </li>
+          </ul>
+        </div>
+
+        <figure class="workflow-media" data-reveal>
+          <video
+            class="workflow-video"
+            poster="/swarrow-call/workflow-editor-alpha.png"
+            muted
+            loop
+            playsinline
+            preload="none"
+            width="1280"
+            height="720"
+            bind:this={workflowVideo}
+            class:ready={workflowVideoReady}
+            aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
+          >
+            <source
+              src="/swarrow-call/workflow-editor-alpha.webm"
+              type="video/webm"
+            >
+            <img
+              class="workflow-image"
+              src="/swarrow-call/workflow-editor-alpha.png"
+              alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
               width="1280"
               height="720"
-              aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+              loading="lazy"
+              decoding="async"
             >
-              <source
-                src="/swarrow-call/knowledge-flow-alpha.webm"
-                type="video/webm"
-              >
-              <img
-                class="knowledge-image"
-                src="/swarrow-call/knowledge-flow-alpha.png"
-                alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
-                width="1672"
-                height="941"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </figure>
-
-          <div class="knowledge-copy" data-reveal>
-            <p class="knowledge-en section-kicker">Shared Knowledge</p>
-            <h2 id="knowledge-title" class="knowledge-title">
-              <span>1つの知識で、</span>
-              <span>ホームページも電話も。</span>
-            </h2>
-            <p class="knowledge-lead">{sharedKnowledge.description}</p>
-            <ul class="knowledge-flow">
-              <li>
-                <span class="knowledge-flow-kicker">Collect</span>
-                <span>
-                  <strong>散らばる知識をまとめる</strong>
-                  <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
-                </span>
-              </li>
-              <li>
-                <span class="knowledge-flow-kicker">Maintain</span>
-                <span>
-                  <strong>一度の更新で案内をそろえる</strong>
-                  <small>制度変更や現場の気づきを共通知識へ反映。</small>
-                </span>
-              </li>
-              <li>
-                <span class="knowledge-flow-kicker">Serve</span>
-                <span>
-                  <strong>ChatとCallの双方で使う</strong>
-                  <small>Webと電話で同じ根拠から住民へ案内。</small>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="operations"
-        class="feature-band feature-band--paper feature-band--last"
-        aria-labelledby="operations-title"
-      >
-        <div
-          class="section-curve-bg section-curve-bg--paper"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
-        </div>
-        <div class="workflow-inner">
-          <div class="workflow-copy" data-reveal>
-            <p class="workflow-en">Common Operations</p>
-            <h2 id="operations-title" class="workflow-title">
-              <span>両製品の案内を、</span>
-              <span>職員の手で改善。</span>
-            </h2>
-            <p class="workflow-lead">
-              Swarrow ChatとSwarrow
-              Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
-            </p>
-            <ul class="workflow-list">
-              <li>
-                <strong>画面上で流れを組み替える</strong>
-                <small>質問、回答、分岐、案内文を見ながら編集。</small>
-              </li>
-              <li>
-                <strong>一度の更新を両製品へ反映</strong>
-                <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
-              </li>
-              <li>
-                <strong>現場の気づきをすぐ反映</strong>
-                <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
-              </li>
-            </ul>
-          </div>
-
-          <figure class="workflow-media" data-reveal>
-            <video
-              class="workflow-video"
-              poster="/swarrow-call/workflow-editor-alpha.png"
-              muted
-              loop
-              playsinline
-              preload="none"
-              width="1280"
-              height="720"
-              bind:this={workflowVideo}
-              class:ready={workflowVideoReady}
-              aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
-            >
-              <source
-                src="/swarrow-call/workflow-editor-alpha.webm"
-                type="video/webm"
-              >
-              <img
-                class="workflow-image"
-                src="/swarrow-call/workflow-editor-alpha.png"
-                alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
-                width="1280"
-                height="720"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </figure>
-        </div>
-      </section>
+          </video>
+        </figure>
+      </div>
     </section>
 
     <!-- Customer Success: 専任チームが初期構築から運用改善まで伴走する支援体制。 -->
@@ -1430,13 +1416,6 @@
   }
 
   /* ===== Workflow ===== */
-  .workflow {
-    position: relative;
-    isolation: isolate;
-    overflow: visible;
-    background: transparent;
-    padding: 0;
-  }
   .feature-band {
     --band-bg: var(--bg);
 
