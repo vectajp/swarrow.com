@@ -135,6 +135,8 @@ describe("shared knowledge", () => {
     expect(html).toContain("Swarrow Chat");
     expect(html).toContain("Swarrow Call");
     expect(html).toContain("/swarrow-call/knowledge-flow-alpha.webm");
+    expect(html).toContain("/swarrow-call/knowledge-flow-alpha.mp4");
+    expect(html).toContain("/swarrow-call/knowledge-flow-alpha.png");
     expect(html).not.toContain("Swarrow Call 基盤");
   });
 

@@ -589,6 +589,10 @@
               src="/swarrow-call/knowledge-flow-alpha.webm"
               type="video/webm"
             >
+            <source
+              src="/swarrow-call/knowledge-flow-alpha.mp4"
+              type="video/mp4"
+            >
             <img
               class="knowledge-image"
               src="/swarrow-call/knowledge-flow-alpha.png"
@@ -1245,7 +1249,6 @@
     width: 100%;
     height: auto;
     background: transparent;
-    filter: brightness(1.02);
   }
   .knowledge-copy {
     min-width: 0;
