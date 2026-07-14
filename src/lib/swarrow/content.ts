@@ -9,7 +9,7 @@ export type Product = {
   category: string;
   benefit: string;
   useCases: readonly string[];
-  href: `#${ProductId}`;
+  href: `/${ProductId}`;
   backgroundIcon: `/swarrow-call/${string}.png`;
   icon: `/swarrow-call/${string}.png`;
 };
@@ -22,7 +22,7 @@ export const products: readonly Product[] = [
     benefit:
       "ホームページやLINEで住民の自己解決を促し、電話へ集中する前に定型的な質問へ回答します。",
     useCases: ["手続き案内", "必要書類", "施設案内", "予約・申請への誘導"],
-    href: "#chat",
+    href: "/chat",
     backgroundIcon: "/swarrow-call/swarrow-chat-icon-flat.png",
     icon: "/swarrow-call/swarrow-chat-icon-flat.png",
   },
@@ -33,7 +33,7 @@ export const products: readonly Product[] = [
     benefit:
       "AIが電話の一次受付、案内、取次、発信を担い、職員の電話対応を必要な案件へ絞ります。",
     useCases: ["代表電話", "時間外受付", "担当課取次", "リマインド・一括周知"],
-    href: "#call",
+    href: "/call",
     backgroundIcon: "/swarrow-call/swarrow-call-icon-flat.png",
     icon: "/swarrow-call/swarrow-call-icon-flat.png",
   },
@@ -47,11 +47,93 @@ export const heroCopy = {
     "チャットやコールセンターのAI機能を安心してご利用いただくには、回答精度を支える設計が欠かせません。自治体の公式情報・回答ルール・職員への引き継ぎなどを、実際のオペレーションに合わせて個別に設計します。公開後も利用状況をもとに回答品質を継続的に高め、運用を重ねるほど改善につなげられる仕組みを整えます。",
 } as const;
 
+export type HeroProductCta = {
+  productId: ProductId;
+  label: string;
+};
+
+export const heroProductCtas: HeroProductCta[] = products.map((product) => ({
+  productId: product.id,
+  label: product.name,
+}));
+
+export const downloadCtaLabel = "資料ダウンロードを依頼する";
+
+export type DownloadCtaCopy = {
+  heading: string[];
+  sub: string;
+};
+
+export const topDownloadCta: DownloadCtaCopy = {
+  heading: [
+    "Swarrow Chat・Swarrow Callの資料ダウンロード",
+    "単独導入から併用まで、まずは資料でご確認ください。",
+  ],
+  sub: "現在の問い合わせ件数、対象部署、ホームページと電話の運用状況に合わせた資料をご案内します。",
+};
+
+export const chatDownloadCta: DownloadCtaCopy = {
+  heading: ["Swarrow Chatの資料ダウンロード"],
+  sub: "自治体ホームページAI窓口の詳細資料をお送りします。",
+};
+
+export const callDownloadCta: DownloadCtaCopy = {
+  heading: ["Swarrow Callの資料ダウンロード"],
+  sub: "自治体AIコールセンターの詳細資料をお送りします。",
+};
+
 export const sharedKnowledge = {
   title: "一度整えた知識を、ホームページにも電話にも。",
   description:
     "FAQ、手順書、業務データを1つの知識基盤で管理し、Swarrow ChatとSwarrow Callの両方から利用できます。",
   adoption: "単独でも、組み合わせても導入可能",
+} as const;
+
+export type ProductFeatureCopy = {
+  en: string;
+  titleLabel: string;
+  lead: string;
+  list: { title: string; body: string }[];
+};
+
+export const chatFeatureCopy: ProductFeatureCopy = {
+  en: "Municipal Web AI Desk",
+  titleLabel: "自治体ホームページAI窓口",
+  lead: "ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。",
+  list: [
+    {
+      title: "ホームページやLINEに設置",
+      body: "住民が普段利用するデジタル窓口から質問できます。",
+    },
+    {
+      title: "自治体の資料をもとに回答",
+      body: "FAQ、制度資料、手順書、業務データを案内に活かします。",
+    },
+    {
+      title: "回答から次の手続きへつなぐ",
+      body: "申請案内、予約、職員への連携など次の行動へ誘導します。",
+    },
+  ],
+} as const;
+
+export const callFeatureCopy: ProductFeatureCopy = {
+  en: "Municipal AI Call Center",
+  titleLabel: "自治体AIコールセンター",
+  lead: "AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。",
+  list: [
+    {
+      title: "AI受電で一次対応",
+      body: "FAQや手順書をもとに、住民からの電話へ案内します。",
+    },
+    {
+      title: "用件を整理して職員へ取次",
+      body: "内容や担当部署に応じ、必要な電話を職員へつなぎます。",
+    },
+    {
+      title: "架電業務も自動化",
+      body: "予約確認、督促、案内、周知などの発信を支援します。",
+    },
+  ],
 } as const;
 
 export const pageTitle =
@@ -68,11 +150,11 @@ export type CustomerSuccessStep = {
   alt: string;
 };
 
-export const customerSuccessSteps: CustomerSuccessStep[] = [
+export const chatCustomerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "1",
     title: "導入準備",
-    body: "対象部署と問い合わせ業務を整理し、Chat、Call、併用のどこから始めるかを専任チームが一緒に設計します。",
+    body: "対象部署とホームページ・LINEでの問い合わせ状況を整理し、Swarrow Chatの導入範囲を専任チームが一緒に設計します。",
     video: "/swarrow-call/customer-success-step-1.webm",
     poster: "/swarrow-call/customer-success-step-1-poster.webp",
     alt: "カスタマーサクセスチームが導入準備の説明会と進行を支援するイメージ",
@@ -80,7 +162,7 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
   {
     phase: "2",
     title: "初期構築",
-    body: "自治体の要件をヒアリングし、FAQ、手順書、会話フローなど両製品が利用する知識基盤を整えます。",
+    body: "自治体の要件をヒアリングし、FAQ、手順書、会話フローなどSwarrow Chatが利用する知識基盤を整えます。",
     video: "/swarrow-call/customer-success-step-2.webm",
     poster: "/swarrow-call/customer-success-step-2-poster.webp",
     alt: "カスタマーサクセスチームが初期構築の計画を整理するイメージ",
@@ -94,6 +176,43 @@ export const customerSuccessSteps: CustomerSuccessStep[] = [
     alt: "カスタマーサクセスチームが運用データを分析して改善するイメージ",
   },
 ];
+
+export const callCustomerSuccessSteps: CustomerSuccessStep[] = [
+  {
+    phase: "1",
+    title: "導入準備",
+    body: "対象部署と電話問い合わせ業務を整理し、Swarrow Callの導入範囲を専任チームが一緒に設計します。",
+    video: "/swarrow-call/customer-success-step-1.webm",
+    poster: "/swarrow-call/customer-success-step-1-poster.webp",
+    alt: "カスタマーサクセスチームが導入準備の説明会と進行を支援するイメージ",
+  },
+  {
+    phase: "2",
+    title: "初期構築",
+    body: "自治体の要件をヒアリングし、FAQ、手順書、会話フローなどSwarrow Callが利用する知識基盤を整えます。",
+    video: "/swarrow-call/customer-success-step-2.webm",
+    poster: "/swarrow-call/customer-success-step-2-poster.webp",
+    alt: "カスタマーサクセスチームが初期構築の計画を整理するイメージ",
+  },
+  {
+    phase: "3",
+    title: "運用改善",
+    body: "稼働して終わりではありません。定期的な利用率モニタリング、回答分析、改善提案まで継続します。",
+    video: "/swarrow-call/customer-success-step-3.webm",
+    poster: "/swarrow-call/customer-success-step-3-poster.webp",
+    alt: "カスタマーサクセスチームが運用データを分析して改善するイメージ",
+  },
+];
+
+export const chatCustomerSuccessIntro = {
+  lead: "成果を出すことにコミットする、専門チームの徹底した伴走サポート。",
+  body: "Swarrow Chatは、導入して終わりのサービスではありません。専任チームが知識基盤の初期構築から利用状況の確認、継続的な改善まで伴走します。",
+} as const;
+
+export const callCustomerSuccessIntro = {
+  lead: "成果を出すことにコミットする、専門チームの徹底した伴走サポート。",
+  body: "Swarrow Callは、導入して終わりのサービスではありません。専任チームが知識基盤の初期構築から利用状況の確認、継続的な改善まで伴走します。",
+} as const;
 
 export type CallCapability = {
   title: string;
@@ -188,10 +307,9 @@ export const companyOverviewLink: NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { label: "製品", href: "#products" },
-  { label: "Swarrow Chat", href: "#chat" },
-  { label: "Swarrow Call", href: "#call" },
-  { label: "導入支援", href: "#support" },
+  { label: "製品", href: "/#products" },
+  { label: "Swarrow Chat", href: "/chat" },
+  { label: "Swarrow Call", href: "/call" },
 ];
 
 const organizationId = `${site}/#organization`;
@@ -221,7 +339,7 @@ export const jsonLd = {
       serviceType: product.category,
       category: product.category,
       description: product.benefit,
-      url: `${site}/${product.href}`,
+      url: `${site}${product.href}`,
       provider: { "@id": organizationId },
       audience: {
         "@type": "Audience",

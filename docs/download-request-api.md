@@ -39,8 +39,8 @@ deploy され、`POST /download-requests` を公開する。
 ```json
 {
   "companyName": "テスト株式会社",
+  "department": "総務課",
   "name": "山田太郎",
-  "nameKana": "やまだたろう",
   "email": "taro@example.com",
   "inquiry": "資料を確認したいです。",
   "turnstileToken": "turnstile-response-token"

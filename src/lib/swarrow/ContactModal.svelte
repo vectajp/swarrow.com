@@ -1,5 +1,6 @@
 <script lang="ts">
   import { env } from "$env/dynamic/public";
+  import { downloadCtaLabel } from "$lib/swarrow/content";
 
   interface Props {
     open: boolean;
@@ -52,8 +53,8 @@
   }
 
   let companyName = $state("");
+  let department = $state("");
   let name = $state("");
-  let nameKana = $state("");
   let email = $state("");
   let inquiry = $state("");
   let formState = $state<FormState>("idle");
@@ -73,8 +74,8 @@
 
   const resetForm = () => {
     companyName = "";
+    department = "";
     name = "";
-    nameKana = "";
     email = "";
     inquiry = "";
     formState = "idle";
@@ -179,8 +180,8 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           companyName,
+          department: department || undefined,
           name,
-          nameKana,
           email,
           inquiry,
           turnstileToken,
@@ -269,9 +270,10 @@
             </button>
           </div>
         {:else}
-          <h3 id="contact-modal-title">お問い合わせ</h3>
+          <h3 id="contact-modal-title">資料ダウンロード</h3>
           <p class="modal-lead">
-            導入のご相談・デモのご依頼など、以下のフォームからお気軽にお問い合わせください。
+            Swarrow Chat・Swarrow
+            Callの資料をダウンロードいただけます。以下のフォームからお申し込みください。
           </p>
 
           <form onsubmit={handleSubmit}>
@@ -289,6 +291,12 @@
             </label>
             <label>
               <span class="field-label">
+                部署<span class="optional">任意</span>
+              </span>
+              <input type="text" bind:value={department} placeholder="総務課">
+            </label>
+            <label>
+              <span class="field-label">
                 氏名<span class="required" aria-hidden="true">*</span>
                 <span class="visually-hidden">必須</span>
               </span>
@@ -296,18 +304,6 @@
                 type="text"
                 bind:value={name}
                 placeholder="山田 太郎"
-                required
-              >
-            </label>
-            <label>
-              <span class="field-label">
-                ふりがな<span class="required" aria-hidden="true">*</span>
-                <span class="visually-hidden">必須</span>
-              </span>
-              <input
-                type="text"
-                bind:value={nameKana}
-                placeholder="やまだ たろう"
                 required
               >
             </label>
@@ -343,7 +339,7 @@
               class="modal-submit"
               disabled={formState === "submitting" || !turnstileToken}
             >
-              {formState === "submitting" ? "送信中…" : "送信する"}
+              {formState === "submitting" ? "送信中…" : downloadCtaLabel}
             </button>
 
             {#if errorMessage}
@@ -351,7 +347,7 @@
             {/if}
 
             <p class="modal-note">
-              入力いただいた情報はお問い合わせ対応の目的でのみ使用します。
+              入力いただいた情報は資料ダウンロードのご案内の目的でのみ使用します。
             </p>
           </form>
         {/if}

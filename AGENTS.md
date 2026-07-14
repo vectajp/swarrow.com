@@ -7,7 +7,10 @@ Read the applicable rule file before editing matching files.
 
 ## Project conventions
 
-- Keep the integrated single-page site in `src/routes/+page.svelte`.
+- Keep the shared homepage sections in `src/routes/+page.svelte`, and the
+  Swarrow Chat / Swarrow Call detail sections in `src/routes/chat/+page.svelte`
+  and `src/routes/call/+page.svelte`. Keep the shared header, footer, and
+  download-request modal in `src/routes/+layout.svelte`.
 - Present Swarrow Chat and Swarrow Call as equal, independently adoptable products.
 - Explain the shared knowledge base before either product's detailed section.
 - Keep shared components and utilities under `src/lib/swarrow/` and import them
