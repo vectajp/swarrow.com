@@ -3,18 +3,18 @@
   import {
     chatCustomerSuccessIntro,
     chatCustomerSuccessSteps,
-    chatDownloadCta,
     chatFeatureCopy,
     pageDescription,
     products,
     site,
     siteName,
+    topDownloadCta,
   } from "$lib/swarrow/content";
   import ProductPage from "$lib/swarrow/ProductPage.svelte";
 
   const REVEAL_SELECTOR = "[data-reveal]";
   const AUTOPLAY_VIDEO_SELECTOR =
-    ".product-feature-video, .customer-success-step-video";
+    ".product-feature-video, .customer-success-video, .customer-success-step-video";
 
   const playVideo = (video: HTMLVideoElement) => {
     video.muted = true;
@@ -137,15 +137,15 @@
   <ProductPage
     productName="Swarrow Chat"
     productIcon="/swarrow-call/swarrow-chat-icon-flat.png"
-    bandVariant="mist"
-    mediaPosition="left"
+    bandVariant="paper"
+    mediaPosition="right"
     feature={chatFeatureCopy}
     videoSources={[{ src: "/swarrow-call/chat-ui.webm", type: "video/webm" }]}
     poster="/swarrow-call/chat-ui.webp"
     fallbackAlt="ホームページやLINEに設置できるSwarrow Chatの画面"
     customerSuccessIntro={chatCustomerSuccessIntro}
     customerSuccessSteps={chatCustomerSuccessSteps}
-    downloadCta={chatDownloadCta}
+    downloadCta={topDownloadCta}
     onOpenDownloadModal={openContactModal}
   />
 </main>

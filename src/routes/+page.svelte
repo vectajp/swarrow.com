@@ -273,7 +273,9 @@
                 <li>{useCase}</li>
               {/each}
             </ul>
-            <a href={product.href}>{product.name}を見る</a>
+            <a class="product-card-link" href={product.href}
+              >{product.name}を見る</a
+            >
           </article>
         {/each}
       </div>
@@ -529,7 +531,7 @@
       </h2>
       <p class="cta-sub">{topDownloadCta.sub}</p>
       <button type="button" class="cta-btn" onclick={openContactModal}>
-        {downloadCtaLabel}<span class="ext">↗</span>
+        {downloadCtaLabel}
       </button>
     </div>
   </section>
@@ -687,7 +689,7 @@
     gap: 0.8rem;
     margin-top: 1.6rem;
   }
-  .hero-primary {
+  a.hero-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -697,7 +699,7 @@
     font: inherit;
     font-weight: 800;
   }
-  .hero-primary {
+  a.hero-primary {
     border: 0;
     background: var(--navy);
     color: #fff;
@@ -850,6 +852,13 @@
     border-radius: 22px;
     background: var(--paper);
     box-shadow: 0 18px 44px rgba(9, 32, 69, 0.08);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 44px rgba(9, 32, 69, 0.14);
   }
   .product-card > :not(.product-card-watermark) {
     position: relative;
@@ -897,13 +906,20 @@
     color: var(--navy);
     font-weight: 800;
   }
+  .product-card .product-card-link {
+    position: static;
+  }
+  .product-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
   .products-integration {
     display: grid;
     gap: 0.25rem;
     margin: 1.5rem 0 0;
     padding: 1.1rem 1.3rem;
-    border-radius: 14px;
-    background: var(--sage-light);
     color: var(--navy);
     text-align: center;
   }

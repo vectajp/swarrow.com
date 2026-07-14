@@ -148,7 +148,7 @@
     overflow-x: clip;
   }
 
-  .lp :global(a) {
+  .lp :global(:where(a)) {
     color: inherit;
     text-decoration: none;
   }
@@ -290,9 +290,9 @@
   }
 
   /* ===== Reveal(JS+モーション時のみ) =====
-         [data-reveal] 要素自体は子ページ(+page.svelte 等)のテンプレートにのみ
-         存在するため、Svelte のスタイルスコープが自コンポーネントの実在要素
-         にしか適用されない制約を回避する目的でセレクタ全体を :global() 化する。 */
+             [data-reveal] 要素自体は子ページ(+page.svelte 等)のテンプレートにのみ
+             存在するため、Svelte のスタイルスコープが自コンポーネントの実在要素
+             にしか適用されない制約を回避する目的でセレクタ全体を :global() 化する。 */
   :global(.motion [data-reveal]) {
     opacity: 0;
     transform: translateY(20px);

@@ -4,18 +4,18 @@
     callCapabilities,
     callCustomerSuccessIntro,
     callCustomerSuccessSteps,
-    callDownloadCta,
     callFeatureCopy,
     pageDescription,
     products,
     site,
     siteName,
+    topDownloadCta,
   } from "$lib/swarrow/content";
   import ProductPage from "$lib/swarrow/ProductPage.svelte";
 
   const REVEAL_SELECTOR = "[data-reveal]";
   const AUTOPLAY_VIDEO_SELECTOR =
-    ".product-feature-video, .customer-success-step-video, .call-feature-card-video";
+    ".product-feature-video, .customer-success-video, .customer-success-step-video, .call-feature-card-video";
 
   const playVideo = (video: HTMLVideoElement) => {
     video.muted = true;
@@ -147,10 +147,11 @@
     ]}
     poster="/swarrow-call/operator-call-poster.webp"
     fallbackAlt="電話問い合わせを受けるオペレーターのイメージ"
+    mediaFrame
     extraCards={callCapabilities}
     customerSuccessIntro={callCustomerSuccessIntro}
     customerSuccessSteps={callCustomerSuccessSteps}
-    downloadCta={callDownloadCta}
+    downloadCta={topDownloadCta}
     onOpenDownloadModal={openContactModal}
   />
 </main>

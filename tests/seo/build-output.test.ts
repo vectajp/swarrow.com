@@ -312,7 +312,7 @@ describe("navigation and conversion", () => {
     const positions = ids.map((id) => html.indexOf(`id="${id}"`));
     expect(positions.every((position) => position >= 0)).toBe(true);
     expect([...positions].sort((a, b) => a - b)).toEqual(positions);
-    expect(html).toContain("Swarrow Chat・Swarrow Callの資料ダウンロード");
+    expect(html).toContain("まずは資料でご確認ください。");
   });
 });
 

@@ -65,21 +65,8 @@ export type DownloadCtaCopy = {
 };
 
 export const topDownloadCta: DownloadCtaCopy = {
-  heading: [
-    "Swarrow Chat・Swarrow Callの資料ダウンロード",
-    "単独導入から併用まで、まずは資料でご確認ください。",
-  ],
-  sub: "現在の問い合わせ件数、対象部署、ホームページと電話の運用状況に合わせた資料をご案内します。",
-};
-
-export const chatDownloadCta: DownloadCtaCopy = {
-  heading: ["Swarrow Chatの資料ダウンロード"],
-  sub: "自治体ホームページAI窓口の詳細資料をお送りします。",
-};
-
-export const callDownloadCta: DownloadCtaCopy = {
-  heading: ["Swarrow Callの資料ダウンロード"],
-  sub: "自治体AIコールセンターの詳細資料をお送りします。",
+  heading: ["まずは資料でご確認ください。"],
+  sub: "製品デモのご案内や、運用状況のヒアリングのためご連絡いたします。",
 };
 
 export const sharedKnowledge = {
@@ -90,14 +77,12 @@ export const sharedKnowledge = {
 } as const;
 
 export type ProductFeatureCopy = {
-  en: string;
   titleLabel: string;
   lead: string;
   list: { title: string; body: string }[];
 };
 
 export const chatFeatureCopy: ProductFeatureCopy = {
-  en: "Municipal Web AI Desk",
   titleLabel: "自治体ホームページAI窓口",
   lead: "ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。",
   list: [
@@ -117,7 +102,6 @@ export const chatFeatureCopy: ProductFeatureCopy = {
 } as const;
 
 export const callFeatureCopy: ProductFeatureCopy = {
-  en: "Municipal AI Call Center",
   titleLabel: "自治体AIコールセンター",
   lead: "AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。",
   list: [
@@ -307,7 +291,6 @@ export const companyOverviewLink: NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { label: "製品", href: "/#products" },
   { label: "Swarrow Chat", href: "/chat" },
   { label: "Swarrow Call", href: "/call" },
 ];
