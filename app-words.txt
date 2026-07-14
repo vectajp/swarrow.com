@@ -1,7 +1,9 @@
 ajpuzfybt
+AUTOPLAY
 axisw
 bunfig
 bunx
+Chanfana
 crawlability
 edcb
 fontsource
@@ -21,6 +23,7 @@ naoya
 nichicom
 Noto
 noto
+prerender
 prerendering
 rgba
 runes
@@ -28,6 +31,7 @@ sakurai
 SENDGRID
 sveltekit
 swarrow
+urlset
 Vecta
 vectajp
 venv
