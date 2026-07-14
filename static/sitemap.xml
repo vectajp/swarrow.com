@@ -3,4 +3,10 @@
   <url>
     <loc>https://swarrow.com/</loc>
   </url>
+  <url>
+    <loc>https://swarrow.com/chat</loc>
+  </url>
+  <url>
+    <loc>https://swarrow.com/call</loc>
+  </url>
 </urlset>
