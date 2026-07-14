@@ -4,21 +4,36 @@ import { beforeAll, describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 
 let html = "";
+let chatHtml = "";
+let callHtml = "";
 let robots = "";
 let sitemap = "";
 let modalSource = "";
 let pageSource = "";
+let layoutSource = "";
 
 const countMatches = (value: string, pattern: RegExp) =>
   Array.from(value.matchAll(pattern)).length;
 
 beforeAll(async () => {
-  [html, robots, sitemap, modalSource, pageSource] = await Promise.all([
+  [
+    html,
+    chatHtml,
+    callHtml,
+    robots,
+    sitemap,
+    modalSource,
+    pageSource,
+    layoutSource,
+  ] = await Promise.all([
     Bun.file("build/index.html").text(),
+    Bun.file("build/chat.html").text(),
+    Bun.file("build/call.html").text(),
     Bun.file("build/robots.txt").text(),
     Bun.file("build/sitemap.xml").text(),
     Bun.file("src/lib/swarrow/ContactModal.svelte").text(),
     Bun.file("src/routes/+page.svelte").text(),
+    Bun.file("src/routes/+layout.svelte").text(),
   ]);
 });
 
@@ -45,20 +60,29 @@ describe("Swarrow and Vecta brand roles", () => {
     expect(footer).not.toContain("https://www.vecta.co.jp/#company");
     expect(footer).toMatch(/© \d{4} Vecta\. All rights reserved\./);
     expect(footer).not.toContain("Swarrow");
+
+    // ヘッダー・フッターは +layout.svelte 由来になったが、HTML 出力自体は変わらない。
+    expect(layoutSource).toContain("<header");
+    expect(layoutSource).toContain("<footer");
+    expect(layoutSource).toContain("downloadCtaLabel");
+    expect(layoutSource).not.toContain("お問い合わせ");
   });
 
   test("uses a municipal organization label without changing request fields", () => {
     expect(modalSource).toContain("自治体・団体名");
+    expect(modalSource).toContain("資料ダウンロード");
     for (const field of [
       "companyName",
+      "department",
       "name",
-      "nameKana",
       "email",
       "inquiry",
       "turnstileToken",
     ]) {
       expect(modalSource).toContain(field);
     }
+    expect(modalSource).not.toContain("nameKana");
+    expect(modalSource).not.toContain("ふりがな");
     expect(modalSource).toContain("FALLBACK_DOWNLOAD_REQUEST_API_URL");
   });
 
@@ -69,7 +93,7 @@ describe("Swarrow and Vecta brand roles", () => {
         modalSource,
         /class="field-label">[\s\S]*?class="required"/g,
       ),
-    ).toBe(4);
+    ).toBe(3);
     expect(modalSource).toContain("white-space: nowrap");
   });
 
@@ -96,8 +120,8 @@ describe("answer-quality Hero", () => {
       /<section class="hero[^>]*>([\s\S]*?)<\/section>/,
     )?.[1];
     expect(hero).toContain("チャットやコールセンターのAI機能");
-    expect(hero).not.toContain("Swarrow Chat");
-    expect(hero).not.toContain("Swarrow Call");
+    expect(hero).toContain("Swarrow Chat");
+    expect(hero).toContain("Swarrow Call");
     expect(hero).not.toContain('href="#quality"');
     expect(hero).not.toContain("回答品質の仕組みを見る");
     expect(hero).toContain("回答精度を支える設計が欠かせません");
@@ -121,6 +145,27 @@ describe("answer-quality Hero", () => {
       expect(html).toContain(label);
     }
     expect(countMatches(html, /class="[^"]*\bsection-kicker(?:\s|")/g)).toBe(2);
+  });
+});
+
+describe("top page no longer embeds product feature sections", () => {
+  test("omits the chat, call, and support sections from the top page", () => {
+    expect(html).not.toContain('id="chat"');
+    expect(html).not.toContain('id="call"');
+    expect(html).not.toContain('id="support"');
+  });
+
+  test("links product cards to the dedicated pages", () => {
+    expect(html).toContain('href="/chat"');
+    expect(html).toContain('href="/call"');
+  });
+
+  test("offers two hero CTAs routing to the product pages", () => {
+    const hero =
+      html.match(/<section class="hero[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+    expect(hero).toContain('href="/chat"');
+    expect(hero).toContain('href="/call"');
+    expect(countMatches(hero, /class="hero-primary(?:\s|")/g)).toBe(2);
   });
 });
 
@@ -162,9 +207,8 @@ describe("product overview", () => {
     expect(countMatches(html, /class="product-card(?:\s|")/g)).toBe(2);
     expect(html).toContain("自治体ホームページAI窓口");
     expect(html).toContain("自治体AIコールセンター");
-    expect(html).toContain('href="#chat"');
-    expect(html).toContain('href="#call"');
-    expect(html).toContain('href="#products"');
+    expect(html).toContain('href="/chat"');
+    expect(html).toContain('href="/call"');
     expect(html).toContain("単独でも、組み合わせても導入可能");
     expect(countMatches(html, /class="product-card-watermark\b/g)).toBe(2);
     expect(countMatches(html, /class="product-name-icon\b/g)).toBe(2);
@@ -176,22 +220,17 @@ describe("product overview", () => {
     }
   });
 
-  test("places comparison after Hero and product details before Shared Knowledge", () => {
+  test("places products after Hero and before Shared Knowledge", () => {
     const hero = html.indexOf('class="hero');
     const overview = html.indexOf('id="products"');
     const knowledge = html.indexOf('id="knowledge"');
-    const chat = html.indexOf('id="chat"');
-    const call = html.indexOf('id="call"');
     const operations = html.indexOf('id="operations"');
 
     expect(pageSource).toMatch(
       /<section class="hero">[\s\S]*?<\/section>\s*<section id="products"/,
     );
     expect(hero).toBeLessThan(overview);
-    expect(overview).toBeLessThan(chat);
-    expect(overview).toBeLessThan(call);
-    expect(chat).toBeLessThan(call);
-    expect(call).toBeLessThan(knowledge);
+    expect(overview).toBeLessThan(knowledge);
     expect(knowledge).toBeLessThan(operations);
   });
 
@@ -209,79 +248,34 @@ describe("product overview", () => {
   });
 });
 
-describe("Swarrow Chat section", () => {
-  test("describes Chat as an independent municipal product", () => {
-    expect(html).toMatch(/id="chat"[\s\S]*?<h2[^>]*>[\s\S]*?Swarrow Chat/);
-    expect(html).toContain("自治体ホームページAI窓口");
-    expect(html).toContain("ホームページやLINE");
-    expect(html).toContain("自己解決");
-    expect(html).toContain("/swarrow-call/chat-ui.webm");
-    expect(html).toMatch(
-      /<span class="chat-feature-title-label[^"]*">自治体ホームページAI窓口<\/span>/,
-    );
-    expect(html).toMatch(
-      /class="feature-product-name[^"]*">[\s\S]*?src="\/swarrow-call\/swarrow-chat-icon-flat\.png"[\s\S]*?Swarrow Chat/,
-    );
-    expect(html).not.toContain("Swarrow Call のチャット UI");
+describe("Swarrow Chat page", () => {
+  test("renders the chat feature band and chat-specific customer success copy", () => {
+    expect(chatHtml).toContain("Swarrow Chat");
+    expect(chatHtml).toContain("自治体ホームページAI窓口");
+    expect(chatHtml).toContain("/swarrow-call/chat-ui.webm");
+    expect(chatHtml).toContain('id="support"');
+    expect(chatHtml).not.toContain('id="chat"');
+    expect(chatHtml).not.toContain('id="call"');
   });
 
-  test("uses the gray band and wave for Municipal Web AI Desk", () => {
-    const chat = html.match(/<section id="chat"[\s\S]*?<\/section>/)?.[0] ?? "";
-
-    expect(chat).toContain("feature-band--mist");
-    expect(chat).toContain("chat-top-curve");
-    expect(chat).toContain("section-curve-bg--mist");
-    expect(chat).toContain(
-      'd="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"',
-    );
-    expect(chat.indexOf("chat-top-curve")).toBeLessThan(
-      chat.indexOf("chat-feature"),
-    );
+  test("renders exactly one h1 heading", () => {
+    expect(countMatches(chatHtml, /<h1\b/g)).toBe(1);
   });
 });
 
-describe("Swarrow Call section", () => {
-  test("connects call capabilities to municipal work outcomes", () => {
-    expect(html).toMatch(/id="call"[\s\S]*?<h2[^>]*>[\s\S]*?Swarrow Call/);
-    expect(html).toContain("自治体AIコールセンター");
-    for (const capability of [
-      "AI受電",
-      "案内",
-      "取次",
-      "タイマー架電",
-      "一括発信",
-    ]) {
-      expect(html).toContain(capability);
+describe("Swarrow Call page", () => {
+  test("renders the call feature band, capability cards, and call-specific customer success copy", () => {
+    expect(callHtml).toContain("Swarrow Call");
+    expect(callHtml).toContain("自治体AIコールセンター");
+    expect(callHtml).toContain("/swarrow-call/operator-call.webm");
+    for (const capability of ["タイマー架電", "自動取次", "一括発信"]) {
+      expect(callHtml).toContain(capability);
     }
-    expect(html).toContain("/swarrow-call/operator-call.webm");
-    expect(html).toMatch(
-      /class="feature-product-name[^"]*">[\s\S]*?src="\/swarrow-call\/swarrow-call-icon-flat\.png"[\s\S]*?Swarrow Call/,
-    );
+    expect(callHtml).toContain('id="support"');
   });
 
-  test("uses the white band and wave for Municipal AI Call Center", () => {
-    const call = html.match(/<section id="call"[\s\S]*?<\/section>/)?.[0] ?? "";
-
-    expect(call).toContain("feature-band--paper");
-    expect(call).toContain("section-curve-bg--paper");
-  });
-});
-
-describe("section order", () => {
-  test("places Shared Knowledge after both product details and before common operations", () => {
-    const chat = html.indexOf('id="chat"');
-    const call = html.indexOf('id="call"');
-    const knowledge = html.indexOf('id="knowledge"');
-    const operations = html.indexOf('id="operations"');
-
-    expect(chat).toBeGreaterThan(-1);
-    expect(call).toBeGreaterThan(chat);
-    expect(knowledge).toBeGreaterThan(call);
-    expect(operations).toBeGreaterThan(knowledge);
-    expect(countMatches(pageSource, /bind:this=\{workflowVideo\}/g)).toBe(1);
-    expect(pageSource).toContain("class:ready={workflowVideoReady}");
-    expect(pageSource).toContain("new IntersectionObserver");
-    expect(pageSource).toContain("/swarrow-call/workflow-editor-alpha.webm");
+  test("renders exactly one h1 heading", () => {
+    expect(countMatches(callHtml, /<h1\b/g)).toBe(1);
   });
 });
 
@@ -295,24 +289,6 @@ describe("common operations", () => {
     expect(operations).toContain("Swarrow ChatとSwarrow Call");
     expect(operations).toContain("一度の更新");
     expect(operations).toContain("/swarrow-call/workflow-editor-alpha.webm");
-  });
-});
-
-describe("shared customer success", () => {
-  test("supports Chat, Call, and combined adoption", () => {
-    const support =
-      html.match(/<section id="support"[\s\S]*?<\/section>/)?.[0] ?? "";
-    expect(support).toMatch(/Swarrow ChatとSwarrow\s+Call/);
-    expect(support).toContain("導入準備");
-    expect(support).toContain("初期構築");
-    expect(support).toContain("運用改善");
-    expect(support).not.toContain("貴社");
-  });
-
-  test("keeps a white backdrop behind the Customer Success wave", () => {
-    expect(pageSource).toMatch(
-      /\.function::before\s*\{[^}]*background: var\(--paper\);/,
-    );
   });
 });
 
@@ -332,21 +308,11 @@ describe("navigation and conversion", () => {
   });
 
   test("keeps the final page sequence and a two-product CTA", () => {
-    const ids = [
-      "products",
-      "chat",
-      "call",
-      "knowledge",
-      "operations",
-      "support",
-      "news",
-      "contact",
-    ];
+    const ids = ["products", "knowledge", "operations", "news", "contact"];
     const positions = ids.map((id) => html.indexOf(`id="${id}"`));
     expect(positions.every((position) => position >= 0)).toBe(true);
     expect([...positions].sort((a, b) => a - b)).toEqual(positions);
-    expect(html).toContain("Swarrow Chat・Swarrow Callの導入相談");
-    expect(html).toContain("単独導入から併用まで");
+    expect(html).toContain("Swarrow Chat・Swarrow Callの資料ダウンロード");
   });
 });
 
@@ -369,12 +335,16 @@ describe("crawlability baseline", () => {
     expect(robots).toContain("Sitemap: https://swarrow.com/sitemap.xml");
   });
 
-  test("lists only the root canonical URL in the sitemap", () => {
+  test("lists the root, chat, and call canonical URLs in the sitemap", () => {
     const locations = Array.from(
       sitemap.matchAll(/<loc>([^<]+)<\/loc>/g),
       (match) => match[1],
     );
-    expect(locations).toEqual(["https://swarrow.com/"]);
+    expect(locations).toEqual([
+      "https://swarrow.com/",
+      "https://swarrow.com/chat",
+      "https://swarrow.com/call",
+    ]);
   });
 });
 

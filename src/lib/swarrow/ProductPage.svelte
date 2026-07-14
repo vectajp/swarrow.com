@@ -93,7 +93,7 @@
 
       <div class="product-feature-copy">
         <p class="product-feature-en">{feature.en}</p>
-        <h2 id="product-feature-title" class="product-feature-title">
+        <h1 id="product-feature-title" class="product-feature-title">
           <span class="product-feature-title-label">{feature.titleLabel}</span>
           <span class="feature-product-name">
             <img
@@ -106,7 +106,7 @@
             >
             {productName}
           </span>
-        </h2>
+        </h1>
         <p class="product-feature-lead">{feature.lead}</p>
         <ul class="product-feature-list">
           {#each feature.list as item (item.title)}
@@ -120,7 +120,7 @@
     {:else}
       <div class="product-feature-copy">
         <p class="product-feature-en">{feature.en}</p>
-        <h2 id="product-feature-title" class="product-feature-title">
+        <h1 id="product-feature-title" class="product-feature-title">
           <span class="product-feature-title-label">{feature.titleLabel}</span>
           <span class="feature-product-name">
             <img
@@ -133,7 +133,7 @@
             >
             {productName}
           </span>
-        </h2>
+        </h1>
         <p class="product-feature-lead">{feature.lead}</p>
         <ul class="product-feature-list">
           {#each feature.list as item (item.title)}
@@ -726,9 +726,9 @@
 
   /* ===== Responsive ===== */
   /* mediaPosition="right" の表示順は order ではなく DOM 順序の切り替え
-         （テンプレート側の {#if mediaPosition === "left"}...{:else}...{/if}）
-         で実現している。860px 以下は display:contents による独自の order
-         制御で「コピー→動画」の順に再配置する（別の仕組み、変更不要）。 */
+           （テンプレート側の {#if mediaPosition === "left"}...{:else}...{/if}）
+           で実現している。860px 以下は display:contents による独自の order
+           制御で「コピー→動画」の順に再配置する（別の仕組み、変更不要）。 */
 
   @media (max-width: 1240px) {
     .product-feature--left {
