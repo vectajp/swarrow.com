@@ -77,15 +77,22 @@ Answer Quality 群は上記3語を起点とし、実際に impressions が発生
 ## 公開直後
 
 1. root、`robots.txt`、`sitemap.xml` が200系で取得できることを確認する。
-2. URL Inspection の「公開 URL をテスト」で Page fetch、Crawl allowed、
-   Indexing allowed を確認する。
-3. user canonical が `https://swarrow.com/` であることを確認する。
-4. Schema Markup Validator で `Organization`、`WebSite`、2つの `Service` を
-   確認する。
+2. URL Inspection の「公開 URL をテスト」を root、`/chat`、`/call` の3URLで
+   実行し、それぞれ Page fetch、Crawl allowed、Indexing allowed を確認する。
+3. user canonical が、root は `https://swarrow.com/`、`/chat` は
+   `https://swarrow.com/chat`、`/call` は `https://swarrow.com/call` と、
+   各 URL 自身になっていることを確認する。
+4. Schema Markup Validator で構造化データを確認する。root は
+   `Organization`、`WebSite`、2つの `Service` を含む1つのグラフ、`/chat` と
+   `/call` はそれぞれ `Organization` と該当製品の `Service` のみを含む
+   グラフになる。
 5. Rich Results Test は Google 対応型だけを確認する。`Service` は rich result
    対応型ではないため、検出されないことを失敗にしない。
-6. root URL の index 登録を1回だけリクエストする。繰り返し要求しない。
-7. sitemap がすでに Success なら、内容が変わらない今回の変更では再送信を
+6. Facebook Sharing Debugger と Twitter Card Validator で root、`/chat`、
+   `/call` の OGP カード表示を確認する。3ページとも個別の `og:image` を
+   持つため、それぞれ意図した画像が表示されることを確認する。
+7. root URL の index 登録を1回だけリクエストする。繰り返し要求しない。
+8. sitemap がすでに Success なら、内容が変わらない今回の変更では再送信を
    必須にしない。
 
 ## 公開7日後
@@ -130,3 +137,7 @@ sitemap、Search Console の検出状況を継続的に確認する。
 - [再クロールを Google にリクエストする](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
 - [構造化データに関する一般的なガイドライン](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
 - [Search Console Insights の検索パフォーマンス](https://support.google.com/webmasters/answer/17010961?hl=ja)
+- [Schema Markup Validator](https://validator.schema.org/)
+- [Rich Results Test](https://search.google.com/test/rich-results)
+- [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+- [Twitter Card Validator](https://cards-dev.twitter.com/validator)

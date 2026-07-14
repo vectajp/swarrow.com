@@ -14,6 +14,7 @@
     showCaseStudies,
     site,
     siteName,
+    siteOgImage,
     topDownloadCta,
   } from "$lib/swarrow/content";
 
@@ -150,13 +151,18 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content={siteName}>
+  <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content={pageTitle}>
   <meta property="og:description" content={pageDescription}>
   <meta property="og:url" content={`${site}/`}>
+  <meta property="og:image" content={`${site}${siteOgImage.path}`}>
+  <meta property="og:image:width" content={String(siteOgImage.width)}>
+  <meta property="og:image:height" content={String(siteOgImage.height)}>
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content={pageTitle}>
   <meta name="twitter:description" content={pageDescription}>
+  <meta name="twitter:image" content={`${site}${siteOgImage.path}`}>
 
   {@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>

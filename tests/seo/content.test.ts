@@ -15,6 +15,7 @@ import {
   navItems,
   pageDescription,
   pageTitle,
+  productJsonLd,
   products,
   sharedKnowledge,
   showCaseStudies,
@@ -34,6 +35,12 @@ describe("Swarrow product content", () => {
     ]);
     expect(products.map(({ href }) => href)).toEqual(["/chat", "/call"]);
     expect(products.every(({ benefit }) => benefit.length > 0)).toBe(true);
+    expect(
+      products.every(
+        ({ metaDescription }) =>
+          metaDescription.length >= 70 && metaDescription.length <= 120,
+      ),
+    ).toBe(true);
     expect(products.map(({ backgroundIcon }) => backgroundIcon)).toEqual([
       "/swarrow-call/swarrow-chat-icon-flat.png",
       "/swarrow-call/swarrow-call-icon-flat.png",
@@ -136,6 +143,30 @@ describe("two-product search model", () => {
           "https://swarrow.com/#organization",
       ),
     ).toBe(true);
+  });
+
+  test("provides a single-service graph per product page", () => {
+    for (const productId of ["chat", "call"] as const) {
+      const graph = productJsonLd(productId)["@graph"] as readonly Record<
+        string,
+        unknown
+      >[];
+      expect(
+        graph.filter((item) => item["@type"] === "Organization"),
+      ).toHaveLength(1);
+      expect(graph.filter((item) => item["@type"] === "WebSite")).toHaveLength(
+        0,
+      );
+
+      const services = graph.filter((item) => item["@type"] === "Service");
+      expect(services).toHaveLength(1);
+      expect(services[0]?.["@id"]).toBe(
+        `https://swarrow.com/#swarrow-${productId}`,
+      );
+      expect((services[0]?.provider as Record<string, unknown>)["@id"]).toBe(
+        "https://swarrow.com/#organization",
+      );
+    }
   });
 
   test("links global nav directly to product pages without a support anchor", () => {

@@ -186,6 +186,7 @@
 
     {#if extraCards}
       <div class="call-feature-cards">
+        <h2 class="visually-hidden">主な機能</h2>
         {#each extraCards as capability (capability.title)}
           <article class="call-feature-card">
             <video
@@ -525,6 +526,17 @@
   }
 
   /* ===== Call capability cards (extraCards) ===== */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
   .call-feature-cards {
     grid-column: 1 / -1;
     display: grid;
@@ -783,9 +795,9 @@
 
   /* ===== Responsive ===== */
   /* mediaPosition="right" の表示順は order ではなく DOM 順序の切り替え
-               （テンプレート側の {#if mediaPosition === "left"}...{:else}...{/if}）
-               で実現している。860px 以下は display:contents による独自の order
-               制御で「コピー→動画」の順に再配置する（別の仕組み、変更不要）。 */
+                 （テンプレート側の {#if mediaPosition === "left"}...{:else}...{/if}）
+                 で実現している。860px 以下は display:contents による独自の order
+                 制御で「コピー→動画」の順に再配置する（別の仕組み、変更不要）。 */
 
   @media (max-width: 1240px) {
     .product-feature--left {
