@@ -2,6 +2,13 @@
 
 import { beforeAll, describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
+import {
+  productJsonLd,
+  products,
+  site,
+  siteName,
+  siteOgImage,
+} from "../../src/lib/swarrow/content";
 
 let html = "";
 let chatHtml = "";
@@ -14,6 +21,27 @@ let layoutSource = "";
 
 const countMatches = (value: string, pattern: RegExp) =>
   Array.from(value.matchAll(pattern)).length;
+
+const headingLevels = (source: string) =>
+  Array.from(source.matchAll(/<h([1-6])\b/g), (match) => Number(match[1]));
+
+const hasNoHeadingLevelSkips = (levels: number[]) => {
+  let deepestSeen = 0;
+  for (const level of levels) {
+    if (level > deepestSeen + 1) return false;
+    deepestSeen = Math.max(deepestSeen, level);
+  }
+  return true;
+};
+
+const metaContentOf = (
+  source: string,
+  kind: "name" | "property",
+  key: string,
+) =>
+  source.match(
+    new RegExp(`<meta ${kind}="${key}" content="([^"]*)"\\s*\\/?>`),
+  )?.[1];
 
 beforeAll(async () => {
   [
@@ -131,6 +159,10 @@ describe("answer-quality Hero", () => {
     expect(hero).toContain("運用を重ねるほど改善につなげられる仕組み");
     expect(hero).not.toContain("そのまちの答えを、");
     expect(hero).not.toContain("hero-news");
+  });
+
+  test("never skips a heading level", () => {
+    expect(hasNoHeadingLevelSkips(headingLevels(html))).toBe(true);
   });
 
   test("omits the removed quality and municipal challenges sections", () => {
@@ -261,6 +293,67 @@ describe("Swarrow Chat page", () => {
   test("renders exactly one h1 heading", () => {
     expect(countMatches(chatHtml, /<h1\b/g)).toBe(1);
   });
+
+  test("never skips a heading level", () => {
+    expect(hasNoHeadingLevelSkips(headingLevels(chatHtml))).toBe(true);
+  });
+
+  test("publishes a product-specific search and social contract", () => {
+    const product = products.find((item) => item.id === "chat");
+    if (!product) throw new Error("chat product not found");
+    const title = `Swarrow Chat｜${product.category}`;
+    const canonicalUrl = `${site}${product.href}`;
+    const ogImageUrl = `${site}${product.ogImage.path}`;
+
+    expect(chatHtml.match(/<title>([^<]+)<\/title>/)?.[1]).toBe(title);
+    expect(title).not.toBe(
+      "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター",
+    );
+    expect(metaContentOf(chatHtml, "name", "description")).toBe(
+      product.metaDescription,
+    );
+    expect(
+      countMatches(
+        chatHtml,
+        new RegExp(
+          `<link rel="canonical" href="${canonicalUrl.replace(/\//g, "\\/")}"\\s*\\/?>`,
+          "g",
+        ),
+      ),
+    ).toBe(1);
+    expect(metaContentOf(chatHtml, "name", "robots")).toBe("index,follow");
+    expect(metaContentOf(chatHtml, "property", "og:site_name")).toBe(siteName);
+    expect(metaContentOf(chatHtml, "property", "og:locale")).toBe("ja_JP");
+    expect(metaContentOf(chatHtml, "property", "og:title")).toBe(title);
+    expect(metaContentOf(chatHtml, "property", "og:description")).toBe(
+      product.metaDescription,
+    );
+    expect(metaContentOf(chatHtml, "property", "og:url")).toBe(canonicalUrl);
+    expect(metaContentOf(chatHtml, "property", "og:image")).toBe(ogImageUrl);
+    expect(metaContentOf(chatHtml, "property", "og:image:width")).toBe(
+      String(product.ogImage.width),
+    );
+    expect(metaContentOf(chatHtml, "property", "og:image:height")).toBe(
+      String(product.ogImage.height),
+    );
+    expect(metaContentOf(chatHtml, "name", "twitter:card")).toBe(
+      "summary_large_image",
+    );
+    expect(metaContentOf(chatHtml, "name", "twitter:title")).toBe(title);
+    expect(metaContentOf(chatHtml, "name", "twitter:description")).toBe(
+      product.metaDescription,
+    );
+    expect(metaContentOf(chatHtml, "name", "twitter:image")).toBe(ogImageUrl);
+    expect(existsSync(`static${product.ogImage.path}`)).toBe(true);
+  });
+
+  test("publishes structured data for the chat service alone", () => {
+    const match = chatHtml.match(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+    );
+    expect(match).not.toBeNull();
+    expect(JSON.parse(match?.[1] ?? "{}")).toEqual(productJsonLd("chat"));
+  });
 });
 
 describe("Swarrow Call page", () => {
@@ -276,6 +369,67 @@ describe("Swarrow Call page", () => {
 
   test("renders exactly one h1 heading", () => {
     expect(countMatches(callHtml, /<h1\b/g)).toBe(1);
+  });
+
+  test("never skips a heading level", () => {
+    expect(hasNoHeadingLevelSkips(headingLevels(callHtml))).toBe(true);
+  });
+
+  test("publishes a product-specific search and social contract", () => {
+    const product = products.find((item) => item.id === "call");
+    if (!product) throw new Error("call product not found");
+    const title = `Swarrow Call｜${product.category}`;
+    const canonicalUrl = `${site}${product.href}`;
+    const ogImageUrl = `${site}${product.ogImage.path}`;
+
+    expect(callHtml.match(/<title>([^<]+)<\/title>/)?.[1]).toBe(title);
+    expect(title).not.toBe(
+      "Swarrow｜自治体ホームページAI窓口・自治体AIコールセンター",
+    );
+    expect(metaContentOf(callHtml, "name", "description")).toBe(
+      product.metaDescription,
+    );
+    expect(
+      countMatches(
+        callHtml,
+        new RegExp(
+          `<link rel="canonical" href="${canonicalUrl.replace(/\//g, "\\/")}"\\s*\\/?>`,
+          "g",
+        ),
+      ),
+    ).toBe(1);
+    expect(metaContentOf(callHtml, "name", "robots")).toBe("index,follow");
+    expect(metaContentOf(callHtml, "property", "og:site_name")).toBe(siteName);
+    expect(metaContentOf(callHtml, "property", "og:locale")).toBe("ja_JP");
+    expect(metaContentOf(callHtml, "property", "og:title")).toBe(title);
+    expect(metaContentOf(callHtml, "property", "og:description")).toBe(
+      product.metaDescription,
+    );
+    expect(metaContentOf(callHtml, "property", "og:url")).toBe(canonicalUrl);
+    expect(metaContentOf(callHtml, "property", "og:image")).toBe(ogImageUrl);
+    expect(metaContentOf(callHtml, "property", "og:image:width")).toBe(
+      String(product.ogImage.width),
+    );
+    expect(metaContentOf(callHtml, "property", "og:image:height")).toBe(
+      String(product.ogImage.height),
+    );
+    expect(metaContentOf(callHtml, "name", "twitter:card")).toBe(
+      "summary_large_image",
+    );
+    expect(metaContentOf(callHtml, "name", "twitter:title")).toBe(title);
+    expect(metaContentOf(callHtml, "name", "twitter:description")).toBe(
+      product.metaDescription,
+    );
+    expect(metaContentOf(callHtml, "name", "twitter:image")).toBe(ogImageUrl);
+    expect(existsSync(`static${product.ogImage.path}`)).toBe(true);
+  });
+
+  test("publishes structured data for the call service alone", () => {
+    const match = callHtml.match(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+    );
+    expect(match).not.toBeNull();
+    expect(JSON.parse(match?.[1] ?? "{}")).toEqual(productJsonLd("call"));
   });
 });
 
@@ -369,11 +523,24 @@ describe("final search contract", () => {
     expect(description).toContain("回答精度");
     expect(description).toContain("継続改善");
     expect(metaContent("property", "og:site_name")).toBe("Swarrow");
+    expect(metaContent("property", "og:locale")).toBe("ja_JP");
     expect(metaContent("property", "og:title")).toBe(title);
     expect(metaContent("name", "twitter:title")).toBe(title);
     expect(metaContent("property", "og:description")).toBe(description);
     expect(metaContent("name", "twitter:description")).toBe(description);
     expect(metaContent("property", "og:url")).toBe("https://swarrow.com/");
+
+    const ogImageUrl = `${site}${siteOgImage.path}`;
+    expect(metaContent("property", "og:image")).toBe(ogImageUrl);
+    expect(metaContent("property", "og:image:width")).toBe(
+      String(siteOgImage.width),
+    );
+    expect(metaContent("property", "og:image:height")).toBe(
+      String(siteOgImage.height),
+    );
+    expect(metaContent("name", "twitter:card")).toBe("summary_large_image");
+    expect(metaContent("name", "twitter:image")).toBe(ogImageUrl);
+    expect(existsSync(`static${siteOgImage.path}`)).toBe(true);
   });
 
   test("renders one H1 and both services in visible body content", () => {

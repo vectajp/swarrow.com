@@ -3,15 +3,29 @@ export const siteName = "Swarrow";
 
 export type ProductId = "chat" | "call";
 
+export type OgImage = {
+  path: `/swarrow-call/${string}`;
+  width: number;
+  height: number;
+};
+
 export type Product = {
   id: ProductId;
   name: string;
   category: string;
   benefit: string;
+  metaDescription: string;
   useCases: readonly string[];
   href: `/${ProductId}`;
   backgroundIcon: `/swarrow-call/${string}.png`;
   icon: `/swarrow-call/${string}.png`;
+  ogImage: OgImage;
+};
+
+export const siteOgImage: OgImage = {
+  path: "/swarrow-call/hero-city.webp",
+  width: 960,
+  height: 540,
 };
 
 export const products: readonly Product[] = [
@@ -21,10 +35,13 @@ export const products: readonly Product[] = [
     category: "自治体ホームページAI窓口",
     benefit:
       "ホームページやLINEで住民の自己解決を促し、電話へ集中する前に定型的な質問へ回答します。",
+    metaDescription:
+      "自治体ホームページAI窓口Swarrow Chat。自治体の公式情報をもとに、ホームページやLINEで手続き案内・必要書類・施設案内などの定型的な質問に回答し、住民の自己解決を後押しします。回答は公開前に検証し、継続的に改善します。",
     useCases: ["手続き案内", "必要書類", "施設案内", "予約・申請への誘導"],
     href: "/chat",
     backgroundIcon: "/swarrow-call/swarrow-chat-icon-flat.png",
     icon: "/swarrow-call/swarrow-chat-icon-flat.png",
+    ogImage: { path: "/swarrow-call/chat-ui.webp", width: 1672, height: 941 },
   },
   {
     id: "call",
@@ -32,10 +49,17 @@ export const products: readonly Product[] = [
     category: "自治体AIコールセンター",
     benefit:
       "AIが電話の一次受付、案内、取次、発信を担い、職員の電話対応を必要な案件へ絞ります。",
+    metaDescription:
+      "自治体AIコールセンターSwarrow Call。自治体の公式情報をもとに、電話の一次受付・案内・取次・発信を代行します。代表電話や時間外受付、リマインドの一括周知にも対応し、職員は必要な案件に対応を集中できます。",
     useCases: ["代表電話", "時間外受付", "担当課取次", "リマインド・一括周知"],
     href: "/call",
     backgroundIcon: "/swarrow-call/swarrow-call-icon-flat.png",
     icon: "/swarrow-call/swarrow-call-icon-flat.png",
+    ogImage: {
+      path: "/swarrow-call/operator-call-poster.webp",
+      width: 1280,
+      height: 720,
+    },
   },
 ];
 
@@ -297,16 +321,35 @@ export const navItems: NavItem[] = [
 
 const organizationId = `${site}/#organization`;
 
-// 構造化データ: 提供事業者、Web サイト、公開中の2製品。
+const organizationEntity = {
+  "@type": "Organization",
+  "@id": organizationId,
+  name: "株式会社Vecta",
+  url: "https://www.vecta.co.jp/",
+} as const;
+
+const buildServiceEntity = (product: Product) =>
+  ({
+    "@type": "Service",
+    "@id": `${site}/#swarrow-${product.id}`,
+    name: product.name,
+    serviceType: product.category,
+    category: product.category,
+    description: product.benefit,
+    url: `${site}${product.href}`,
+    provider: { "@id": organizationId },
+    audience: {
+      "@type": "Audience",
+      audienceType: "自治体",
+    },
+    areaServed: "日本",
+  }) as const;
+
+// 構造化データ: 提供事業者、Web サイト、公開中の2製品。トップページ専用。
 export const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Organization",
-      "@id": organizationId,
-      name: "株式会社Vecta",
-      url: "https://www.vecta.co.jp/",
-    },
+    organizationEntity,
     {
       "@type": "WebSite",
       "@id": `${site}/#website`,
@@ -315,20 +358,18 @@ export const jsonLd = {
       description: pageDescription,
       publisher: { "@id": organizationId },
     },
-    ...products.map((product) => ({
-      "@type": "Service",
-      "@id": `${site}/#swarrow-${product.id}`,
-      name: product.name,
-      serviceType: product.category,
-      category: product.category,
-      description: product.benefit,
-      url: `${site}${product.href}`,
-      provider: { "@id": organizationId },
-      audience: {
-        "@type": "Audience",
-        audienceType: "自治体",
-      },
-      areaServed: "日本",
-    })),
+    ...products.map(buildServiceEntity),
   ],
 } as const;
+
+// 構造化データ: 提供事業者と該当製品の Service のみ。製品ページ専用。
+export const productJsonLd = (productId: ProductId) => {
+  const product = products.find((item) => item.id === productId);
+  if (!product) {
+    throw new Error(`unknown product id: ${productId}`);
+  }
+  return {
+    "@context": "https://schema.org",
+    "@graph": [organizationEntity, buildServiceEntity(product)],
+  } as const;
+};

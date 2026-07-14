@@ -6,9 +6,11 @@
     callCustomerSuccessSteps,
     callFeatureCopy,
     pageDescription,
+    productJsonLd,
     products,
     site,
     siteName,
+    siteOgImage,
     topDownloadCta,
   } from "$lib/swarrow/content";
   import ProductPage from "$lib/swarrow/ProductPage.svelte";
@@ -37,6 +39,7 @@
   const product = products.find((item) => item.id === "call");
   const pageTitle = `Swarrow Call｜${product?.category ?? ""}`;
   const canonicalUrl = `${site}/call`;
+  const ogImage = product?.ogImage ?? siteOgImage;
 
   onMount(() => {
     const cleanups: Array<() => void> = [];
@@ -115,23 +118,36 @@
 
 <svelte:head>
   <title>{pageTitle}</title>
-  <meta name="description" content={product?.benefit ?? pageDescription}>
+  <meta
+    name="description"
+    content={product?.metaDescription ?? pageDescription}
+  >
   <meta name="theme-color" content="#f4f4f6">
   <link rel="canonical" href={canonicalUrl}>
   <meta name="robots" content="index,follow">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content={siteName}>
+  <meta property="og:locale" content="ja_JP">
   <meta property="og:title" content={pageTitle}>
-  <meta property="og:description" content={product?.benefit ?? pageDescription}>
+  <meta
+    property="og:description"
+    content={product?.metaDescription ?? pageDescription}
+  >
   <meta property="og:url" content={canonicalUrl}>
+  <meta property="og:image" content={`${site}${ogImage.path}`}>
+  <meta property="og:image:width" content={String(ogImage.width)}>
+  <meta property="og:image:height" content={String(ogImage.height)}>
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content={pageTitle}>
   <meta
     name="twitter:description"
-    content={product?.benefit ?? pageDescription}
+    content={product?.metaDescription ?? pageDescription}
   >
+  <meta name="twitter:image" content={`${site}${ogImage.path}`}>
+
+  {@html `<script type="application/ld+json">${JSON.stringify(productJsonLd("call"))}</script>`}
 </svelte:head>
 
 <main id="top">
