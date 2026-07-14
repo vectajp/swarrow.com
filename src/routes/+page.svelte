@@ -1,13 +1,11 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import ContactModal from "$lib/swarrow/ContactModal.svelte";
+  import { getContext, onMount } from "svelte";
   import {
-    callCapabilities,
     cases,
-    customerSuccessSteps,
+    downloadCtaLabel,
     heroCopy,
+    heroProductCtas,
     jsonLd,
-    navItems,
     news,
     pageDescription,
     pageTitle,
@@ -16,23 +14,16 @@
     showCaseStudies,
     site,
     siteName,
+    topDownloadCta,
   } from "$lib/swarrow/content";
 
-  const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
   const REVEAL_SELECTOR = "[data-reveal]";
   const AUTOPLAY_VIDEO_SELECTOR = [
     ".hero-video",
     ".knowledge-video",
     ".workflow-video",
-    ".chat-feature-video",
-    ".call-feature-video",
-    ".call-feature-card-video",
-    ".customer-success-video",
-    ".customer-success-step-video",
   ].join(", ");
-  const currentYear = new Date().getFullYear();
 
-  const isExternalHref = (href: string) => /^https?:\/\//.test(href);
   const playVideo = (video: HTMLVideoElement) => {
     video.muted = true;
     void video.play().catch(() => {});
@@ -43,29 +34,19 @@
     }
   };
 
+  const { openContactModal } = getContext<{ openContactModal: () => void }>(
+    "swarrow-download-modal",
+  );
+  const { isReducedMotion } = getContext<{ isReducedMotion: () => boolean }>(
+    "swarrow-motion",
+  );
+
   // 演出は控えめに: reduced-motion / no-JS ではヒーロー動画を止め poster を見せる。
-  let motion = $state(false);
-  let scrolled = $state(false);
   let workflowVideo: HTMLVideoElement | undefined;
   let workflowVideoReady = $state(false);
-  let contactModalOpen = $state(false);
-  const openContactModal = () => {
-    contactModalOpen = true;
-  };
-  const closeContactModal = () => {
-    contactModalOpen = false;
-  };
 
   onMount(() => {
-    const reduce = window.matchMedia(REDUCED_MOTION_QUERY).matches;
     const cleanups: Array<() => void> = [];
-
-    const onScroll = () => {
-      scrolled = window.scrollY > 40;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    cleanups.push(() => window.removeEventListener("scroll", onScroll));
 
     const markWorkflowVideoReady = () => {
       workflowVideoReady = true;
@@ -87,11 +68,15 @@
       });
     }
 
-    if (reduce) {
+    if (isReducedMotion()) {
       workflowVideoReady = true;
+      for (const el of document.querySelectorAll<HTMLElement>(
+        REVEAL_SELECTOR,
+      )) {
+        el.classList.add("is-in");
+      }
       return () => runCleanups(cleanups);
     }
-    motion = true;
 
     const revealTargets = Array.from(
       document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
@@ -99,6 +84,7 @@
     const videos = Array.from(
       document.querySelectorAll<HTMLVideoElement>(AUTOPLAY_VIDEO_SELECTOR),
     );
+
     for (const video of videos) {
       video.muted = true;
     }
@@ -175,266 +161,293 @@
   {@html `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`}
 </svelte:head>
 
-<div class="lp" class:motion={motion}>
-  <!-- Header: 透過ヘッダー。スクロールで薄い地を敷く。 -->
-  <header class="sc-header" class:scrolled={scrolled}>
-    <a class="brand" href="#top" aria-label="Swarrow トップへ">
-      <img
-        class="brand-mark"
-        src="/swarrow/icon.png"
-        alt=""
-        width="120"
-        height="120"
-        decoding="async"
-      >
-      <span class="brand-name">Swarrow</span>
-    </a>
-
-    <nav class="sc-nav" aria-label="グローバルナビゲーション">
-      {#each navItems as item (item.label)}
-        <a
-          class="sc-nav-link"
-          href={item.href}
-          target={isExternalHref(item.href) ? "_blank" : undefined}
-          rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
+<main id="top">
+  <!-- Hero: 8秒ループのアイソメトリック動画を大きく配置。動画背景とページ背景を合わせ、外縁の切れ目を消す -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">{heroCopy.eyebrow}</p>
+        <h1
+          class="hero-title"
+          aria-label={`${heroCopy.title.join("")}${heroCopy.emphasis.join("")}`}
         >
-          {item.label}
-          {#if isExternalHref(item.href)}
-            <span class="ext" aria-hidden="true">↗</span>
-          {/if}
-        </a>
-      {/each}
-      <button type="button" class="sc-cta" onclick={openContactModal}>
-        お問い合わせ
-      </button>
-    </nav>
-  </header>
-
-  <main id="top">
-    <!-- Hero: 8秒ループのアイソメトリック動画を大きく配置。動画背景とページ背景を合わせ、外縁の切れ目を消す -->
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="hero-eyebrow">{heroCopy.eyebrow}</p>
-          <h1
-            class="hero-title"
-            aria-label={`${heroCopy.title.join("")}${heroCopy.emphasis.join("")}`}
-          >
-            {#each heroCopy.title as line (line)}
-              <span>{line}</span>
-            {/each}
-            {#each heroCopy.emphasis as line (line)}
-              <span class="hero-title-emphasis">{line}</span>
-            {/each}
-          </h1>
-          <p class="hero-sub">{heroCopy.description}</p>
-          <nav class="hero-actions" aria-label="主要な導線">
-            <button
-              type="button"
-              class="hero-primary"
-              onclick={openContactModal}
-            >
-              導入相談・デモを依頼する
-            </button>
-          </nav>
-        </div>
-
-        <div class="hero-media" aria-hidden="true">
-          <video
-            class="hero-video"
-            poster="/swarrow-call/hero-city-poster.webp"
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            width="1280"
-            height="720"
-          >
-            <source src="/swarrow-call/hero-city.webm" type="video/webm">
-            <source src="/swarrow-call/hero-city.mp4" type="video/mp4">
-            <img
-              class="hero-video-fallback"
-              src="/swarrow-call/hero-city.webp"
-              alt=""
-              width="960"
-              height="540"
-              loading="eager"
-              decoding="async"
-            >
-          </video>
-        </div>
-      </div>
-
-      <div class="hero-fade"></div>
-    </section>
-
-    <section id="products" class="products" aria-labelledby="products-title">
-      <div
-        class="section-curve-bg section-curve-bg--paper section-curve-bg--flip hero-products-curve"
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="products-inner">
-        <div class="products-head" data-reveal>
-          <p class="products-kicker section-kicker">Products</p>
-          <h2 id="products-title">問い合わせの入口に合わせて選べる2つの製品</h2>
-          <p>
-            ホームページから始めても、電話から始めても、両方を組み合わせても導入できます。
-          </p>
-        </div>
-
-        <div class="products-grid">
-          {#each products as product (product.id)}
-            <article
-              class="product-card product-card--{product.id}"
-              data-reveal
-            >
-              <img
-                class="product-card-watermark"
-                src={product.backgroundIcon}
-                alt=""
-                width="900"
-                height="720"
-                loading="lazy"
-                decoding="async"
-                aria-hidden="true"
-              >
-              <p class="product-category">{product.category}</p>
-              <div class="product-name">
-                <img
-                  class="product-name-icon"
-                  src={product.icon}
-                  alt=""
-                  width="961"
-                  height="1006"
-                  decoding="async"
-                >
-                <h3>{product.name}</h3>
-              </div>
-              <p class="product-benefit">{product.benefit}</p>
-              <ul>
-                {#each product.useCases as useCase (useCase)}
-                  <li>{useCase}</li>
-                {/each}
-              </ul>
-              <a href={product.href}>{product.name}を見る</a>
-            </article>
+          {#each heroCopy.title as line (line)}
+            <span>{line}</span>
           {/each}
-        </div>
+          {#each heroCopy.emphasis as line (line)}
+            <span class="hero-title-emphasis">{line}</span>
+          {/each}
+        </h1>
+        <p class="hero-sub">{heroCopy.description}</p>
+        <nav class="hero-actions" aria-label="主要な導線">
+          {#each heroProductCtas as cta (cta.productId)}
+            <a class="hero-primary" href="/{cta.productId}">
+              {cta.label}
+            </a>
+          {/each}
+        </nav>
+      </div>
 
-        <p class="products-integration" data-reveal>
-          <strong>{sharedKnowledge.adoption}</strong>
-          <span>
-            併用時は、同じ知識基盤をホームページと電話で共有できます。
-          </span>
+      <div class="hero-media" aria-hidden="true">
+        <video
+          class="hero-video"
+          poster="/swarrow-call/hero-city-poster.webp"
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          width="1280"
+          height="720"
+        >
+          <source src="/swarrow-call/hero-city.webm" type="video/webm">
+          <source src="/swarrow-call/hero-city.mp4" type="video/mp4">
+          <img
+            class="hero-video-fallback"
+            src="/swarrow-call/hero-city.webp"
+            alt=""
+            width="960"
+            height="540"
+            loading="eager"
+            decoding="async"
+          >
+        </video>
+      </div>
+    </div>
+
+    <div class="hero-fade"></div>
+  </section>
+
+  <section id="products" class="products" aria-labelledby="products-title">
+    <div
+      class="section-curve-bg section-curve-bg--paper section-curve-bg--flip hero-products-curve"
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 1440 1600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+        ></path>
+      </svg>
+    </div>
+    <div class="products-inner">
+      <div class="products-head" data-reveal>
+        <p class="products-kicker section-kicker">Products</p>
+        <h2 id="products-title">問い合わせの入口に合わせて選べる2つの製品</h2>
+        <p>
+          ホームページから始めても、電話から始めても、両方を組み合わせても導入できます。
         </p>
       </div>
-    </section>
 
-    <section
-      id="chat"
-      class="feature-band feature-band--mist"
-      aria-labelledby="chat-title"
-    >
-      <div
-        class="section-curve-bg section-curve-bg--mist chat-top-curve"
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="chat-feature" data-reveal>
-        <figure class="chat-feature-media">
-          <video
-            class="chat-feature-video"
-            poster="/swarrow-call/chat-ui.webp"
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1280"
-            height="720"
-            aria-label="ホームページやLINEに設置できるSwarrow Chatの画面"
-          >
-            <source src="/swarrow-call/chat-ui.webm" type="video/webm">
+      <div class="products-grid">
+        {#each products as product (product.id)}
+          <article class="product-card product-card--{product.id}" data-reveal>
             <img
-              class="chat-feature-image"
-              src="/swarrow-call/chat-ui.webp"
-              alt="ホームページやLINEに設置できるSwarrow Chatの画面"
-              width="1672"
-              height="941"
+              class="product-card-watermark"
+              src={product.backgroundIcon}
+              alt=""
+              width="900"
+              height="720"
               loading="lazy"
               decoding="async"
+              aria-hidden="true"
             >
-          </video>
-        </figure>
-
-        <div class="chat-feature-copy">
-          <p class="chat-feature-en">Municipal Web AI Desk</p>
-          <h2 id="chat-title" class="chat-feature-title">
-            <span class="chat-feature-title-label">
-              自治体ホームページAI窓口
-            </span>
-            <span class="feature-product-name">
+            <p class="product-category">{product.category}</p>
+            <div class="product-name">
               <img
-                class="feature-product-icon"
-                src="/swarrow-call/swarrow-chat-icon-flat.png"
+                class="product-name-icon"
+                src={product.icon}
                 alt=""
                 width="961"
                 height="1006"
                 decoding="async"
               >
-              Swarrow Chat
-            </span>
-          </h2>
-          <p class="chat-feature-lead">
-            ホームページやLINEなど、住民が使い慣れた場所で定型的な質問へ回答します。必要な情報へ迷わずたどり着ける入口をつくり、電話をかける前の自己解決を支えます。
-          </p>
-          <ul class="chat-feature-list">
-            <li>
-              <strong>ホームページやLINEに設置</strong>
-              <small>住民が普段利用するデジタル窓口から質問できます。</small>
-            </li>
-            <li>
-              <strong>自治体の資料をもとに回答</strong>
-              <small
-                >FAQ、制度資料、手順書、業務データを案内に活かします。</small
-              >
-            </li>
-            <li>
-              <strong>回答から次の手続きへつなぐ</strong>
-              <small
-                >申請案内、予約、職員への連携など次の行動へ誘導します。</small
-              >
-            </li>
-          </ul>
-        </div>
+              <h3>{product.name}</h3>
+            </div>
+            <p class="product-benefit">{product.benefit}</p>
+            <ul>
+              {#each product.useCases as useCase (useCase)}
+                <li>{useCase}</li>
+              {/each}
+            </ul>
+            <a href={product.href}>{product.name}を見る</a>
+          </article>
+        {/each}
       </div>
-    </section>
 
-    <section
-      id="call"
-      class="feature-band feature-band--paper"
-      aria-labelledby="call-title"
+      <p class="products-integration" data-reveal>
+        <strong>{sharedKnowledge.adoption}</strong>
+        <span>
+          併用時は、同じ知識基盤をホームページと電話で共有できます。
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
+  <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
+    <div
+      class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
+      aria-hidden="true"
     >
+      <svg
+        viewBox="0 0 1440 1600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+        ></path>
+      </svg>
+    </div>
+    <div class="knowledge-inner">
+      <figure class="knowledge-visual" data-reveal>
+        <video
+          class="knowledge-video"
+          poster="/swarrow-call/knowledge-flow-alpha.png"
+          muted
+          loop
+          playsinline
+          preload="none"
+          width="1280"
+          height="720"
+          aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+        >
+          <source
+            src="/swarrow-call/knowledge-flow-alpha.webm"
+            type="video/webm"
+          >
+          <source src="/swarrow-call/knowledge-flow-alpha.mp4" type="video/mp4">
+          <img
+            class="knowledge-image"
+            src="/swarrow-call/knowledge-flow-alpha.png"
+            alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
+            width="1672"
+            height="941"
+            loading="lazy"
+            decoding="async"
+          >
+        </video>
+      </figure>
+
+      <div class="knowledge-copy" data-reveal>
+        <p class="knowledge-en section-kicker">Shared Knowledge</p>
+        <h2 id="knowledge-title" class="knowledge-title">
+          <span>1つの知識で、</span>
+          <span>ホームページも電話も。</span>
+        </h2>
+        <p class="knowledge-lead">{sharedKnowledge.description}</p>
+        <ul class="knowledge-flow">
+          <li>
+            <span class="knowledge-flow-kicker">Collect</span>
+            <span>
+              <strong>散らばる知識をまとめる</strong>
+              <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
+            </span>
+          </li>
+          <li>
+            <span class="knowledge-flow-kicker">Maintain</span>
+            <span>
+              <strong>一度の更新で案内をそろえる</strong>
+              <small>制度変更や現場の気づきを共通知識へ反映。</small>
+            </span>
+          </li>
+          <li>
+            <span class="knowledge-flow-kicker">Serve</span>
+            <span>
+              <strong>ChatとCallの双方で使う</strong>
+              <small>Webと電話で同じ根拠から住民へ案内。</small>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
+  <section
+    id="operations"
+    class="feature-band feature-band--paper feature-band--last"
+    aria-labelledby="operations-title"
+  >
+    <div class="section-curve-bg section-curve-bg--paper" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 1600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+        ></path>
+      </svg>
+    </div>
+    <div class="workflow-inner">
+      <div class="workflow-copy" data-reveal>
+        <p class="workflow-en">Common Operations</p>
+        <h2 id="operations-title" class="workflow-title">
+          <span>両製品の案内を、</span>
+          <span>職員の手で改善。</span>
+        </h2>
+        <p class="workflow-lead">
+          Swarrow ChatとSwarrow
+          Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
+        </p>
+        <ul class="workflow-list">
+          <li>
+            <strong>画面上で流れを組み替える</strong>
+            <small>質問、回答、分岐、案内文を見ながら編集。</small>
+          </li>
+          <li>
+            <strong>一度の更新を両製品へ反映</strong>
+            <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
+          </li>
+          <li>
+            <strong>現場の気づきをすぐ反映</strong>
+            <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
+          </li>
+        </ul>
+      </div>
+
+      <figure class="workflow-media" data-reveal>
+        <video
+          class="workflow-video"
+          poster="/swarrow-call/workflow-editor-alpha.png"
+          muted
+          loop
+          playsinline
+          preload="none"
+          width="1280"
+          height="720"
+          bind:this={workflowVideo}
+          class:ready={workflowVideoReady}
+          aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
+        >
+          <source
+            src="/swarrow-call/workflow-editor-alpha.webm"
+            type="video/webm"
+          >
+          <img
+            class="workflow-image"
+            src="/swarrow-call/workflow-editor-alpha.png"
+            alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
+            width="1280"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          >
+        </video>
+      </figure>
+    </div>
+  </section>
+
+  {#if showCaseStudies}
+    <!-- Case study: 白地。導入事例(差し替え用サンプル)。 -->
+    <section id="case" class="case">
       <div
         class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
         aria-hidden="true"
@@ -450,539 +463,86 @@
           ></path>
         </svg>
       </div>
-      <div class="call-feature" data-reveal>
-        <div class="call-feature-copy">
-          <p class="call-feature-en">Municipal AI Call Center</p>
-          <h2 id="call-title" class="call-feature-title">
-            <span>自治体AIコールセンター</span>
-            <span class="feature-product-name">
-              <img
-                class="feature-product-icon"
-                src="/swarrow-call/swarrow-call-icon-flat.png"
-                alt=""
-                width="961"
-                height="1006"
-                loading="lazy"
-                decoding="async"
-              >
-              Swarrow Call
-            </span>
-          </h2>
-          <p class="call-feature-lead">
-            AI受電で定型的な質問へ案内し、必要な案件だけを職員へ取り次ぎます。受ける電話だけでなく、リマインドや一括周知など自治体からの発信も支援します。
-          </p>
-          <ul class="call-feature-list">
-            <li>
-              <strong>AI受電で一次対応</strong>
-              <small>FAQや手順書をもとに、住民からの電話へ案内します。</small>
-            </li>
-            <li>
-              <strong>用件を整理して職員へ取次</strong>
-              <small
-                >内容や担当部署に応じ、必要な電話を職員へつなぎます。</small
-              >
-            </li>
-            <li>
-              <strong>架電業務も自動化</strong>
-              <small>予約確認、督促、案内、周知などの発信を支援します。</small>
-            </li>
-          </ul>
-        </div>
-
-        <figure class="call-feature-media">
-          <div class="call-feature-window">
-            <span class="call-feature-window-bar" aria-hidden="true">
-              <i></i><i></i><i></i>
-            </span>
-            <video
-              class="call-feature-video"
-              poster="/swarrow-call/operator-call-poster.webp"
-              muted
-              loop
-              playsinline
-              preload="none"
-              width="1280"
-              height="720"
-              aria-label="電話問い合わせを受けるオペレーターのイメージ"
-            >
-              <source src="/swarrow-call/operator-call.webm" type="video/webm">
-              <source src="/swarrow-call/operator-call.mp4" type="video/mp4">
-              <img
-                class="call-feature-image"
-                src="/swarrow-call/operator-call-poster.webp"
-                alt="電話問い合わせを受けるオペレーターのイメージ"
-                width="1280"
-                height="720"
-                loading="lazy"
-                decoding="async"
-              >
-            </video>
-          </div>
-        </figure>
-
-        <div class="call-feature-cards">
-          {#each callCapabilities as capability (capability.title)}
-            <article class="call-feature-card">
-              <video
-                class="call-feature-card-video"
-                poster={capability.poster}
-                muted
-                loop
-                playsinline
-                preload="none"
-                width="1536"
-                height="1024"
-                aria-label={capability.alt}
-              >
-                <source src={capability.video} type="video/webm">
-                <img
-                  class="call-feature-card-image"
-                  src={capability.poster}
-                  alt={capability.alt}
-                  width="1536"
-                  height="1024"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </video>
-              <div class="call-feature-card-body">
-                <h3 class="call-feature-card-title">{capability.title}</h3>
-                <p class="call-feature-card-text">{capability.body}</p>
-              </div>
-            </article>
-          {/each}
-        </div>
+      <div class="case-head">
+        <p class="case-en">Case study</p>
+        <h2 class="case-title">導入事例と利用実績</h2>
       </div>
-    </section>
 
-    <!-- Shared Knowledge: 同じ知識を Swarrow Chat と Swarrow Call で共有する。 -->
-    <section id="knowledge" class="knowledge" aria-labelledby="knowledge-title">
-      <div
-        class="section-curve-bg section-curve-bg--mist section-curve-bg--flip knowledge-top-curve"
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="knowledge-inner">
-        <figure class="knowledge-visual" data-reveal>
-          <video
-            class="knowledge-video"
-            poster="/swarrow-call/knowledge-flow-alpha.png"
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1280"
-            height="720"
-            aria-label="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
-          >
-            <source
-              src="/swarrow-call/knowledge-flow-alpha.webm"
-              type="video/webm"
-            >
-            <source
-              src="/swarrow-call/knowledge-flow-alpha.mp4"
-              type="video/mp4"
-            >
+      <div class="case-grid">
+        {#each cases as c (c.town)}
+          <article class="case-card" data-reveal>
             <img
-              class="knowledge-image"
-              src="/swarrow-call/knowledge-flow-alpha.png"
-              alt="文書やFAQをSwarrow ChatとSwarrow Callで共有する知識基盤のイメージ"
-              width="1672"
-              height="941"
+              class="case-card-photo"
+              src={c.img}
+              alt="{c.town}の取り組みイメージ(イメージイラスト)"
+              width="1200"
+              height="800"
               loading="lazy"
               decoding="async"
             >
-          </video>
-        </figure>
-
-        <div class="knowledge-copy" data-reveal>
-          <p class="knowledge-en section-kicker">Shared Knowledge</p>
-          <h2 id="knowledge-title" class="knowledge-title">
-            <span>1つの知識で、</span>
-            <span>ホームページも電話も。</span>
-          </h2>
-          <p class="knowledge-lead">{sharedKnowledge.description}</p>
-          <ul class="knowledge-flow">
-            <li>
-              <span class="knowledge-flow-kicker">Collect</span>
-              <span>
-                <strong>散らばる知識をまとめる</strong>
-                <small>FAQ、手順書、業務データ、画像資料を1か所へ。</small>
-              </span>
-            </li>
-            <li>
-              <span class="knowledge-flow-kicker">Maintain</span>
-              <span>
-                <strong>一度の更新で案内をそろえる</strong>
-                <small>制度変更や現場の気づきを共通知識へ反映。</small>
-              </span>
-            </li>
-            <li>
-              <span class="knowledge-flow-kicker">Serve</span>
-              <span>
-                <strong>ChatとCallの双方で使う</strong>
-                <small>Webと電話で同じ根拠から住民へ案内。</small>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Workflow: 初期設定後に職員がノーコードで対話シナリオを更新する運用イメージ。 -->
-    <section
-      id="operations"
-      class="feature-band feature-band--paper feature-band--last"
-      aria-labelledby="operations-title"
-    >
-      <div class="section-curve-bg section-curve-bg--paper" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="workflow-inner">
-        <div class="workflow-copy" data-reveal>
-          <p class="workflow-en">Common Operations</p>
-          <h2 id="operations-title" class="workflow-title">
-            <span>両製品の案内を、</span>
-            <span>職員の手で改善。</span>
-          </h2>
-          <p class="workflow-lead">
-            Swarrow ChatとSwarrow
-            Callは、共通の知識と会話フローを利用します。制度変更や現場の気づきを一度の更新で反映し、ホームページと電話の案内を継続的に整えられます。
-          </p>
-          <ul class="workflow-list">
-            <li>
-              <strong>画面上で流れを組み替える</strong>
-              <small>質問、回答、分岐、案内文を見ながら編集。</small>
-            </li>
-            <li>
-              <strong>一度の更新を両製品へ反映</strong>
-              <small>Webと電話の案内内容を同じ根拠へそろえます。</small>
-            </li>
-            <li>
-              <strong>現場の気づきをすぐ反映</strong>
-              <small>問い合わせの多い表現や不足する案内を職員が改善。</small>
-            </li>
-          </ul>
-        </div>
-
-        <figure class="workflow-media" data-reveal>
-          <video
-            class="workflow-video"
-            poster="/swarrow-call/workflow-editor-alpha.png"
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1280"
-            height="720"
-            bind:this={workflowVideo}
-            class:ready={workflowVideoReady}
-            aria-label="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
-          >
-            <source
-              src="/swarrow-call/workflow-editor-alpha.webm"
-              type="video/webm"
-            >
-            <img
-              class="workflow-image"
-              src="/swarrow-call/workflow-editor-alpha.png"
-              alt="Swarrow ChatとSwarrow Callの会話フローを編集する画面"
-              width="1280"
-              height="720"
-              loading="lazy"
-              decoding="async"
-            >
-          </video>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Customer Success: 専任チームが初期構築から運用改善まで伴走する支援体制。 -->
-    <section id="support" class="function" aria-labelledby="support-title">
-      <div class="function-curve-bg" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 900"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V900H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="customer-success-hero" data-reveal>
-        <div class="function-head">
-          <p class="function-en">Customer Success</p>
-          <h2 id="support-title" class="function-ja">カスタマーサクセス</h2>
-          <p class="customer-success-lead">
-            成果を出すことにコミットする、専門チームの徹底した伴走サポート。
-          </p>
-          <p class="customer-success-body">
-            Swarrow ChatとSwarrow
-            Callは、導入して終わりのサービスではありません。単独導入でも併用でも、専任チームが知識基盤の初期構築から利用状況の確認、継続的な改善まで伴走します。
-          </p>
-        </div>
-
-        <figure class="customer-success-media">
-          <video
-            class="customer-success-video"
-            poster="/swarrow-call/customer-success-step-up-poster.webp"
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1280"
-            height="720"
-            aria-label="段階的に成果へ向かうカスタマーサクセス支援のイメージ"
-          >
-            <source
-              src="/swarrow-call/customer-success-step-up.webm"
-              type="video/webm"
-            >
-            <img
-              class="customer-success-video-fallback"
-              src="/swarrow-call/customer-success-step-up-poster.webp"
-              alt="段階的に成果へ向かうカスタマーサクセス支援のイメージ"
-              width="1280"
-              height="720"
-              loading="lazy"
-              decoding="async"
-            >
-          </video>
-        </figure>
-      </div>
-
-      <ol class="customer-success-steps">
-        {#each customerSuccessSteps as step (step.phase)}
-          <li class="customer-success-step" data-reveal>
-            <figure class="customer-success-step-media">
-              <video
-                class="customer-success-step-video"
-                poster={step.poster}
-                muted
-                loop
-                playsinline
-                preload="none"
-                width="1280"
-                height="720"
-                aria-label={step.alt}
-              >
-                <source src={step.video} type="video/webm">
-                <img
-                  class="customer-success-step-image"
-                  src={step.poster}
-                  alt={step.alt}
-                  width="1280"
-                  height="720"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </video>
-            </figure>
-            <div class="customer-success-step-copy">
-              <h3 class="customer-success-step-title">{step.title}</h3>
-              <p class="customer-success-step-body">{step.body}</p>
+            <div class="case-card-body">
+              <span class="case-card-town">{c.town}</span>
+              <h3 class="case-card-title">{c.title}</h3>
             </div>
-          </li>
+          </article>
         {/each}
-      </ol>
-    </section>
-
-    {#if showCaseStudies}
-      <!-- Case study: 白地。導入事例(差し替え用サンプル)。 -->
-      <section id="case" class="case">
-        <div
-          class="section-curve-bg section-curve-bg--paper section-curve-bg--flip"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 1440 1600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path
-              d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-            ></path>
-          </svg>
-        </div>
-        <div class="case-head">
-          <p class="case-en">Case study</p>
-          <h2 class="case-title">導入事例と利用実績</h2>
-        </div>
-
-        <div class="case-grid">
-          {#each cases as c (c.town)}
-            <article class="case-card" data-reveal>
-              <img
-                class="case-card-photo"
-                src={c.img}
-                alt="{c.town}の取り組みイメージ(イメージイラスト)"
-                width="1200"
-                height="800"
-                loading="lazy"
-                decoding="async"
-              >
-              <div class="case-card-body">
-                <span class="case-card-town">{c.town}</span>
-                <h3 class="case-card-title">{c.title}</h3>
-              </div>
-            </article>
-          {/each}
-        </div>
-      </section>
-    {/if}
-
-    <!-- News -->
-    <section id="news" class="news">
-      <div class="section-curve-bg section-curve-bg--mist" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 1600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
-          ></path>
-        </svg>
-      </div>
-      <div class="news-head">
-        <p class="news-en">News</p>
-        <h2 class="news-title">お知らせ</h2>
-      </div>
-      <ul class="news-list">
-        {#each news as n (n.date)}
-          <li class="news-item" data-reveal>
-            <time class="news-date">{n.date}</time>
-            <span class="news-text">{n.text}</span>
-            <span class="news-go" aria-hidden="true">↗</span>
-          </li>
-        {/each}
-      </ul>
-    </section>
-
-    <!-- CTA -->
-    <section id="contact" class="cta" aria-labelledby="contact-title">
-      <div class="cta-inner" data-reveal>
-        <h2 id="contact-title" class="cta-title">
-          <span>Swarrow Chat・Swarrow Callの導入相談</span>
-          <span>単独導入から併用まで、ご相談ください。</span>
-        </h2>
-        <p class="cta-sub">
-          現在の問い合わせ件数、対象部署、ホームページと電話の運用状況を伺い、始め方とデモをご案内します。
-        </p>
-        <button type="button" class="cta-btn" onclick={openContactModal}>
-          導入相談・デモを依頼する<span class="ext">↗</span>
-        </button>
       </div>
     </section>
-  </main>
+  {/if}
 
-  <footer id="footer" class="vecta-footer">
-    <div class="vecta-footer-inner">
-      <div class="vecta-footer-content">
-        <div class="vecta-footer-brand">
-          <a
-            class="vecta-footer-logo-link"
-            href="https://www.vecta.co.jp"
-            aria-label="Vectaのウェブサイトへ"
-          >
-            <img
-              src="/vecta/logo_horizontal.svg"
-              alt="Vecta"
-              width="300"
-              height="100"
-              decoding="async"
-            >
-          </a>
-          <p>まちの知識を、未来へつなぐ。</p>
-        </div>
-        <address class="vecta-footer-address">
-          〒150-0002<br>
-          東京都渋谷区渋谷2-19-15<br>
-          宮益坂ビルディング609
-        </address>
-      </div>
-      <p class="vecta-footer-copy">
-        © {currentYear} Vecta. All rights reserved.
-      </p>
+  <!-- News -->
+  <section id="news" class="news">
+    <div class="section-curve-bg section-curve-bg--mist" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 1600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M-80 330C80 128 266 88 498 136C726 184 812 188 1008 76C1214 -42 1378 24 1508 214V1600H-80Z"
+        ></path>
+      </svg>
     </div>
-  </footer>
+    <div class="news-head">
+      <p class="news-en">News</p>
+      <h2 class="news-title">お知らせ</h2>
+    </div>
+    <ul class="news-list">
+      {#each news as n (n.date)}
+        <li class="news-item" data-reveal>
+          <time class="news-date">{n.date}</time>
+          <span class="news-text">{n.text}</span>
+          <span class="news-go" aria-hidden="true">↗</span>
+        </li>
+      {/each}
+    </ul>
+  </section>
 
-  <ContactModal open={contactModalOpen} onClose={closeContactModal} />
-</div>
+  <!-- CTA -->
+  <section id="contact" class="cta" aria-labelledby="contact-title">
+    <div class="cta-inner" data-reveal>
+      <h2 id="contact-title" class="cta-title">
+        {#each topDownloadCta.heading as line (line)}
+          <span>{line}</span>
+        {/each}
+      </h2>
+      <p class="cta-sub">{topDownloadCta.sub}</p>
+      <button type="button" class="cta-btn" onclick={openContactModal}>
+        {downloadCtaLabel}<span class="ext">↗</span>
+      </button>
+    </div>
+  </section>
+</main>
 
 <style>
-  :global(body) {
-    margin: 0;
-    background: #f4f4f6;
-  }
-
-  .lp {
-    --bg: #f4f4f6;
-    --ink: #333;
-    --ink-soft: #5a5f63;
-    --paper: #fff;
-    --sage: #c6d0dc;
-    --sage-light: #e4e9f0;
-    --sage-deep: #092045;
-    --curve-sage: #e5eef5;
-    --navy: #092045;
-    --navy-deep: #061936;
-    --line: rgba(51, 51, 51, 0.14);
-    --coral: #e07a66;
-
-    background: var(--bg);
-    color: var(--ink);
-    font-family:
-      system-ui, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP",
-      "Yu Gothic", Meiryo, sans-serif;
-    line-height: 1.9;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: clip;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .lp :where(a, button):focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--coral) 72%, white);
-    outline-offset: 4px;
-    border-radius: 6px;
-  }
   #top,
   #knowledge,
   #products,
-  #chat,
-  #call,
   #operations,
-  #support,
   #case,
   #news,
-  #contact,
-  #footer {
+  #contact {
     scroll-margin-top: 5.5rem;
   }
 
@@ -991,76 +551,6 @@
     margin-left: 0.25em;
     font-size: 0.82em;
     transform: translateY(-0.05em);
-  }
-
-  /* ===== Header ===== */
-  .sc-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.1rem clamp(1.2rem, 4vw, 3.5rem);
-    transition:
-      background 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-  .sc-header.scrolled {
-    background: rgba(244, 244, 246, 0.86);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 1px 0 var(--line);
-  }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    flex: 0 0 auto;
-  }
-  .brand-mark {
-    display: block;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  .brand-name {
-    color: var(--navy);
-    font-size: clamp(1.25rem, 2vw, 1.7rem);
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1;
-  }
-  .sc-nav {
-    display: flex;
-    align-items: center;
-    gap: clamp(0.8rem, 2vw, 1.9rem);
-  }
-  .sc-nav-link {
-    font-size: 0.95rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .sc-nav-link:hover {
-    color: var(--sage-deep);
-  }
-  .sc-cta {
-    border: none;
-    font: inherit;
-    cursor: pointer;
-    padding: 0.7rem 1.5rem;
-    border-radius: 999px;
-    background: var(--navy);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    transition:
-      transform 0.2s ease,
-      background 0.2s ease;
-  }
-  .sc-cta:hover {
-    background: var(--navy-deep);
-    transform: translateY(-1px);
   }
 
   /* ===== Hero(アイソメトリック動画を中央のアートワークとして配置。動画背景と地色を合わせて継ぎ目を消す) ===== */
@@ -1622,441 +1112,9 @@
     transform-origin: center;
     transition: opacity 0.18s ease;
   }
-  .motion .workflow-video:not(.ready) {
+  :global(.motion) .workflow-video:not(.ready) {
     opacity: 0;
     transition: none;
-  }
-
-  .chat-feature {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.24fr) minmax(360px, 0.76fr);
-    gap: clamp(2rem, 4vw, 4.5rem);
-    align-items: center;
-    max-width: 1420px;
-    margin: 0 auto;
-  }
-  .chat-feature-media {
-    min-width: 0;
-    margin: 0;
-  }
-  .chat-feature-video,
-  .chat-feature-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    background: transparent;
-  }
-  .chat-feature-copy {
-    justify-self: end;
-    min-width: 0;
-    max-width: 560px;
-  }
-  .chat-feature-en {
-    margin: 0 0 0.55rem;
-    color: var(--sage-deep);
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
-    font-weight: 700;
-  }
-  .chat-feature-title {
-    margin: 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.45rem, 2.8vw, 2.2rem);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1.55;
-  }
-  .chat-feature-title span {
-    display: block;
-  }
-  .chat-feature-title-label {
-    white-space: nowrap;
-  }
-  :is(.chat-feature-title, .call-feature-title) .feature-product-name {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-  }
-  .feature-product-icon {
-    display: block;
-    width: clamp(2rem, 3.5vw, 2.75rem);
-    height: auto;
-    flex: 0 0 auto;
-  }
-  .chat-feature-lead {
-    margin: 1.2rem 0 1.45rem;
-    color: var(--ink);
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-    line-height: 2;
-  }
-  .chat-feature-list {
-    display: grid;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-bottom: 1px solid rgba(85, 113, 135, 0.28);
-  }
-  .chat-feature-list li {
-    padding: 0.95rem 0;
-    border-top: 1px solid rgba(85, 113, 135, 0.28);
-  }
-  .chat-feature-list strong,
-  .chat-feature-list small {
-    display: block;
-  }
-  .chat-feature-list strong {
-    color: var(--sage-deep);
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-  .chat-feature-list small {
-    margin-top: 0.2rem;
-    color: var(--ink-soft);
-    font-size: 0.88rem;
-    line-height: 1.8;
-  }
-
-  .call-feature {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(360px, 0.76fr) minmax(0, 1.24fr);
-    gap: clamp(2rem, 4vw, 4.5rem);
-    align-items: center;
-    max-width: 1420px;
-    margin: 0 auto;
-  }
-  .call-feature-copy {
-    min-width: 0;
-    max-width: 560px;
-  }
-  .call-feature-en {
-    margin: 0 0 0.55rem;
-    color: var(--sage-deep);
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
-    font-weight: 700;
-  }
-  .call-feature-title {
-    margin: 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.45rem, 2.8vw, 2.2rem);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1.55;
-  }
-  .call-feature-title span {
-    display: block;
-  }
-  .call-feature-lead {
-    margin: 1.2rem 0 1.45rem;
-    color: var(--ink);
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-    line-height: 2;
-  }
-  .call-feature-list {
-    display: grid;
-    gap: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-bottom: 1px solid rgba(85, 113, 135, 0.28);
-  }
-  .call-feature-list li {
-    padding: 0.95rem 0;
-    border-top: 1px solid rgba(85, 113, 135, 0.28);
-  }
-  .call-feature-list strong,
-  .call-feature-list small {
-    display: block;
-  }
-  .call-feature-list strong {
-    color: var(--sage-deep);
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-  .call-feature-list small {
-    margin-top: 0.2rem;
-    color: var(--ink-soft);
-    font-size: 0.88rem;
-    line-height: 1.8;
-  }
-  .call-feature-media {
-    position: relative;
-    min-width: 0;
-    margin: 0;
-    isolation: isolate;
-  }
-  .call-feature-media::before {
-    content: "";
-    position: absolute;
-    inset: 8% 2% -8% 4%;
-    z-index: 0;
-    border-radius: 56% 44% 48% 52% / 54% 50% 50% 46%;
-    background: radial-gradient(
-      ellipse at 48% 48%,
-      rgba(255, 255, 255, 0.94) 0,
-      rgba(255, 255, 255, 0.76) 48%,
-      rgba(198, 208, 220, 0.34) 72%,
-      rgba(198, 208, 220, 0) 100%
-    );
-    filter: blur(6px);
-    pointer-events: none;
-    transform: rotate(1.5deg);
-  }
-  .call-feature-window {
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    padding: clamp(0.72rem, 1.5vw, 1rem);
-    border: 1px solid rgba(85, 113, 135, 0.2);
-    border-radius: 14px;
-    background: linear-gradient(
-      150deg,
-      rgba(255, 255, 255, 0.96) 0,
-      rgba(255, 255, 255, 0.88) 52%,
-      rgba(228, 233, 240, 0.72) 100%
-    );
-    box-shadow:
-      0 28px 70px rgba(9, 32, 69, 0.11),
-      inset 0 1px 0 rgba(255, 255, 255, 0.92);
-  }
-  .call-feature-window-bar {
-    display: flex;
-    gap: 0.42rem;
-    align-items: center;
-    height: 0.9rem;
-    margin: 0 0 0.65rem;
-  }
-  .call-feature-window-bar i {
-    display: block;
-    width: 0.46rem;
-    height: 0.46rem;
-    border-radius: 999px;
-    background: rgba(85, 113, 135, 0.28);
-  }
-  .call-feature-window-bar i:first-child {
-    background: rgba(224, 122, 102, 0.72);
-  }
-  .call-feature-video,
-  .call-feature-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    border-radius: 10px;
-    background: #fff;
-    filter: brightness(1.015);
-    object-fit: cover;
-  }
-  .call-feature-cards {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.15rem, 2.4vw, 2rem);
-    margin-top: clamp(-0.75rem, -0.5vw, -0.25rem);
-  }
-  .call-feature-card {
-    min-width: 0;
-  }
-  .call-feature-card-video,
-  .call-feature-card-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border: 1px solid rgba(85, 113, 135, 0.16);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 18px 44px rgba(9, 32, 69, 0.07);
-  }
-  .call-feature-card-body {
-    padding-top: 1rem;
-  }
-  .call-feature-card-title {
-    margin: 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.02rem, 1.55vw, 1.24rem);
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1.55;
-  }
-  .call-feature-card-text {
-    margin: 0.45rem 0 0;
-    color: var(--ink-soft);
-    font-size: 0.9rem;
-    line-height: 1.85;
-  }
-
-  /* ===== Function ===== */
-  .function {
-    position: relative;
-    isolation: isolate;
-    padding: clamp(3rem, 7vw, 6rem) clamp(1.2rem, 4vw, 3.5rem)
-      clamp(3rem, 8vw, 7rem);
-    max-width: 1180px;
-    margin: clamp(-1.5rem, -2vw, -0.75rem) auto 0;
-  }
-  .function::before {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    z-index: 0;
-    width: 100vw;
-    height: 100%;
-    background: var(--paper);
-    content: "";
-    pointer-events: none;
-    transform: translateX(-50%);
-  }
-  .function-curve-bg {
-    position: absolute;
-    top: clamp(-4.5rem, -6vw, -2.25rem);
-    left: 50%;
-    z-index: 0;
-    width: 100vw;
-    height: calc(100% + clamp(6rem, 10vw, 9rem));
-    color: var(--curve-sage);
-    pointer-events: none;
-    transform: translateX(-50%);
-  }
-  .function-curve-bg svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  .function-curve-bg path {
-    fill: currentColor;
-  }
-  .function > :not(.function-curve-bg) {
-    position: relative;
-    z-index: 1;
-  }
-  .customer-success-hero {
-    display: grid;
-    grid-template-columns: minmax(360px, 0.95fr) minmax(0, 1.05fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-  .function-head {
-    min-width: 0;
-  }
-  .function-en {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    margin: 0;
-    font-size: clamp(2.1rem, 5.8vw, 4.8rem);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    line-height: 1.08;
-    color: var(--sage-deep);
-    font-family: "Georgia", "Times New Roman", serif;
-  }
-  .function-ja {
-    margin: 0.45rem 0 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.45rem, 2.8vw, 2.15rem);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-  }
-  .customer-success-lead {
-    margin: clamp(1.25rem, 3vw, 2rem) 0 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.05rem, 1.7vw, 1.35rem);
-    font-weight: 700;
-    line-height: 1.8;
-  }
-  .customer-success-body {
-    margin: 1rem 0 0;
-    color: var(--ink);
-    font-size: clamp(0.95rem, 1.25vw, 1.05rem);
-    line-height: 2;
-  }
-  .customer-success-media {
-    position: relative;
-    isolation: isolate;
-    min-width: 0;
-    margin: 0;
-    padding: clamp(0.7rem, 1.6vw, 1.2rem);
-  }
-  .customer-success-media::before {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 58% 42% 61% 39% / 50% 55% 45% 50%;
-    box-shadow: 0 28px 70px rgba(9, 32, 69, 0.13);
-    content: "";
-    pointer-events: none;
-  }
-  .customer-success-video,
-  .customer-success-video-fallback {
-    position: relative;
-    z-index: 1;
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    border: 0;
-    border-radius: 56% 44% 59% 41% / 48% 53% 47% 52%;
-    background: transparent;
-    box-shadow: none;
-    object-fit: cover;
-  }
-  .customer-success-steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.15rem, 2.4vw, 2rem);
-    max-width: 1180px;
-    margin: clamp(2rem, 5vw, 3.5rem) auto 0;
-    padding: 0;
-    list-style: none;
-  }
-  .customer-success-step {
-    min-width: 0;
-  }
-  .customer-success-step-media {
-    margin: 0;
-  }
-  .customer-success-step-video,
-  .customer-success-step-image {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    border: 1px solid rgba(85, 113, 135, 0.16);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 18px 44px rgba(9, 32, 69, 0.07);
-    object-fit: cover;
-  }
-  .customer-success-step-copy {
-    padding-top: 1rem;
-  }
-  .customer-success-step-title {
-    margin: 0;
-    color: var(--sage-deep);
-    font-size: clamp(1.02rem, 1.55vw, 1.24rem);
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1.55;
-  }
-  .customer-success-step-body {
-    color: var(--ink-soft);
-    margin: 0.45rem 0 0;
-    font-size: 0.9rem;
-    line-height: 1.85;
   }
 
   /* ===== Case study ===== */
@@ -2223,81 +1281,7 @@
     transform: translateY(-2px);
   }
 
-  /* ===== Footer ===== */
-  .vecta-footer {
-    background: var(--navy);
-    color: #fff;
-    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 4vw, 3.5rem) 1rem;
-  }
-  .vecta-footer-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-  .vecta-footer-content {
-    display: grid;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-  .vecta-footer-logo-link {
-    display: inline-block;
-    border-radius: 0.25rem;
-  }
-  .vecta-footer-logo-link:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.72);
-    outline-offset: 0.35rem;
-  }
-  .vecta-footer-brand img {
-    display: block;
-    width: 150px;
-    height: auto;
-    margin-bottom: 0.75rem;
-    filter: brightness(0) invert(1);
-  }
-  .vecta-footer-brand p {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 0.95rem;
-  }
-  .vecta-footer-address {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 0.95rem;
-    font-style: normal;
-    line-height: 1.75;
-  }
-  .vecta-footer-copy {
-    margin: 0;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.58);
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  /* ===== Reveal(JS+モーション時のみ) ===== */
-  .motion [data-reveal] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity 0.7s ease,
-      transform 0.7s ease;
-  }
-  .motion :global([data-reveal].is-in) {
-    opacity: 1;
-    transform: none;
-  }
-
   /* ===== Responsive ===== */
-  @media (min-width: 769px) {
-    .vecta-footer-content {
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 4rem;
-    }
-    .vecta-footer-address {
-      text-align: right;
-    }
-  }
-
   @media (max-width: 1240px) {
     .hero-title span {
       white-space: normal;
@@ -2314,18 +1298,9 @@
     .workflow-image {
       scale: 1.2;
     }
-    .chat-feature {
-      grid-template-columns: minmax(0, 1.16fr) minmax(340px, 0.84fr);
-    }
-    .call-feature {
-      grid-template-columns: minmax(340px, 0.84fr) minmax(0, 1.16fr);
-    }
   }
 
   @media (max-width: 860px) {
-    .sc-nav {
-      display: none;
-    }
     .hero {
       min-height: auto;
     }
@@ -2397,12 +1372,8 @@
     .products,
     .knowledge,
     .case,
-    .news,
-    .function {
+    .news {
       background: var(--band-bg, var(--paper));
-    }
-    .function {
-      --band-bg: var(--curve-sage);
     }
     .case {
       --band-bg: var(--paper);
@@ -2410,16 +1381,14 @@
     .news {
       --band-bg: var(--bg);
     }
-    .section-curve-bg,
-    .function-curve-bg {
+    .section-curve-bg {
       display: none;
     }
     .feature-band::before,
     .products::before,
     .knowledge::before,
     .case::before,
-    .news::before,
-    .function::before {
+    .news::before {
       position: absolute;
       top: clamp(-3rem, -9vw, -2.1rem);
       left: 50%;
@@ -2436,8 +1405,7 @@
     .products > :not(.section-curve-bg),
     .knowledge > :not(.section-curve-bg),
     .case > :not(.section-curve-bg),
-    .news > :not(.section-curve-bg),
-    .function > :not(.function-curve-bg) {
+    .news > :not(.section-curve-bg) {
       position: relative;
       z-index: 2;
     }
@@ -2466,112 +1434,39 @@
     }
     .knowledge-inner,
     .workflow-inner,
-    .chat-feature,
-    .call-feature,
-    .customer-success-hero,
-    .customer-success-steps,
     .case-grid {
       grid-template-columns: 1fr;
     }
     .knowledge-inner,
-    .workflow-inner,
-    .chat-feature,
-    .call-feature,
-    .customer-success-hero {
+    .workflow-inner {
       row-gap: 0;
     }
     .knowledge-copy,
-    .workflow-copy,
-    .chat-feature-copy,
-    .call-feature-copy,
-    .function-head {
+    .workflow-copy {
       display: contents;
     }
     .knowledge-en,
-    .workflow-en,
-    .chat-feature-en,
-    .call-feature-en,
-    .function-en {
+    .workflow-en {
       order: 1;
     }
     .knowledge-title,
-    .workflow-title,
-    .chat-feature-title,
-    .call-feature-title,
-    .function-ja {
+    .workflow-title {
       order: 2;
     }
-    .chat-feature-title-label {
-      font-size: clamp(1.12rem, 6vw, 1em);
-      letter-spacing: 0.02em;
-    }
     .knowledge-visual,
-    .workflow-media,
-    .chat-feature-media,
-    .call-feature-media,
-    .customer-success-media {
+    .workflow-media {
       order: 3;
       margin-top: clamp(1.1rem, 5vw, 1.7rem);
       margin-bottom: clamp(1.2rem, 5vw, 1.9rem);
     }
     .knowledge-lead,
-    .workflow-lead,
-    .chat-feature-lead,
-    .call-feature-lead,
-    .customer-success-lead {
+    .workflow-lead {
       order: 4;
       margin-top: 0;
     }
     .knowledge-flow,
-    .workflow-list,
-    .chat-feature-list,
-    .call-feature-list,
-    .customer-success-body {
+    .workflow-list {
       order: 5;
-    }
-    .chat-feature {
-      margin: 0 auto;
-    }
-    .chat-feature-copy {
-      justify-self: stretch;
-      max-width: none;
-    }
-    .call-feature {
-      margin: 0 auto;
-    }
-    .call-feature-copy {
-      max-width: none;
-    }
-    .call-feature-window {
-      padding: clamp(0.5rem, 2.5vw, 0.72rem);
-    }
-    .call-feature-cards {
-      order: 6;
-      grid-template-columns: 1fr;
-      gap: 1.6rem;
-      margin-top: clamp(1.4rem, 6vw, 2rem);
-    }
-    .call-feature-card,
-    .customer-success-step {
-      display: flex;
-      flex-direction: column;
-    }
-    .call-feature-card-body {
-      order: 1;
-      padding-top: 0;
-      padding-bottom: 0.8rem;
-    }
-    .call-feature-card-video,
-    .call-feature-card-image {
-      order: 2;
-    }
-    .customer-success-step-copy {
-      order: 1;
-      padding-top: 0;
-      padding-bottom: 0.8rem;
-    }
-    .customer-success-step-media {
-      order: 2;
     }
     .knowledge-flow li {
       grid-template-columns: 1fr;
@@ -2586,23 +1481,6 @@
     }
     .case-card-photo {
       order: 2;
-    }
-    .function-head {
-      text-align: left;
-    }
-    .function {
-      margin-top: 0;
-      padding-top: clamp(3.5rem, 10vw, 5rem);
-      padding-bottom: clamp(5.75rem, 18vw, 7.5rem);
-    }
-    .function-curve-bg {
-      top: -2.25rem;
-      width: 132vw;
-      height: calc(100% + 4.5rem);
-      transform: translateX(-47%);
-    }
-    .function-en {
-      justify-content: flex-start;
     }
     .case {
       margin-top: 0;
@@ -2634,17 +1512,6 @@
     }
     .hero-sub {
       font-size: 1.05rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lp *,
-    .lp *::before,
-    .lp *::after {
-      animation-duration: 0.01ms;
-      animation-iteration-count: 1;
-      scroll-behavior: auto;
-      transition-duration: 0.01ms;
     }
   }
 </style>

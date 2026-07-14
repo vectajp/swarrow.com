@@ -2,8 +2,19 @@
 
 import { describe, expect, test } from "bun:test";
 import {
+  callCustomerSuccessIntro,
+  callCustomerSuccessSteps,
+  callDownloadCta,
+  callFeatureCopy,
+  chatCustomerSuccessIntro,
+  chatCustomerSuccessSteps,
+  chatDownloadCta,
+  chatFeatureCopy,
+  downloadCtaLabel,
   heroCopy,
+  heroProductCtas,
   jsonLd,
+  navItems,
   pageDescription,
   pageTitle,
   products,
@@ -11,6 +22,7 @@ import {
   showCaseStudies,
   site,
   siteName,
+  topDownloadCta,
 } from "../../src/lib/swarrow/content";
 
 describe("Swarrow product content", () => {
@@ -22,7 +34,7 @@ describe("Swarrow product content", () => {
       "Swarrow Chat",
       "Swarrow Call",
     ]);
-    expect(products.every(({ href }) => href.startsWith("#"))).toBe(true);
+    expect(products.map(({ href }) => href)).toEqual(["/chat", "/call"]);
     expect(products.every(({ benefit }) => benefit.length > 0)).toBe(true);
     expect(products.map(({ backgroundIcon }) => backgroundIcon)).toEqual([
       "/swarrow-call/swarrow-chat-icon-flat.png",
@@ -58,6 +70,15 @@ describe("Swarrow product content", () => {
       pageDescription,
       products,
       sharedKnowledge,
+      chatFeatureCopy,
+      callFeatureCopy,
+      chatCustomerSuccessSteps,
+      callCustomerSuccessSteps,
+      chatCustomerSuccessIntro,
+      callCustomerSuccessIntro,
+      topDownloadCta,
+      chatDownloadCta,
+      callDownloadCta,
     });
     expect(publicCopy).not.toMatch(
       /半減|70%削減|100%|最高精度|No\.?1|どの自治体でも|正確性を保証|回答を保証|誤回答はありません|ハルシネーションゼロ|どんな質問にも|他社より正確|100問|月次|都城市/,
@@ -108,6 +129,10 @@ describe("two-product search model", () => {
       "Swarrow Chat",
       "Swarrow Call",
     ]);
+    expect(services.map((item) => item.url)).toEqual([
+      "https://swarrow.com/chat",
+      "https://swarrow.com/call",
+    ]);
     expect(
       services.every(
         (item) =>
@@ -115,5 +140,44 @@ describe("two-product search model", () => {
           "https://swarrow.com/#organization",
       ),
     ).toBe(true);
+  });
+
+  test("links global nav directly to product pages without a support anchor", () => {
+    expect(navItems.map(({ href }) => href)).toEqual([
+      "/#products",
+      "/chat",
+      "/call",
+    ]);
+    expect(navItems.some(({ label }) => label === "導入支援")).toBe(false);
+  });
+
+  test("provides per-product feature copy and customer success steps", () => {
+    expect(chatFeatureCopy.titleLabel).toBe("自治体ホームページAI窓口");
+    expect(callFeatureCopy.titleLabel).toBe("自治体AIコールセンター");
+    expect(chatCustomerSuccessSteps).toHaveLength(3);
+    expect(callCustomerSuccessSteps).toHaveLength(3);
+    expect(chatCustomerSuccessSteps[0]?.body).toContain("Swarrow Chat");
+    expect(callCustomerSuccessSteps[0]?.body).toContain("Swarrow Call");
+  });
+
+  test("provides hero product CTAs derived from the products list", () => {
+    expect(heroProductCtas).toEqual([
+      { productId: "chat", label: "Swarrow Chat" },
+      { productId: "call", label: "Swarrow Call" },
+    ]);
+  });
+
+  test("provides a shared download CTA label and per-page download CTA copy", () => {
+    expect(downloadCtaLabel.length).toBeGreaterThan(0);
+    expect(topDownloadCta.heading.length).toBeGreaterThan(0);
+    expect(topDownloadCta.sub.length).toBeGreaterThan(0);
+    expect(chatDownloadCta.heading.join("")).toContain("Swarrow Chat");
+    expect(callDownloadCta.heading.join("")).toContain("Swarrow Call");
+  });
+
+  test("provides per-product customer success intro copy", () => {
+    expect(chatCustomerSuccessIntro.lead.length).toBeGreaterThan(0);
+    expect(chatCustomerSuccessIntro.body).toContain("Swarrow Chat");
+    expect(callCustomerSuccessIntro.body).toContain("Swarrow Call");
   });
 });
