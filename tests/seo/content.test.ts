@@ -1,4 +1,5 @@
 /// <reference types="bun" />
+// cspell:ignore googletagmanager
 
 import { describe, expect, test } from "bun:test";
 import {
@@ -201,5 +202,21 @@ describe("two-product search model", () => {
     expect(chatCustomerSuccessIntro.lead.length).toBeGreaterThan(0);
     expect(chatCustomerSuccessIntro.body).toContain("Swarrow Chat");
     expect(callCustomerSuccessIntro.body).toContain("Swarrow Call");
+  });
+});
+
+describe("Google Analytics app shell", () => {
+  test("initializes one tag only for a valid public Measurement ID", async () => {
+    const appHtml = await Bun.file("src/app.html").text();
+
+    expect(appHtml).toContain(
+      'data-ga-measurement-id="%sveltekit.env.PUBLIC_GA_MEASUREMENT_ID%"',
+    );
+    expect(appHtml).toContain("document.currentScript?.getAttribute(");
+    expect(appHtml).toContain("/^G-[A-Z0-9]+$/.test(measurementId)");
+    expect(appHtml).toMatch(/gtag\((["'])config\1, measurementId\)/);
+    expect(
+      appHtml.match(/googletagmanager\.com\/gtag\/js\?id=/g) ?? [],
+    ).toHaveLength(1);
   });
 });

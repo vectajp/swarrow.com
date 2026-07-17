@@ -1,4 +1,5 @@
 /// <reference types="bun" />
+// cspell:ignore googletagmanager
 
 import { beforeAll, describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
@@ -13,6 +14,7 @@ import {
 let html = "";
 let chatHtml = "";
 let callHtml = "";
+let privacyHtml = "";
 let robots = "";
 let sitemap = "";
 let modalSource = "";
@@ -48,6 +50,7 @@ beforeAll(async () => {
     html,
     chatHtml,
     callHtml,
+    privacyHtml,
     robots,
     sitemap,
     modalSource,
@@ -57,6 +60,7 @@ beforeAll(async () => {
     Bun.file("build/index.html").text(),
     Bun.file("build/chat.html").text(),
     Bun.file("build/call.html").text(),
+    Bun.file("build/privacy/index.html").text(),
     Bun.file("build/robots.txt").text(),
     Bun.file("build/sitemap.xml").text(),
     Bun.file("src/lib/swarrow/ContactModal.svelte").text(),
@@ -499,6 +503,24 @@ describe("crawlability baseline", () => {
       "https://swarrow.com/chat",
       "https://swarrow.com/call",
     ]);
+  });
+});
+
+describe("Google Analytics and privacy disclosure", () => {
+  test("renders exactly one environment-configured Google tag", () => {
+    expect(countMatches(html, /googletagmanager\.com\/gtag\/js\?id=/g)).toBe(1);
+    expect(countMatches(html, /G-TEST0000000/g)).toBe(1);
+  });
+
+  test("links a noindex privacy disclosure without expanding the sitemap", () => {
+    const footer = html.match(/<footer[^>]*>[\s\S]*?<\/footer>/)?.[0] ?? "";
+
+    expect(footer).toContain('href="/privacy/"');
+    expect(footer).toContain("プライバシーについて");
+    expect(privacyHtml).toContain('<meta name="robots" content="noindex"');
+    expect(privacyHtml).toContain("Google Analytics 4");
+    expect(privacyHtml).toContain("Google Analytics Opt-out Browser Add-on");
+    expect(sitemap).not.toContain("https://swarrow.com/privacy/");
   });
 });
 
