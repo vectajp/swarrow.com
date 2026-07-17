@@ -109,6 +109,9 @@
           宮益坂ビルディング609
         </address>
       </div>
+      <p class="vecta-footer-privacy">
+        <a href="/privacy/">プライバシーについて</a>
+      </p>
       <p class="vecta-footer-copy">
         © {currentYear} Vecta. All rights reserved.
       </p>
@@ -279,6 +282,14 @@
     font-size: 0.95rem;
     font-style: normal;
     line-height: 1.75;
+  }
+  .vecta-footer-privacy {
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+  .vecta-footer-privacy a {
+    color: inherit;
+    font-size: 0.84rem;
   }
   .vecta-footer-copy {
     margin: 0;
