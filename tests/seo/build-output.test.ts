@@ -507,29 +507,6 @@ describe("crawlability baseline", () => {
 });
 
 describe("Google Analytics and privacy disclosure", () => {
-  test("emits the configured Google tag exactly once", () => {
-    expect(
-      countMatches(
-        html,
-        /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TEST0000000/g,
-      ),
-    ).toBe(1);
-    expect(countMatches(html, /G-TEST0000000/g)).toBe(1);
-  });
-
-  test("links the noindex privacy disclosure from the shared footer", () => {
-    const footer = html.match(/<footer[^>]*>[\s\S]*?<\/footer>/)?.[0] ?? "";
-    expect(footer).toContain('href="/privacy/"');
-    expect(footer).toContain("プライバシーについて");
-    expect(layoutSource).toContain('href="/privacy/"');
-    expect(privacyHtml).toContain('<meta name="robots" content="noindex"');
-    expect(privacyHtml).toContain("Google Analytics 4");
-    expect(privacyHtml).toContain("Google Analytics Opt-out Browser Add-on");
-    expect(sitemap).not.toContain("https://swarrow.com/privacy/");
-  });
-});
-
-describe("Google Analytics and privacy disclosure", () => {
   test("renders exactly one environment-configured Google tag", () => {
     expect(countMatches(html, /googletagmanager\.com\/gtag\/js\?id=/g)).toBe(1);
     expect(countMatches(html, /G-TEST0000000/g)).toBe(1);

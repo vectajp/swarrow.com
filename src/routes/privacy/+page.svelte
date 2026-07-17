@@ -119,5 +119,4 @@
     color: #315f66;
     font-weight: 700;
   }
-
 </style>
